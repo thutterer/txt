@@ -2,30 +2,33 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>txt</title>
+    <link rel="manifest" href="manifest.json">
+
     <style media="screen">
       html, body {
         height: 100%;
         margin: 0;
-        overflow: hidden;
-        background-color: #111;
       }
 
       textarea {
-        height: 80vh;
-        width: 80vw;
-        margin: 10vh 10vw;
-        padding: 0;
+        height: 100vh;
+        width: 100vw;
+
+        box-sizing: border-box;
+        padding: 1em;
+        margin: 0;
 
         font-size: 24px;
 
-        color: #EEE;
-        background-color: inherit;
+        color: #222;
+        background-color: #eee;
 
         border: none;
         outline: none;
         resize: none;
-        overflow-y: visible;
+        /* overflow-y: visible; */
       }
     </style>
   </head>
