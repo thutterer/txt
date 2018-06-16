@@ -13,43 +13,123 @@
         overflow: hidden;
 
         display: grid;
-        grid-template-rows: auto 2em;
+
+        background-color: #ddd;
       }
 
-      .controls {
+      .row {
         display: flex;
+        flex-direction: row;
       }
-      .controls > * {
+
+      .txt {
         flex-grow: 1;
-        text-align: center;
-        font-size: 1em;
-        line-height: 2em;
-        cursor: pointer;
-       }
+        padding: 0;
+        margin: 0.25em;
+
+        border: 1px solid black;
+        box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+        color: #222;
+      }
 
       textarea {
         box-sizing: border-box;
-        padding: 1em;
+        padding: 0.5em;
         margin: 0;
 
         line-height: 1.25em;
         font-size: 1em;
 
-        color: #222;
-        background-color: #eee;
 
         border: none;
         outline: none;
         resize: none;
         /* overflow-y: visible; */
+
+        background-color: #eee;
+
+        width: 100%;
+        height: 100%;
+      }
+
+      textarea:focus {
+        background-color: #fff;
       }
     </style>
+    <script>
+      // .appendBefore(element) Prototype
+      Element.prototype.appendBefore = function (element) {
+        element.parentNode.insertBefore(this, element);
+      },false;
+
+      // .appendAfter(element) Prototype
+      Element.prototype.appendAfter = function (element) {
+        element.parentNode.insertBefore(this, element.nextSibling);
+      },false;
+
+      function keyEvents(e) {
+        if(e.ctrlKey) {
+          if(e.shiftKey) {
+            var this_txt = document.activeElement.closest('.txt');
+            var this_row = document.activeElement.closest('.row');
+            var new_txt = this_txt.cloneNode(true);
+            var new_id = 'txt_' + Date.now();
+            new_txt.id = new_id;
+            new_txt.getElementsByTagName('textarea')[0].value = '';
+
+            switch (e.keyCode) {
+              case 37: // arrow-left
+                console.log('ctrl shift left');
+                new_txt.appendBefore(this_txt);
+                break;
+              case 38: // arrow-up
+                console.log('ctrl shiftup');
+                var new_row = document.createElement('div');
+                new_row.className = 'row';
+                new_row.appendChild(new_txt);
+                new_row.appendBefore(this_row);
+                break;
+              case 39: // arrow-right
+                console.log('ctrl shift right');
+                new_txt.appendAfter(this_txt);
+                break;
+              case 40: // arrow-down
+                console.log('ctrl shift down');
+                var new_row = document.createElement('div');
+                new_row.className = 'row';
+                new_row.appendChild(new_txt);
+                new_row.appendAfter(this_row);
+                break;
+              default:
+            }
+            document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
+          }
+          else {
+            switch (e.keyCode) {
+              case 37: // arrow-left
+                console.log('ctrl left');
+                break;
+              case 38: // arrow-up
+                console.log('ctrl up');
+                break;
+              case 39: // arrow-right
+                console.log('ctrl right');
+                break;
+              case 40: // arrow-down
+                console.log('ctrl down');
+                break;
+              default:
+            }
+          }
+        }
+      }
+    </script>
   </head>
   <body>
-    <textarea autofocus placeholder="type ..."></textarea>
-    <div class="controls">
-      <span onclick="document.getElementsByTagName('textarea')[0].select();">ⓐ</span>
-      <span onclick="document.getElementsByTagName('textarea')[0].value = '';">⌫</span>
+    <div class="row">
+      <div class="txt">
+        <textarea autofocus onkeydown="keyEvents(event)"></textarea>
+      </div>
     </div>
   </body>
 </html>
