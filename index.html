@@ -20,9 +20,17 @@
       .row {
         display: flex;
         flex-direction: row;
+        position: relative;
+      }
+
+      .row > .controls {
+        width: 32px;
       }
 
       .txt {
+        display: flex;
+        flex-direction: row;
+
         flex-grow: 1;
         padding: 0;
         margin: 0.25em;
@@ -32,6 +40,16 @@
         color: #222;
       }
 
+      .txt > .controls {
+        width: 32px;
+        background-color: #eee;
+      }
+
+      .controls button {
+        border: 0;
+        width: 30px;
+      }
+
       textarea {
         box-sizing: border-box;
         padding: 0.5em;
@@ -39,7 +57,6 @@
 
         line-height: 1.25em;
         font-size: 1em;
-
 
         border: none;
         outline: none;
@@ -56,6 +73,7 @@
         background-color: #fff;
       }
     </style>
+
     <script>
       // .appendBefore(element) Prototype
       Element.prototype.appendBefore = function (element) {
@@ -67,37 +85,74 @@
         element.parentNode.insertBefore(this, element.nextSibling);
       },false;
 
+      function newTxt() {
+        var a_txt = document.getElementsByClassName('txt')[0];
+        var new_txt = a_txt.cloneNode(true);
+        var new_id = 'txt_' + Date.now();
+        new_txt.id = new_id;
+        new_txt.getElementsByTagName('textarea')[0].value = '';
+        return new_txt;
+      }
+
+      function newRow() {
+        var a_row = document.getElementsByClassName('row')[0];
+        var new_row = a_row.cloneNode(true);
+        var old_txts = new_row.querySelectorAll('.txt');
+        for (var i = 0; i < old_txts.length; ++i) old_txts[i].remove();
+
+        new_row.appendChild(newTxt());
+        return new_row;
+      }
+
+      function removeTxt(txt) {
+        var its_row = txt.closest('.row');
+        var closest_txt = txt.previousElementSibling;
+        if(!closest_txt && txt.nextElementSibling && txt.nextElementSibling.className == 'txt') closest_txt = txt.nextElementSibling;
+        if(!closest_txt) {
+          var previous_row = txt.closest('.row').previousElementSibling;
+          var next_row = txt.closest('.row').nextElementSibling;
+          if(previous_row) closest_txt = previous_row.querySelector('.txt:last-of-type')
+          else closest_txt = next_row.querySelector('.txt:first-of-type');
+        }
+
+        txt.remove();
+        if(its_row.querySelectorAll('.txt').length == 0) its_row.remove();
+        closest_txt.getElementsByTagName('textarea')[0].focus();
+      }
+
+      function appendRowAfter(here) {
+        console.log(here)
+        var this_row = here.closest('.row');
+        new_row = newRow();
+        new_row.appendAfter(this_row);
+      }
+
       function keyEvents(e) {
+        console.log(e.keyCode);
+
         if(e.ctrlKey) {
+          var this_txt = document.activeElement.closest('.txt');
+          var this_row = document.activeElement.closest('.row');
+
           if(e.shiftKey) {
-            var this_txt = document.activeElement.closest('.txt');
-            var this_row = document.activeElement.closest('.row');
-            var new_txt = this_txt.cloneNode(true);
-            var new_id = 'txt_' + Date.now();
-            new_txt.id = new_id;
-            new_txt.getElementsByTagName('textarea')[0].value = '';
+            var new_txt = newTxt();
+            var new_id = new_txt.id;
 
             switch (e.keyCode) {
               case 37: // arrow-left
-                console.log('ctrl shift left');
                 new_txt.appendBefore(this_txt);
                 break;
               case 38: // arrow-up
-                console.log('ctrl shiftup');
-                var new_row = document.createElement('div');
-                new_row.className = 'row';
-                new_row.appendChild(new_txt);
+                var new_row = newRow();
+                var new_id = new_row.getElementsByClassName('txt')[0].id;
                 new_row.appendBefore(this_row);
                 break;
               case 39: // arrow-right
-                console.log('ctrl shift right');
                 new_txt.appendAfter(this_txt);
                 break;
               case 40: // arrow-down
-                console.log('ctrl shift down');
-                var new_row = document.createElement('div');
-                new_row.className = 'row';
-                new_row.appendChild(new_txt);
+                var new_row = newRow();
+                var new_id = new_row.getElementsByClassName('txt')[0].id;
                 new_row.appendAfter(this_row);
                 break;
               default:
@@ -106,6 +161,10 @@
           }
           else {
             switch (e.keyCode) {
+              case 27: // ESC-left
+                console.log('ctrl esc');
+                removeTxt(this_txt);
+                break;
               case 37: // arrow-left
                 console.log('ctrl left');
                 break;
@@ -129,6 +188,10 @@
     <div class="row">
       <div class="txt">
         <textarea autofocus onkeydown="keyEvents(event)"></textarea>
+        <div class="controls">
+          <button type="button" onclick="removeTxt(this.closest('.txt'));">&times;</button>
+          <button type="button" onclick="appendRowAfter(this);">+</button>
+        </div>
       </div>
     </div>
   </body>
