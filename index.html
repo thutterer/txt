@@ -9,12 +9,12 @@
       html, body {
         height: 100vh;
         margin: 0;
-        font-size: 24px;
+        font-size: 18px;
         overflow: hidden;
 
         display: grid;
 
-        background-color: #ddd;
+        background: #ddd;
       }
 
       .row {
@@ -34,14 +34,15 @@
         border: 1px solid lavender;
         box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
         color: #222;
+        background: #eee;
       }
 
       .txt > .controls {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+        justify-content: space-between;
         width: 32px;
-        background: #eee;
       }
 
       .controls button {
@@ -49,9 +50,18 @@
         text-align: center;
         cursor: pointer;
         background: inherit;
-        margin: 0.5em 0;
         font-size: 16px;
         font-family: monospace;
+        width: 100%;
+        opacity: 0.5;
+      }
+
+      .controls:hover button {
+        opacity: 1;
+      }
+
+      .txt .controls > button.warning:hover {
+        background: coral;
       }
 
       .txt .controls button:hover {
@@ -69,16 +79,19 @@
         border: none;
         outline: none;
         resize: none;
-        /* overflow-y: visible; */
 
-        background-color: #eee;
+        background: #eee;
 
         width: 100%;
         height: 100%;
       }
 
       textarea:focus {
-        background-color: #fff;
+        background: #fff;
+      }
+
+      textarea:focus ~ .controls {
+        background: #fff
       }
 
       textarea:focus ~ .controls button {
@@ -143,10 +156,32 @@
         return new_row;
       }
 
+      function appendRowBefore(here) {
+        var this_row = here.closest('.row');
+        new_row = newRow();
+        new_row.appendBefore(this_row); // TODO: refactor
+        var new_id = new_row.getElementsByClassName('txt')[0].id;
+
+        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
+
+        return new_row;
+      }
+
       function appendTxtAfter(here) {
         var this_txt = here.closest('.txt');
         new_txt = newTxt();
         new_txt.appendAfter(this_txt);
+        var new_id = new_txt.id;
+
+        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
+
+        return new_txt;
+      }
+
+      function appendTxtBefore(here) {
+        var this_txt = here.closest('.txt');
+        new_txt = newTxt();
+        new_txt.appendBefore(this_txt); // TODO: refactor with appendTxtAfter :/
         var new_id = new_txt.id;
 
         document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
@@ -216,9 +251,13 @@
       <div class="txt">
         <textarea autofocus onkeydown="keyEvents(event)"></textarea>
         <div class="controls">
-          <button type="button" onclick="removeTxt(this.closest('.txt'));">&times;</button>
-          <button type="button" onclick="appendTxtAfter(this);">&rarr;</button>
-          <button type="button" onclick="appendRowAfter(this);">&darr;</button>
+          <button class="warning" type="button" onclick="removeTxt(this.closest('.txt'));">&times;</button>
+          <div class="">
+            <button type="button" onclick="appendRowBefore(this);">&uarr;</button>
+            <button type="button" onclick="appendTxtAfter(this);">&rarr;</button>
+            <button type="button" onclick="appendTxtBefore(this);">&larr;</button>
+            <button type="button" onclick="appendRowAfter(this);">&darr;</button>
+          </div>
         </div>
       </div>
     </div>
