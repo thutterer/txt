@@ -23,10 +23,6 @@
         position: relative;
       }
 
-      .row > .controls {
-        width: 32px;
-      }
-
       .txt {
         display: flex;
         flex-direction: row;
@@ -35,19 +31,31 @@
         padding: 0;
         margin: 0.25em;
 
-        border: 1px solid black;
+        border: 1px solid lavender;
         box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
         color: #222;
       }
 
       .txt > .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 32px;
-        background-color: #eee;
+        background: #eee;
       }
 
       .controls button {
         border: 0;
-        width: 30px;
+        text-align: center;
+        cursor: pointer;
+        background: inherit;
+        margin: 0.5em 0;
+        font-size: 16px;
+        font-family: monospace;
+      }
+
+      .txt .controls button:hover {
+        background: #ccc;
       }
 
       textarea {
@@ -71,6 +79,10 @@
 
       textarea:focus {
         background-color: #fff;
+      }
+
+      textarea:focus ~ .controls button {
+        background: #ddd;
       }
     </style>
 
@@ -121,10 +133,25 @@
       }
 
       function appendRowAfter(here) {
-        console.log(here)
         var this_row = here.closest('.row');
         new_row = newRow();
         new_row.appendAfter(this_row);
+        var new_id = new_row.getElementsByClassName('txt')[0].id;
+
+        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
+
+        return new_row;
+      }
+
+      function appendTxtAfter(here) {
+        var this_txt = here.closest('.txt');
+        new_txt = newTxt();
+        new_txt.appendAfter(this_txt);
+        var new_id = new_txt.id;
+
+        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
+
+        return new_txt;
       }
 
       function keyEvents(e) {
@@ -148,12 +175,12 @@
                 new_row.appendBefore(this_row);
                 break;
               case 39: // arrow-right
+              // appendTxtAfter
                 new_txt.appendAfter(this_txt);
                 break;
               case 40: // arrow-down
-                var new_row = newRow();
+                var new_row = appendRowAfter(this_row);
                 var new_id = new_row.getElementsByClassName('txt')[0].id;
-                new_row.appendAfter(this_row);
                 break;
               default:
             }
@@ -190,7 +217,8 @@
         <textarea autofocus onkeydown="keyEvents(event)"></textarea>
         <div class="controls">
           <button type="button" onclick="removeTxt(this.closest('.txt'));">&times;</button>
-          <button type="button" onclick="appendRowAfter(this);">+</button>
+          <button type="button" onclick="appendTxtAfter(this);">&rarr;</button>
+          <button type="button" onclick="appendRowAfter(this);">&darr;</button>
         </div>
       </div>
     </div>
