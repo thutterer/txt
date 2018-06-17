@@ -96,6 +96,8 @@
 
       textarea:focus ~ .controls button {
         background: #ddd;
+        border: 1px solid black;
+        border-style: outset;
       }
     </style>
 
@@ -150,9 +152,6 @@
         new_row = newRow();
         new_row.appendAfter(this_row);
         var new_id = new_row.getElementsByClassName('txt')[0].id;
-
-        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
-
         return new_row;
       }
 
@@ -161,9 +160,6 @@
         new_row = newRow();
         new_row.appendBefore(this_row); // TODO: refactor
         var new_id = new_row.getElementsByClassName('txt')[0].id;
-
-        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
-
         return new_row;
       }
 
@@ -172,9 +168,6 @@
         new_txt = newTxt();
         new_txt.appendAfter(this_txt);
         var new_id = new_txt.id;
-
-        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
-
         return new_txt;
       }
 
@@ -183,43 +176,33 @@
         new_txt = newTxt();
         new_txt.appendBefore(this_txt); // TODO: refactor with appendTxtAfter :/
         var new_id = new_txt.id;
-
-        document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
-
         return new_txt;
       }
 
       function keyEvents(e) {
-        console.log(e.keyCode);
-
         if(e.ctrlKey) {
           var this_txt = document.activeElement.closest('.txt');
           var this_row = document.activeElement.closest('.row');
 
           if(e.shiftKey) {
-            var new_txt = newTxt();
-            var new_id = new_txt.id;
-
             switch (e.keyCode) {
               case 37: // arrow-left
-                new_txt.appendBefore(this_txt);
+                var new_txt = appendTxtBefore(this_txt);
                 break;
               case 38: // arrow-up
-                var new_row = newRow();
-                var new_id = new_row.getElementsByClassName('txt')[0].id;
-                new_row.appendBefore(this_row);
+                var new_row = appendRowBefore(this_row);
+                var new_txt = new_row.getElementsByClassName('txt')[0];
                 break;
               case 39: // arrow-right
-              // appendTxtAfter
-                new_txt.appendAfter(this_txt);
+                var new_txt = appendTxtAfter(this_txt);
                 break;
               case 40: // arrow-down
                 var new_row = appendRowAfter(this_row);
-                var new_id = new_row.getElementsByClassName('txt')[0].id;
+                var new_txt = new_row.getElementsByClassName('txt')[0];
                 break;
               default:
             }
-            document.getElementById(new_id).getElementsByTagName('textarea')[0].focus();
+            document.getElementById(new_txt.id).getElementsByTagName('textarea')[0].focus();
           }
           else {
             switch (e.keyCode) {
