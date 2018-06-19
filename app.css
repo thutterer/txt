@@ -1,0 +1,98 @@
+html, body {
+  height: 100vh;
+  margin: 0;
+  font-size: 18px;
+  overflow: hidden;
+
+  display: grid;
+
+  background: #ddd;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.txt {
+  display: flex;
+  flex-direction: row;
+
+  flex-grow: 1;
+  padding: 0;
+  margin: 0.25em;
+
+  border: 1px solid lavender;
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+  color: #222;
+  background: #eee;
+}
+
+.txt > .controls {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 32px;
+}
+
+.controls button {
+  border: 0;
+  text-align: center;
+  cursor: pointer;
+  background: inherit;
+  font-size: 16px;
+  font-family: monospace;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.controls:hover button {
+  opacity: 1;
+}
+
+.txt .controls > button.warning:hover {
+  background: coral;
+}
+
+.txt .controls button:hover {
+  background: #ccc;
+}
+
+.txt .controls .colors button {
+  height: 32px;
+  background: plum;
+}
+
+textarea {
+  box-sizing: border-box;
+  padding: 0.5em;
+  margin: 0;
+
+  line-height: 1.25em;
+  font-size: 1em;
+
+  border: none;
+  outline: none;
+  resize: none;
+
+  background: inherit;
+
+  width: 100%;
+  height: 100%;
+}
+
+textarea:focus {
+  background: #fff;
+}
+
+textarea:focus ~ .controls {
+  background: #fff
+}
+
+textarea:focus ~ .controls button {
+  background: #ddd;
+  border: 1px solid black;
+  border-style: outset;
+}
