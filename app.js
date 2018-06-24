@@ -13,6 +13,7 @@ function newTxt() {
   var new_txt = a_txt.cloneNode(true);
   var new_id = 'txt_' + Date.now();
   new_txt.id = new_id;
+  new_txt.className = 'txt'; // remove all other classes! (colors)
   new_txt.getElementsByTagName('textarea')[0].value = '';
   return new_txt;
 }
@@ -126,8 +127,16 @@ function keyEvents(e) {
   }
 }
 
-function changeColor(color) {
+function changeColor(hue) {
   var this_txt = document.activeElement.closest('.txt');
-  this_txt.style.background = color;
-  // this_txt.getElementsByTagName('textarea')[0].style.background = color;
+  this_txt.style.background = 'hsl(' + hue + ', 100%, 90%)';
+}
+
+function createColorButton(hue){
+  var colors = document.getElementsByClassName('colors')[0];
+  var btn = document.createElement('button');
+
+  btn.style.background = 'hsl(' + hue + ', 100%, 50%)';
+  btn.setAttribute('onClick', 'changeColor(' + hue + ')');
+  colors.appendChild(btn);
 }

@@ -14,11 +14,8 @@
         <textarea autofocus onkeydown="keyEvents(event)"></textarea>
         <div class="controls">
           <button class="warning" onclick="removeTxt(this.closest('.txt'), false);">&times;</button>
-          <div class="colors">
-            <button onclick="changeColor(this.className)" class="green"></button>
-            <button onclick="changeColor(this.className)" class="blue"></button>
-          </div>
-          <div class="">
+          <div class="colors"></div>
+          <div>
             <button onclick="appendRowBefore(this);">&uarr;</button>
             <button onclick="appendTxtAfter(this);">&rarr;</button>
             <button onclick="appendTxtBefore(this);">&larr;</button>
@@ -27,5 +24,10 @@
         </div>
       </div>
     </div>
+    <script>
+      for (var i = 1; i <= 5; i++) {
+        createColorButton((360 / 5 * i) - 20);
+      }
+    </script>
   </body>
 </html>

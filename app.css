@@ -5,8 +5,6 @@ html, body {
   overflow: hidden;
 
   display: grid;
-
-  background: #ddd;
 }
 
 .row {
@@ -26,10 +24,16 @@ html, body {
   border: 1px solid lavender;
   box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   color: #222;
-  background: #eee;
+
+  opacity: 0.7;
 }
 
-.txt > .controls {
+.txt:focus-within {
+  opacity: 1;
+}
+
+.txt .controls {
+  background: inherit;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -37,7 +41,16 @@ html, body {
   width: 32px;
 }
 
-.controls button {
+.txt .controls button {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.txt .controls:hover button {
+  opacity: 1;
+}
+
+.txt .controls button {
   border: 0;
   text-align: center;
   cursor: pointer;
@@ -45,27 +58,41 @@ html, body {
   font-size: 16px;
   font-family: monospace;
   width: 100%;
-  opacity: 0.5;
+  padding: 8px 2px;
 }
 
-.controls:hover button {
+.txt .controls button:first-child {
+  margin-top: 0;
+}
+
+.txt .controls button:last-child {
+  margin-bottom: 0;
+}
+
+.txt .controls button.warning {
   opacity: 1;
 }
 
-.txt .controls > button.warning:hover {
+.txt .controls button.warning:hover {
   background: coral;
 }
 
 .txt .controls button:hover {
-  background: #ccc;
+  opacity: 1;
+}
+
+.txt .controls .colors {
+  display: flex;
+  flex-direction: column;
 }
 
 .txt .controls .colors button {
-  height: 32px;
-  background: plum;
+  margin: 2px 0;
+  border-radius: 4px;
+  border: 1px solid #222;
 }
 
-textarea {
+.txt textarea {
   box-sizing: border-box;
   padding: 0.5em;
   margin: 0;
@@ -81,18 +108,4 @@ textarea {
 
   width: 100%;
   height: 100%;
-}
-
-textarea:focus {
-  background: #fff;
-}
-
-textarea:focus ~ .controls {
-  background: #fff
-}
-
-textarea:focus ~ .controls button {
-  background: #ddd;
-  border: 1px solid black;
-  border-style: outset;
 }
