@@ -17,12 +17,9 @@ body {
   display: flex;
   flex-direction: row;
 
-  flex-grow: 1;
-  min-width: 30vw;
   padding: 0;
-  margin: 0.25em;
+  margin: 0.5em;
 
-  /* border: 1px solid lavender; */
   box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   color: #222;
 
@@ -91,16 +88,16 @@ body {
   box-sizing: border-box;
   padding: 0.5em;
   margin: 0;
+  width: 80vw;
 
   line-height: 1.25em;
   font-size: 1em;
 
   border: none;
   outline: none;
-  resize: none;
+  resize: both;
 
   background: inherit;
 
-  width: 100%;
   height: 100%;
 }
