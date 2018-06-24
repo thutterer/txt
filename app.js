@@ -19,16 +19,6 @@ function newTxt() {
   return new_txt;
 }
 
-function newRow() {
-  var a_row = document.getElementsByClassName('row')[0];
-  var new_row = a_row.cloneNode(true);
-  var old_txts = new_row.querySelectorAll('.txt');
-  for (var i = 0; i < old_txts.length; ++i) old_txts[i].remove();
-
-  new_row.appendChild(newTxt());
-  return new_row;
-}
-
 function removeTxt(txt, focus) {
   if(focus) {
     var closest_txt = txt.previousElementSibling;
@@ -45,22 +35,6 @@ function removeTxt(txt, focus) {
   var its_row = txt.closest('.row');
   txt.remove();
   if(its_row.querySelectorAll('.txt').length == 0) its_row.remove();
-}
-
-function appendRowAfter(here) {
-  var this_row = here.closest('.row');
-  new_row = newRow();
-  new_row.appendAfter(this_row);
-  var new_id = new_row.getElementsByClassName('txt')[0].id;
-  return new_row;
-}
-
-function appendRowBefore(here) {
-  var this_row = here.closest('.row');
-  new_row = newRow();
-  new_row.appendBefore(this_row); // TODO: refactor
-  var new_id = new_row.getElementsByClassName('txt')[0].id;
-  return new_row;
 }
 
 function appendTxtAfter(here) {
@@ -90,15 +64,11 @@ function keyEvents(e) {
           var new_txt = appendTxtBefore(this_txt);
           break;
         case 38: // arrow-up
-          var new_row = appendRowBefore(this_row);
-          var new_txt = new_row.getElementsByClassName('txt')[0];
           break;
         case 39: // arrow-right
           var new_txt = appendTxtAfter(this_txt);
           break;
         case 40: // arrow-down
-          var new_row = appendRowAfter(this_row);
-          var new_txt = new_row.getElementsByClassName('txt')[0];
           break;
         default:
       }
