@@ -13,8 +13,9 @@ function newTxt() {
   var new_txt = a_txt.cloneNode(true);
   var new_id = 'txt_' + Date.now();
   new_txt.id = new_id;
-  new_txt.className = 'txt'; // remove all other classes! (colors)
   new_txt.getElementsByTagName('textarea')[0].value = '';
+  new_txt.style.background = 'white';
+
   return new_txt;
 }
 
