@@ -1,10 +1,8 @@
-html, body {
-  height: 100vh;
+body {
+  display: grid;
+  min-height: 100vh;
   margin: 0;
   font-size: 18px;
-  overflow: hidden;
-
-  display: grid;
 }
 
 .row {
@@ -43,10 +41,13 @@ html, body {
 
 .txt .controls button {
   opacity: 0;
-  transition: opacity 1s;
 }
 
-.txt .controls:hover button {
+.txt:hover .controls button {
+  opacity: 0.25;
+}
+
+.txt:focus-within .controls button {
   opacity: 1;
 }
 
