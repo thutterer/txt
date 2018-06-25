@@ -43,7 +43,8 @@ body {
 .txt input,
 .txt textarea,
 .txt button {
-  background: inherit;
+  background: rgba(0,0,0,0%);
+
   border: none;
   outline: none;
 
@@ -51,11 +52,9 @@ body {
 }
 
 .txt .controls {
-  background: inherit;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* width: 32px; */
 }
 
 .txt .controls button { opacity: 0; }

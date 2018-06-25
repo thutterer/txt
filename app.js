@@ -15,7 +15,7 @@ function newTxt() {
   new_txt.id = new_id;
   new_txt.getElementsByTagName('input')[0].value = '';
   new_txt.getElementsByTagName('textarea')[0].value = '';
-  new_txt.style.background = 'white';
+  new_txt.style.background = 'background: radial-gradient(circle at 30% 20%, hsl(0, 0%, 100%), hsl(0, 0%, 80%));';
 
   return new_txt;
 }
@@ -101,7 +101,7 @@ function keyEvents(e) {
 
 function changeColor(hue) {
   var this_txt = document.activeElement.closest('.txt');
-  this_txt.style.background = 'hsl(' + hue + ', 85%, 50%)';
+  this_txt.style.background = 'radial-gradient(circle at 30% 20%, hsl(' + hue + ', 85%, 90%), hsl(' + hue + ', 85%, 50%))';
 }
 
 function createColorButton(hue){
