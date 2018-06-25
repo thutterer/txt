@@ -11,14 +11,15 @@
   <body>
     <div class="row">
       <div class="txt">
+        <header>
+          <input type="text" class="title">
+          <button class="warning" onclick="removeTxt(this.closest('.txt'), false);">&times;</button>
+        </header>
         <textarea autofocus onkeydown="keyEvents(event)"></textarea>
         <div class="controls">
-          <button class="warning" onclick="removeTxt(this.closest('.txt'), false);">&times;</button>
+          <button onclick="appendTxtBefore(this);">⇱</button>
           <div class="colors"></div>
-          <div>
-            <button onclick="appendTxtAfter(this);">&rarr;</button>
-            <button onclick="appendTxtBefore(this);">&larr;</button>
-          </div>
+          <button onclick="appendTxtAfter(this);">⇲</button>
         </div>
       </div>
     </div>
