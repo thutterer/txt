@@ -37,6 +37,7 @@ body {
 .txt .title {
   flex-grow: 1;
   font-weight: bolder;
+  padding: 0.25em 1em;
 }
 
 .txt input,
@@ -66,6 +67,7 @@ body {
   text-align: center;
   cursor: pointer;
   font-family: monospace;
+  font-weight: bold;
   padding: 8px 8px;
 }
 
@@ -106,13 +108,20 @@ body {
 
 .txt textarea {
   box-sizing: border-box;
-  padding: 0.5em;
+  padding: 0.25em 1em;
   margin: 0;
-  height: 80vh;
-  width: 80vw;
+
+  width: 600px;
+  height: 300px;
 
   line-height: 1.25em;
   font-size: 1em;
 
   resize: both;
+}
+
+@media only screen and (max-width: 650px) {
+  .txt textarea {
+    width: 80vw;
+  }
 }

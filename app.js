@@ -101,7 +101,7 @@ function keyEvents(e) {
 
 function changeColor(hue) {
   var this_txt = document.activeElement.closest('.txt');
-  this_txt.style.background = 'hsl(' + hue + ', 100%, 90%)';
+  this_txt.style.background = 'hsl(' + hue + ', 85%, 50%)';
 }
 
 function createColorButton(hue){
