@@ -9,7 +9,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   position: relative;
-  /* height: 100vh; */
+  align-items: center;
 }
 
 .txt {
