@@ -40,19 +40,30 @@ function removeTxt(txt, focus) {
 
 function appendTxtAfter(here) {
   var this_txt = here.closest('.txt');
+  var dropzone = this_txt.nextElementSibling;
+
   new_txt = newTxt();
-  new_txt.appendAfter(this_txt);
-  var new_id = new_txt.id;
+  new_txt.appendAfter(dropzone);
+
+  var new_dropzone = dropzone.cloneNode();
+  new_dropzone.appendAfter(document.getElementById(new_txt.id));
+
   return new_txt;
 }
 
 function appendTxtBefore(here) {
   var this_txt = here.closest('.txt');
+  var dropzone = this_txt.previousElementSibling;
+
   new_txt = newTxt();
-  new_txt.appendBefore(this_txt); // TODO: refactor with appendTxtAfter :/
-  var new_id = new_txt.id;
+  new_txt.appendBefore(dropzone);
+
+  var new_dropzone = dropzone.cloneNode();
+  new_dropzone.appendBefore(document.getElementById(new_txt.id));
+
   return new_txt;
 }
+
 
 function keyEvents(e) {
   if(e.ctrlKey) {
@@ -111,4 +122,24 @@ function createColorButton(hue){
   btn.style.background = 'hsl(' + hue + ', 100%, 50%)';
   btn.setAttribute('onClick', 'changeColor(' + hue + ')');
   colors.appendChild(btn);
+}
+
+
+// https://www.w3schools.com/html/html5_draganddrop.asp
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  var this_txt = document.getElementById(data);
+  var its_dropzone = this_txt.nextElementSibling;
+  this_txt.appendAfter(ev.target);
+  its_dropzone.appendAfter(this_txt);
 }

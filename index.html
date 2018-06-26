@@ -10,18 +10,20 @@
   </head>
   <body>
     <div class="row">
-      <div class="txt" style="background: radial-gradient(circle at 30% 20%, hsl(0, 0%, 100%), hsl(0, 0%, 80%));">
+      <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="txt" id='txt_0' draggable="true" ondragstart="drag(event)">
         <header>
           <input type="text" class="title">
           <button class="warning" onclick="removeTxt(this.closest('.txt'), false);">&times;</button>
         </header>
         <textarea autofocus onkeydown="keyEvents(event)"></textarea>
         <div class="controls">
-          <button onclick="appendTxtBefore(this);">⇱</button>
+          <button onclick="appendTxtBefore(this);">⇦</button>
           <div class="colors"></div>
-          <button onclick="appendTxtAfter(this);">⇲</button>
+          <button onclick="appendTxtAfter(this);">⇨</button>
         </div>
       </div>
+      <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
     <script>
       for (var i = 1; i <= 10; i++) {
