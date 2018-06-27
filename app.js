@@ -117,8 +117,8 @@ function keyEvents(e) {
 }
 
 function changeColor(hue) {
-  var this_txt = document.activeElement.closest('.txt');
-  this_txt.style.background = 'radial-gradient(circle at 30% 20%, hsl(' + hue + ', 85%, 90%), hsl(' + hue + ', 85%, 50%))';
+  var this_panel = document.activeElement.closest('.panel');
+  this_panel.style.background = 'radial-gradient(circle at 30% 20%, hsl(' + hue + ', 85%, 90%), hsl(' + hue + ', 85%, 50%))';
 }
 
 function createColorButton(hue){
@@ -145,7 +145,10 @@ function drop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
   var this_txt = document.getElementById(data);
-  var its_dropzone = this_txt.nextElementSibling;
-  this_txt.appendAfter(ev.target);
-  its_dropzone.appendAfter(this_txt);
+  if(ev.target.className == 'dropzone after') {
+    this_txt.appendAfter(ev.target.parentElement);
+  }
+  else {
+    this_txt.appendBefore(ev.target.parentElement);
+  }
 }
