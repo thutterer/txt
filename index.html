@@ -25,6 +25,9 @@
       </div>
       <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
+    <div class="fab" onclick="appendTxtAfterLast()">
+      +
+    </div>
     <script>
       for (var i = 1; i <= 10; i++) {
         createColorButton((360 / 10 * i) - 20);

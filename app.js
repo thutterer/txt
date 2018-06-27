@@ -64,6 +64,12 @@ function appendTxtBefore(here) {
   return new_txt;
 }
 
+function appendTxtAfterLast() {
+  var all_txts = document.querySelectorAll(".txt");
+  var last_txt = all_txts[all_txts.length - 1]
+  console.log(last_txt);
+  return appendTxtAfter(last_txt);
+}
 
 function keyEvents(e) {
   if(e.ctrlKey) {
