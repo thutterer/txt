@@ -11,7 +11,6 @@
   </head>
   <body>
     <div class="row">
-      <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
       <div class="txt" id='txt_0' draggable="true" ondragstart="drag(event)">
         <header>
           <input type="text" class="title">
@@ -24,15 +23,18 @@
           <button onclick="appendTxtAfter(this);">⇨</button>
         </div>
       </div>
-      <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     </div>
-    <div class="fab" onclick="appendTxtAfterLast()">
+    <div class="fab" onclick="appendTxtToRow()">
       +
     </div>
     <script>
+      // create the color buttons inside the template-txt (#txt_0)
       for (var i = 1; i <= 10; i++) {
         createColorButton((360 / 10 * i) - 20);
       }
+
+      // create the first txt from the template-txt
+      appendTxtToRow();
     </script>
   </body>
 </html>

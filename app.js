@@ -41,8 +41,8 @@ function removeTxt(txt, focus) {
 function appendTxtAfter(here) {
   var this_txt = here.closest('.txt');
   var dropzone = this_txt.nextElementSibling;
+  var new_txt = newTxt();
 
-  new_txt = newTxt();
   new_txt.appendAfter(dropzone);
 
   var new_dropzone = dropzone.cloneNode();
@@ -54,8 +54,8 @@ function appendTxtAfter(here) {
 function appendTxtBefore(here) {
   var this_txt = here.closest('.txt');
   var dropzone = this_txt.previousElementSibling;
+  var new_txt = newTxt();
 
-  new_txt = newTxt();
   new_txt.appendBefore(dropzone);
 
   var new_dropzone = dropzone.cloneNode();
@@ -64,11 +64,11 @@ function appendTxtBefore(here) {
   return new_txt;
 }
 
-function appendTxtAfterLast() {
-  var all_txts = document.querySelectorAll(".txt");
-  var last_txt = all_txts[all_txts.length - 1]
-  console.log(last_txt);
-  return appendTxtAfter(last_txt);
+function appendTxtToRow() {
+  var row = document.getElementsByClassName('row')[0];
+  var new_txt = newTxt();
+
+  row.appendChild(new_txt);
 }
 
 function keyEvents(e) {
