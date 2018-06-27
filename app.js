@@ -152,3 +152,11 @@ function drop(ev) {
     this_txt.appendBefore(ev.target.parentElement);
   }
 }
+
+
+
+function changeFontSize(select){
+  var this_panel = document.activeElement.closest('.panel');
+  var textarea = this_panel.getElementsByTagName('textarea')[0];
+  textarea.style.fontSize = select.value + '%';
+}

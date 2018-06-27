@@ -21,6 +21,7 @@
           <textarea autofocus onkeydown="keyEvents(event)"></textarea>
           <div class="controls">
             <button onclick="appendTxtBefore(this);">⇦</button>
+            <input oninput="changeFontSize(this)" type="range" name="font-size" min="10" max="200" value="100" />
             <div class="colors"></div>
             <button onclick="appendTxtAfter(this);">⇨</button>
           </div>
