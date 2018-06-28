@@ -11,17 +11,18 @@
   </head>
   <body>
     <div class="row">
-      <div class="txt" id='txt_0' draggable="true" ondragstart="drag(event)">
+      <div class="txt" id='txt_0' ondragstart="drag(event)">
         <div class="dropzone before" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         <div class="panel">
           <header>
+            <div class="draggable" draggable="true" title="drag&drop txt">⋱</div>
             <input type="text" class="title">
             <button class="warning" onclick="removeTxt(this.closest('.txt'), false);">&times;</button>
           </header>
           <textarea autofocus onkeydown="keyEvents(event)"></textarea>
           <div class="controls">
             <button onclick="appendTxtBefore(this);">⇦</button>
-            <input oninput="changeFontSize(this)" type="range" name="font-size" min="10" max="200" value="100" />
+            <input title="font size" oninput="changeFontSize(this)" type="range" name="font-size" min="50" max="500" value="100" step="5"/>
             <div class="colors"></div>
             <button onclick="appendTxtAfter(this);">⇨</button>
           </div>

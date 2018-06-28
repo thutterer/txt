@@ -40,26 +40,18 @@ function removeTxt(txt, focus) {
 
 function appendTxtAfter(here) {
   var this_txt = here.closest('.txt');
-  var dropzone = this_txt.nextElementSibling;
   var new_txt = newTxt();
 
-  new_txt.appendAfter(dropzone);
-
-  var new_dropzone = dropzone.cloneNode();
-  new_dropzone.appendAfter(document.getElementById(new_txt.id));
+  new_txt.appendAfter(this_txt);
 
   return new_txt;
 }
 
 function appendTxtBefore(here) {
   var this_txt = here.closest('.txt');
-  var dropzone = this_txt.previousElementSibling;
   var new_txt = newTxt();
 
-  new_txt.appendBefore(dropzone);
-
-  var new_dropzone = dropzone.cloneNode();
-  new_dropzone.appendBefore(document.getElementById(new_txt.id));
+  new_txt.appendBefore(this_txt);
 
   return new_txt;
 }
@@ -134,7 +126,7 @@ function createColorButton(hue){
 // https://www.w3schools.com/html/html5_draganddrop.asp
 
 function drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
+  ev.dataTransfer.setData("text", ev.target.closest('.txt').id);
 }
 
 function allowDrop(ev) {
@@ -159,4 +151,5 @@ function changeFontSize(select){
   var this_panel = document.activeElement.closest('.panel');
   var textarea = this_panel.getElementsByTagName('textarea')[0];
   textarea.style.fontSize = select.value + '%';
+  select.title = select.value + '%';
 }

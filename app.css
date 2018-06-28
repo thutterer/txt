@@ -29,7 +29,6 @@ body {
   background: radial-gradient(circle at 30% 20%, hsl(0, 0%, 100%), hsl(0, 0%, 80%));
   box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   color: #222;
-  cursor: move;
 }
 
 .txt:focus-within {
@@ -45,6 +44,12 @@ body {
   flex-grow: 1;
   font-weight: bolder;
   padding: 0.25em 1em;
+}
+
+.txt .draggable {
+  cursor: move;
+  width: 16px;
+  text-align: center;
 }
 
 .txt input,
@@ -66,9 +71,9 @@ body {
 }
 
 .txt .controls button { opacity: 0; }
-.txt:hover .controls button { opacity: 0.25; }
-.txt .controls:hover button { opacity: 0.5; }
-.txt .controls button:hover { opacity: 0.75; }
+.txt:hover .controls button,input { opacity: 0.25; }
+.txt .controls:hover button,input { opacity: 0.5; }
+.txt .controls button:hover, input:hover { opacity: 0.75; }
 
 .txt .controls button {
   text-align: center;
