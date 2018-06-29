@@ -43,6 +43,7 @@ function appendTxtAfter(here) {
   var new_txt = newTxt();
 
   new_txt.appendAfter(this_txt);
+  new_txt.getElementsByTagName('textarea')[0].focus();  // TODO: DRY!
 
   return new_txt;
 }
@@ -52,6 +53,7 @@ function appendTxtBefore(here) {
   var new_txt = newTxt();
 
   new_txt.appendBefore(this_txt);
+  new_txt.getElementsByTagName('textarea')[0].focus();  // TODO: DRY!
 
   return new_txt;
 }
@@ -61,6 +63,7 @@ function appendTxtToRow() {
   var new_txt = newTxt();
 
   row.appendChild(new_txt);
+  new_txt.getElementsByTagName('textarea')[0].focus();  // TODO: DRY!
 }
 
 function keyEvents(e) {
