@@ -33,9 +33,7 @@ function removeTxt(txt, focus) {
     closest_txt.getElementsByTagName('textarea')[0].focus();
   }
 
-  var its_row = txt.closest('.row');
   txt.remove();
-  if(its_row.querySelectorAll('.txt').length == 0) its_row.remove();
 }
 
 function appendTxtAfter(here) {
@@ -155,4 +153,14 @@ function changeFontSize(select){
   var textarea = this_panel.getElementsByTagName('textarea')[0];
   textarea.style.fontSize = select.value + '%';
   select.title = select.value + '%';
+}
+
+function minimizeTxt(txt) {
+  document.getElementById('minimized').appendChild(txt);
+  txt.getElementsByClassName('title')[0].disabled = true;
+}
+
+function restoreTxt(txt) {
+  document.getElementsByClassName('row')[0].appendChild(txt);
+  txt.getElementsByClassName('title')[0].disabled = false;
 }

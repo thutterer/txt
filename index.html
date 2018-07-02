@@ -17,7 +17,11 @@
           <header>
             <div class="draggable" draggable="true">⋱</div>
             <input type="text" class="title">
-            <button class="warning" onclick="removeTxt(this.closest('.txt'), false);">&times;</button>
+            <button class="minimize" onclick="minimizeTxt(this.closest('.txt'));">&#128469;</button>
+            <button class="restore" onclick="restoreTxt(this.closest('.txt'));">&#128471;</button>
+            <!-- <button class="maximize" onclick="maximizeTxt(this.closest('.txt'));">&#128470;</button> -->
+            <button class="close" onclick="removeTxt(this.closest('.txt'), false);">&#128473;</button>
+
           </header>
           <textarea autofocus onkeydown="keyEvents(event)"></textarea>
           <div class="controls">
@@ -28,9 +32,8 @@
         <div class="dropzone after" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
       </div>
     </div>
-    <div class="fab" onclick="appendTxtToRow()">
-      +
-    </div>
+    <div id="minimized"></div>
+    <div class="fab" onclick="appendTxtToRow()">+</div>
     <script>
       // create the color buttons inside the template-txt (#txt_0)
       for (var i = 1; i <= 10; i++) {
@@ -41,6 +44,6 @@
       appendTxtToRow();
     </script>
 
-    <a id="github-ribbon" href="https://github.com/thutterer/txt"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <a style="position: absolute; top: 0; right: 0; border: 0;" id="github-ribbon" href="https://github.com/thutterer/txt"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
   </body>
 </html>
