@@ -31,8 +31,8 @@
             </button>
             <button class="restore" onclick="restoreTxt(this.closest('.txt'));">
               <svg width="10" height="10">
-                <rect width="10" height="10" stroke="#222" stroke-width="2" fill="transparent" />
-                <line x1="0" y1="2" x2="10" y2="2" stroke="#222" stroke-width="2" />
+                <rect width="9" height="9" stroke="#222" stroke-width="2" fill="transparent" />
+                <line x1="0" y1="2" x2="10" y2="2" stroke="#222" stroke-width="3" />
               </svg>
             </button>
             <!-- <button class="maximize" onclick="maximizeTxt(this.closest('.txt'));">&#128470;</button> -->
@@ -57,8 +57,8 @@
     <div class="fab" onclick="appendTxtToRow()">+</div>
     <script>
       // create the color buttons inside the template-txt (#txt_0)
-      for (var i = 1; i <= 10; i++) {
-        createColorButton((360 / 10 * i) - 20);
+      for (var i = 1; i <= 8; i++) {
+        createColorButton((360 / 8 * i) - 20);
       }
 
       // create the first txt from the template-txt

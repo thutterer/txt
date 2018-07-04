@@ -8,6 +8,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: calc(100% - 16px);
+  overflow-x: scroll;
 }
 
 body {
@@ -15,12 +16,12 @@ body {
 }
 
 .row {
+  margin-top: 5vh;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-direction: row;
   align-items: flex-start;
   position: relative;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .txt {
@@ -41,6 +42,7 @@ body {
 }
 
 .txt .title {
+  width: 100px;
   flex-grow: 1;
   font-weight: bolder;
   padding: 0.25em 1em;
@@ -92,11 +94,13 @@ body {
   margin-bottom: 0;
 }
 
-.txt header button {
+.txt header button,
+.txt header .draggable {
   opacity: 0.5;
 }
 
-.txt header button:hover {
+.txt header button:hover,
+.txt header .draggable:hover {
   opacity: 1;
 }
 
@@ -125,15 +129,15 @@ body {
   margin: 0;
 
   width: 500px;
-  height: 300px;
-  resize: both;
+  height: 60vh;
+  resize: horizontal;
 
   line-height: 1.25em;
 }
 
 @media only screen and (max-width: 650px) {
   .txt textarea {
-    width: 90vw;
+    width: 80vw;
   }
 
   .txt .controls {
@@ -141,7 +145,7 @@ body {
     align-items: center;
   }
 
-  .dropzone, .draggable, #github-ribbon {
+  .draggable, #github-ribbon {
     display: none;
   }
 }
@@ -172,14 +176,6 @@ body {
   font-family: 'Source Code Pro', monospace;
 }
 
-@media only screen and (max-width: 460px) {
-  .fab {
-    height: 40px;
-    width: 40px;
-    line-height: 40px;
-  }
-}
-
 .fab:hover {
   box-shadow: 0 0 6px rgba(0,0,0,.16), 0 6px 12px rgba(0,0,0,.32);
   transform: scale(1.1);
@@ -198,7 +194,6 @@ body {
 #minimized {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   justify-content: flex-start;
 }
 
