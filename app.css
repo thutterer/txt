@@ -16,7 +16,7 @@ body {
 
 .row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: flex-start;
   position: relative;
@@ -76,10 +76,11 @@ body {
 .txt .controls button:hover, .txt .controls input:hover { opacity: 1.0; }
 
 .txt button {
-  text-align: center;
   cursor: pointer;
-  font-family: monospace;
-  font-weight: bold;
+}
+
+.txt .draggable,
+.txt button {
   padding: 8px 8px;
 }
 
