@@ -136,12 +136,16 @@ function drop(ev) {
   }
 }
 
+function changeTxtWidth(select){
+  var txt_area = select.closest('.panel').getElementsByTagName('textarea')[0];
+  txt_area.style.width = (select.value * 250 + 400) + 'px';
+}
+
 
 function changeFontSize(select){
-  var this_panel = document.activeElement.closest('.panel');
+  var this_panel = select.closest('.panel');
   var textarea = this_panel.getElementsByTagName('textarea')[0];
   textarea.style.fontSize = select.value + '%';
-  select.title = select.value + '%';
 }
 
 function minimizeTxt(txt) {

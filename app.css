@@ -83,13 +83,11 @@ body {
 .txt .controls {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .txt .controls button, .txt .controls input { opacity: 0; }
-.txt:hover .controls button, .txt:hover .controls input { opacity: .25; }
-.txt .controls:hover button, .txt .controls:hover input { opacity: 0.5; }
-.txt .controls button:hover, .txt .controls input:hover { opacity: 1.0; }
+.txt:hover .controls button, .txt:hover .controls input { opacity: 1; }
 
 .txt button {
   cursor: pointer;
@@ -98,14 +96,6 @@ body {
 .txt .draggable,
 .txt button {
   padding: 8px 8px;
-}
-
-.txt .controls button:first-child {
-  margin-top: 0;
-}
-
-.txt .controls button:last-child {
-  margin-bottom: 0;
 }
 
 .txt header button,
@@ -129,7 +119,7 @@ body {
 
 .font-size {
   flex-grow: 1;
-  width: 80%;
+  width: 32px;
 }
 
 .txt textarea {
@@ -137,27 +127,14 @@ body {
   padding: 16px 40px;
   margin: 0;
 
-  width: 500px;
+  width: 900px;
+  transition: width 0.25s;
+  transition-timing-function: ease-in-out;
   height: calc(100vh - 5vh - 180px);
-  resize: horizontal;
+  resize: none;
   min-width: 400px;
 
   line-height: 1.25em;
-}
-
-@media only screen and (max-width: 650px) {
-  .txt textarea {
-    width: 80vw;
-  }
-
-  .txt .controls {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .draggable, #github-ribbon {
-    display: none;
-  }
 }
 
 .txt .dropzone {
@@ -223,4 +200,9 @@ body {
 #minimized .txt textarea,
 #minimized .txt .controls {
   display: none;
+}
+
+.window-size {
+  width: 32px;
+  flex-grow: 0;
 }
