@@ -41,7 +41,10 @@ function appendTxtAfter(here) {
   var new_txt = newTxt();
 
   new_txt.appendAfter(this_txt);
-  new_txt.getElementsByTagName('textarea')[0].focus();  // TODO: DRY!
+
+  var txt_area = new_txt.getElementsByTagName('textarea')[0]
+  txt_area.scrollIntoView({behavior: 'smooth'});
+  txt_area.focus();  // TODO: DRY!
 
   return new_txt;
 }
@@ -51,7 +54,10 @@ function appendTxtBefore(here) {
   var new_txt = newTxt();
 
   new_txt.appendBefore(this_txt);
-  new_txt.getElementsByTagName('textarea')[0].focus();  // TODO: DRY!
+
+  var txt_area = new_txt.getElementsByTagName('textarea')[0]
+  txt_area.scrollIntoView({behavior: 'smooth'});
+  txt_area.focus();  // TODO: DRY!
 
   return new_txt;
 }
@@ -61,7 +67,12 @@ function appendTxtToRow() {
   var new_txt = newTxt();
 
   row.appendChild(new_txt);
-  new_txt.getElementsByTagName('textarea')[0].focus();  // TODO: DRY!
+
+  var txt_area = new_txt.getElementsByTagName('textarea')[0]
+  txt_area.scrollIntoView({behavior: 'smooth'});
+  txt_area.focus();  // TODO: DRY!
+
+  return new_txt;
 }
 
 function keyEvents(e) {
@@ -85,33 +96,12 @@ function keyEvents(e) {
       }
       document.getElementById(new_txt.id).getElementsByTagName('textarea')[0].focus();
     }
-    else {
-      switch (e.keyCode) {
-        case 27: // ESC-left
-          console.log('ctrl esc');
-          removeTxt(this_txt, true);
-          break;
-        case 37: // arrow-left
-          console.log('ctrl left');
-          break;
-        case 38: // arrow-up
-          console.log('ctrl up');
-          break;
-        case 39: // arrow-right
-          console.log('ctrl right');
-          break;
-        case 40: // arrow-down
-          console.log('ctrl down');
-          break;
-        default:
-      }
-    }
   }
 }
 
 function changeColor(hue) {
-  var this_panel = document.activeElement.closest('.panel');
-  this_panel.style.background = 'radial-gradient(circle at 30% 20%, hsl(' + hue + ', 85%, 90%), hsl(' + hue + ', 85%, 50%))';
+  var this_panel = document.activeElement.closest('.panel').getElementsByTagName('header')[0];
+  this_panel.style.background = 'hsl(' + hue + ', 50%, 50%)';
 }
 
 function createColorButton(hue){
@@ -145,7 +135,6 @@ function drop(ev) {
     this_txt.appendBefore(ev.target.parentElement);
   }
 }
-
 
 
 function changeFontSize(select){
