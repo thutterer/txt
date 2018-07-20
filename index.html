@@ -66,6 +66,11 @@
 
       // create the first txt from the template-txt
       appendTxtToRow();
+
+      // ask for confirmation before closing the window
+      window.addEventListener("beforeunload", function (event) {
+        event.returnValue = "Do you want to leave this site? "; // modern browsers show a generic text here
+      });
     </script>
 
     <a style="position: fixed; top: 0; right: 0; border: 0; z-index: -1;" id="github-ribbon" href="https://github.com/thutterer/txt"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
