@@ -40,6 +40,7 @@ body {
 }
 
 .txt .panel {
+  position: relative;
   background: white;
   box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   border-radius: 4px;
@@ -81,6 +82,10 @@ body {
 }
 
 .txt .controls {
+  position: absolute;
+  right: 50px;
+  bottom: 0;
+  width: calc(100% - 100px);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -124,14 +129,14 @@ body {
 
 .txt textarea {
   box-sizing: border-box;
-  padding: 16px 40px;
+  padding: 16px 40px 32px 40px;
   margin: 0;
 
   width: 900px;
   transition: width 0.25s;
   transition-timing-function: ease-in-out;
   height: calc(100vh - 5vh - 180px);
-  resize: none;
+  resize: horizontal;
   min-width: 400px;
 
   line-height: 1.25em;
