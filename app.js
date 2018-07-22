@@ -43,7 +43,6 @@ function appendTxtAfter(here) {
   new_txt.appendAfter(this_txt);
 
   var txt_area = new_txt.getElementsByTagName('textarea')[0]
-  txt_area.scrollIntoView({behavior: 'smooth'});
   txt_area.focus();  // TODO: DRY!
 
   return new_txt;
@@ -56,7 +55,6 @@ function appendTxtBefore(here) {
   new_txt.appendBefore(this_txt);
 
   var txt_area = new_txt.getElementsByTagName('textarea')[0]
-  txt_area.scrollIntoView({behavior: 'smooth'});
   txt_area.focus();  // TODO: DRY!
 
   return new_txt;
@@ -67,7 +65,10 @@ function appendTxtToRow() {
   var new_txt = newTxt();
 
   row.appendChild(new_txt);
-  new_txt.scrollIntoView({behavior: 'smooth'});
+  // new_txt.scrollIntoView({behavior: 'smooth'});
+
+  var txt_area = new_txt.getElementsByTagName('textarea')[0]
+  txt_area.focus();  // TODO: DRY!
 
   return new_txt;
 }
@@ -144,4 +145,10 @@ function minimizeTxt(txt) {
 function restoreTxt(txt) {
   document.getElementsByClassName('row')[0].appendChild(txt);
   txt.getElementsByClassName('title')[0].disabled = false;
+}
+
+function showFab(condition) {
+  var fab = document.getElementById('fab');
+  if(condition) fab.classList.remove('hidden');
+  else fab.classList.add('hidden');
 }

@@ -3,19 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Chrome, Firefox OS and Opera -->
-    <meta name="theme-color" content="#00796b">
-
+    <meta name="theme-color" content="#00796b"> <!-- Chrome, Firefox OS and Opera -->
     <title>txt</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="logo-512.png" />
     <link rel="stylesheet" href="app.css">
-    <script src="app.js" charset="utf-8"></script>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <script src="app.js" charset="utf-8"></script>
   </head>
   <body>
-    <div class="row">
+    <div class="row" onscroll="showFab(this.scrollLeft > (window.innerWidth / 5))">
+      <img class="logo" src="logo-512.png" alt="app-logo" onclick="appendTxtToRow()">
       <div class="txt" id='txt_0' ondragstart="drag(event)">
         <div class="dropzone before" ondrop="this.style.background = 'transparent'; drop(event);" ondragover="allowDrop(event)" ondragenter="this.style.background = 'azure';" ondragleave="this.style.background = 'transparent';"></div>
         <div class="panel">
@@ -50,10 +48,6 @@
             <input type="text" class="title">
 
             <button class="uncollapse" onclick="this.closest('.txt').classList.remove('collapsed'); this.closest('.txt').scrollIntoView({behavior: 'smooth'});">
-              <svg width="10" height="10">
-                <line x1="1" y1="1" x2="5" y2="5" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <line x1="1" y1="9" x2="5" y2="5" stroke="white" stroke-width="2" stroke-linecap="round" />
-              </svg>
             </button>
 
             <button class="minimize" onclick="minimizeTxt(this.closest('.txt'));">
@@ -76,7 +70,7 @@
             </button>
           </header>
 
-          <textarea autofocus onkeydown="keyEvents(event)"></textarea>
+          <textarea autofocus onkeydown="keyEvents(event)" onfocus="this.closest('.txt').scrollIntoView({behavior: 'smooth'})"></textarea>
 
           <div class="controls">
             <input title="paper size" oninput="changeTxtWidth(this)" type="range" class="window-size" min="0" max="5" value="2" step="1"/>
@@ -88,11 +82,8 @@
     </div>
     <footer id="minimized">
     </footer>
-    <div class="fab" onclick="appendTxtToRow()">+</div>
+    <div class="fab" id="fab" onclick="appendTxtToRow()">+</div>
     <script>
-      // create the first txt from the template-txt
-      appendTxtToRow();
-
       // ask for confirmation before closing the window
       window.addEventListener("beforeunload", function (event) {
         event.returnValue = "Do you want to leave this site? "; // modern browsers show a generic text here
