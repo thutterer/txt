@@ -21,19 +21,19 @@ function newTxt() {
 }
 
 function removeTxt(txt, focus) {
-  if(focus) {
-    var closest_txt = txt.previousElementSibling;
-    if(!closest_txt && txt.nextElementSibling && txt.nextElementSibling.className == 'txt') closest_txt = txt.nextElementSibling;
-    if(!closest_txt) {
-      var previous_row = txt.closest('.row').previousElementSibling;
-      var next_row = txt.closest('.row').nextElementSibling;
-      if(previous_row) closest_txt = previous_row.querySelector('.txt:last-of-type')
-      else closest_txt = next_row.querySelector('.txt:first-of-type');
-    }
-    closest_txt.getElementsByTagName('textarea')[0].focus();
-  }
+  // if(focus) {
+  //   var closest_txt = txt.previousElementSibling;
+  //   if(!closest_txt && txt.nextElementSibling && txt.nextElementSibling.className == 'txt') closest_txt = txt.nextElementSibling;
+  //   if(!closest_txt) {
+  //     var previous_row = txt.closest('.row').previousElementSibling;
+  //     var next_row = txt.closest('.row').nextElementSibling;
+  //     if(previous_row) closest_txt = previous_row.querySelector('.txt:last-of-type')
+  //     else closest_txt = next_row.querySelector('.txt:first-of-type');
+  //   }
+  //   closest_txt.getElementsByTagName('textarea')[0].focus();
+  // }
 
-  txt.remove();
+  if(confirm("Changes won't be saved.")) txt.remove();
 }
 
 function appendTxtAfter(here) {
@@ -67,10 +67,7 @@ function appendTxtToRow() {
   var new_txt = newTxt();
 
   row.appendChild(new_txt);
-
-  var txt_area = new_txt.getElementsByTagName('textarea')[0]
-  txt_area.scrollIntoView({behavior: 'smooth'});
-  txt_area.focus();  // TODO: DRY!
+  new_txt.scrollIntoView({behavior: 'smooth'});
 
   return new_txt;
 }
@@ -99,18 +96,9 @@ function keyEvents(e) {
   }
 }
 
-function changeColor(hue) {
+function changeColor(color) {
   var this_panel = document.activeElement.closest('.panel').getElementsByTagName('header')[0];
-  this_panel.style.background = 'hsl(' + hue + ', 50%, 50%)';
-}
-
-function createColorButton(hue){
-  var colors = document.getElementsByClassName('colors')[0];
-  var btn = document.createElement('button');
-
-  btn.style.background = 'hsl(' + hue + ', 100%, 50%)';
-  btn.setAttribute('onClick', 'changeColor(' + hue + ')');
-  colors.appendChild(btn);
+  this_panel.style.background = color;
 }
 
 

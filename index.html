@@ -36,6 +36,17 @@
               </svg>
             </button>
 
+            <input type="color" value="#ff0000" style="display: none;"> <!-- HACK: something weird with default color being black -->
+            <input type="color" class="color" value="#00796b" list="colors" oninput="changeColor(this.value)">
+            <datalist id="colors">
+              <option>#6a1b9a</option> <!-- purple -->
+              <option>#283593</option> <!-- indigo -->
+              <option>#00838f</option> <!-- cyan -->
+              <option>#2e7d32</option> <!-- green -->
+              <option>#f9a825</option> <!-- yellow -->
+              <option>#c62828</option> <!-- red -->
+            </datalist>
+
             <input type="text" class="title">
 
             <button class="uncollapse" onclick="this.closest('.txt').classList.remove('collapsed'); this.closest('.txt').scrollIntoView({behavior: 'smooth'});">
@@ -79,11 +90,6 @@
     </footer>
     <div class="fab" onclick="appendTxtToRow()">+</div>
     <script>
-      // create the color buttons inside the template-txt (#txt_0)
-      for (var i = 1; i <= 8; i++) {
-        createColorButton((360 / 8 * i) - 20);
-      }
-
       // create the first txt from the template-txt
       appendTxtToRow();
 
