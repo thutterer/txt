@@ -12,6 +12,10 @@
   --footer-height: 44px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 16px;
   height: 100%;
@@ -41,8 +45,6 @@ body {
 
 .txt .panel {
   position: relative;
-  background: white;
-  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   color: #222;
   width: 100%;
 
@@ -266,6 +268,7 @@ header .color {
   .controls, /* TODO: bring back for mobile */
   .minimize,
   .txt.collapsed .collapse,
+  .txt.collapsed .color,
   .txt:not(.collapsed) .uncollapse,
   #github-ribbon {
     display: none;
@@ -280,5 +283,9 @@ header .color {
   .txt {
     flex-direction: row;
     padding: 32px 0;
+  }
+
+  .txt .panel {
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
   }
 }
