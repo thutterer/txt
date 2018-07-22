@@ -8,6 +8,8 @@
   --color-background: #ddd;
   --color-background-light: #eee;
 
+  --header-height: 48px;
+  --footer-height: 44px;
 }
 
 html {
@@ -24,8 +26,7 @@ body {
 
 .row {
   width: 100%;
-  height: calc(100vh - 5vh - 44px);
-  margin-top: 5vh;
+  height: calc(100vh - 44px);
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -36,23 +37,21 @@ body {
 
 .txt {
   display: flex;
-  flex-direction: row;
-  margin: 0.5em 0;
-}
-
-.txt:last-child {
-  padding-right: 32px; /* same width than dropzone */
 }
 
 .txt .panel {
   position: relative;
   background: white;
   box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
-  border-radius: 4px;
   color: #222;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .txt header {
+  height: var(--header-height);
   display: flex;
   flex-direction: row;
   border-top-left-radius: inherit;
@@ -86,7 +85,7 @@ body {
   font-family: 'Source Code Pro', monospace;
 }
 
-.txt .controls {
+.controls {
   position: absolute;
   right: 50px;
   bottom: 0;
@@ -129,12 +128,11 @@ body {
 
 .font-size {
   flex-grow: 1;
-  width: 32px;
 }
 
 .txt textarea {
   box-sizing: border-box;
-  padding: 16px 40px 32px 40px;
+  padding: 16px 16px 32px 16px;
   margin: 0;
 
   width: 900px;
@@ -192,7 +190,7 @@ body {
 #minimized {
   position: fixed;
   bottom: 0;
-  height: 44px;
+  height: var(--footer-height);
   width: 100%;
   background: var(--color-background-light);
   display: flex;
@@ -215,4 +213,63 @@ body {
 .window-size {
   width: 32px;
   flex-grow: 0;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .row,
+  .controls {
+    flex-direction: column;
+    margin: 0;
+
+    flex-wrap: wrap;
+  }
+
+  .txt {
+    padding: 0;
+    width: 100%;
+    order: 1;
+  }
+
+  .txt textarea {
+    min-width: 100%;
+    width: 100vw;
+    resize: none;
+    height: calc(100vh - var(--header-height) - var(--footer-height));
+  }
+
+  .txt.collapsed {
+    order: 0;
+  }
+
+  .txt.collapsed textarea {
+    height: 0;
+    padding: 0;
+  }
+
+  .dropzone,
+  .window-size,
+  .draggable,
+  .controls, /* TODO: bring back for mobile */
+  .minimize,
+  .txt.collapsed .collapse,
+  .txt:not(.collapsed) .uncollapse,
+  #github-ribbon {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .collapse, .uncollapse {
+    display: none;
+  }
+
+  .txt {
+    flex-direction: row;
+    padding: 32px 0;
+  }
+
+  .txt .panel {
+    border-radius: 4px;
+  }
 }

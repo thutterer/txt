@@ -29,7 +29,22 @@
               </svg>
             </div>
 
+            <button class="collapse" onclick="this.closest('.txt').classList.add('collapsed')">
+              <svg width="10" height="10">
+                <line x1="1" y1="5" x2="5" y2="1" stroke="white" stroke-width="2" stroke-linecap="round" />
+                <line x1="1" y1="5" x2="5" y2="9" stroke="white" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+
             <input type="text" class="title">
+
+            <button class="uncollapse" onclick="this.closest('.txt').classList.remove('collapsed')">
+              <svg width="10" height="10">
+                <line x1="1" y1="4" x2="5" y2="8" stroke="white" stroke-width="2" stroke-linecap="round" />
+                <line x1="5" y1="8" x2="9" y2="4" stroke="white" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+
             <button class="minimize" onclick="minimizeTxt(this.closest('.txt'));">
               <svg width="10" height="10">
                 <line x1="1" y1="9" x2="9" y2="9" stroke="white" stroke-width="2" stroke-linecap="round" />
@@ -60,7 +75,8 @@
         </div>
       </div>
     </div>
-    <div id="minimized"></div>
+    <footer id="minimized">
+    </footer>
     <div class="fab" onclick="appendTxtToRow()">+</div>
     <script>
       // create the color buttons inside the template-txt (#txt_0)
