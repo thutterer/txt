@@ -12,8 +12,7 @@
     <script src="app.js" charset="utf-8"></script>
   </head>
   <body>
-    <div class="row" onscroll="showFab(this.scrollLeft > (window.innerWidth / 5))">
-      <img class="logo" src="logo-512.png" alt="app-logo" onclick="appendTxtToRow()">
+    <div class="row">
       <div class="txt" id='txt_0' ondragstart="drag(event)">
         <div class="dropzone before" ondrop="this.style.background = 'transparent'; drop(event);" ondragover="allowDrop(event)" ondragenter="this.style.background = 'azure';" ondragleave="this.style.background = 'transparent';"></div>
         <div class="panel">
@@ -33,17 +32,6 @@
                 <line x1="1" y1="5" x2="5" y2="9" stroke="white" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
-
-            <input type="color" value="#ff0000" style="display: none;"> <!-- HACK: something weird with default color being black -->
-            <input type="color" class="color" value="#00796b" list="colors" oninput="changeColor(this.value)">
-            <datalist id="colors">
-              <option>#6a1b9a</option> <!-- purple -->
-              <option>#283593</option> <!-- indigo -->
-              <option>#00838f</option> <!-- cyan -->
-              <option>#2e7d32</option> <!-- green -->
-              <option>#f9a825</option> <!-- yellow -->
-              <option>#c62828</option> <!-- red -->
-            </datalist>
 
             <input type="text" class="title">
 
@@ -70,7 +58,7 @@
             </button>
           </header>
 
-          <textarea autofocus onkeydown="keyEvents(event)" onfocus="this.closest('.txt').scrollIntoView({behavior: 'smooth'})"></textarea>
+          <textarea onkeydown="keyEvents(event)" onfocus="this.closest('.txt').scrollIntoView({behavior: 'smooth'})"></textarea>
 
           <div class="controls">
             <input title="paper size" oninput="changeTxtWidth(this)" type="range" class="window-size" min="0" max="5" value="2" step="1"/>
@@ -80,16 +68,15 @@
         </div>
       </div>
     </div>
-    <footer id="minimized">
-    </footer>
+    <footer id="minimized"></footer>
     <div class="fab" id="fab" onclick="appendTxtToRow()">+</div>
     <script>
+      appendTxtToRow();
+
       // ask for confirmation before closing the window
       window.addEventListener("beforeunload", function (event) {
         event.returnValue = "Do you want to leave this site? "; // modern browsers show a generic text here
       });
     </script>
-
-    <a style="position: fixed; top: 0; right: 0; border: 0; z-index: -1;" id="github-ribbon" href="https://github.com/thutterer/txt"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
   </body>
 </html>

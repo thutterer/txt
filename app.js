@@ -33,7 +33,8 @@ function removeTxt(txt, focus) {
   //   closest_txt.getElementsByTagName('textarea')[0].focus();
   // }
 
-  if(confirm("Changes won't be saved.")) txt.remove();
+  // if(confirm("Changes won't be saved.")) txt.remove();
+  txt.remove();
 }
 
 function appendTxtAfter(here) {
