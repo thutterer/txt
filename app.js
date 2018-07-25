@@ -98,12 +98,19 @@ function keyEvents(e) {
   }
 }
 
-function changeColor(color) {
+function changeColor(hue) {
   var this_panel = document.activeElement.closest('.panel').getElementsByTagName('header')[0];
-  this_panel.style.background = color;
+  this_panel.style.background = 'hsl(' + hue + ', 50%, 50%)';
 }
 
+function createColorButton(hue) {
+  var colors = document.getElementsByClassName('colors')[0];
+  var btn = document.createElement('button');
 
+  btn.style.background = 'hsl(' + hue + ', 100%, 50%)';
+  btn.setAttribute('onClick', 'changeColor(' + hue + ')');
+  colors.appendChild(btn);
+}
 // https://www.w3schools.com/html/html5_draganddrop.asp
 
 function drag(ev) {

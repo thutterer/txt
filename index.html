@@ -71,6 +71,11 @@
     <footer id="minimized"></footer>
     <div class="fab" id="fab" onclick="appendTxtToRow()">+</div>
     <script>
+      // create the color buttons inside the template-txt (#txt_0)
+      for (var i = 1; i <= 8; i++) {
+        createColorButton((360 / 8 * i) - 20);
+      }
+
       appendTxtToRow();
 
       // ask for confirmation before closing the window
