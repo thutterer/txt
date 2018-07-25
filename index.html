@@ -14,7 +14,9 @@
   <body>
     <div class="row">
       <div class="txt" id='txt_0' ondragstart="drag(event)">
-        <div class="dropzone before" ondrop="this.style.background = 'transparent'; drop(event);" ondragover="allowDrop(event)" ondragenter="this.style.background = 'azure';" ondragleave="this.style.background = 'transparent';"></div>
+        <div class="dropzone before" ondrop="drop(event);" ondragover="allowDrop(event)">
+          <button onclick="appendTxtBefore(this)">+</button>
+        </div>
         <div class="panel">
           <header>
             <div class="draggable" draggable="true">
@@ -61,8 +63,8 @@
           <textarea onkeydown="keyEvents(event)" onfocus="this.closest('.txt').scrollIntoView({behavior: 'smooth'})"></textarea>
 
           <div class="controls">
-            <input title="font size" oninput="changeFontSize(this)" type="range" class="font-size" min="50" max="500" value="100" step="5"/>
             <div class="colors"></div>
+            <input title="font size" oninput="changeFontSize(this)" type="range" class="font-size" min="50" max="500" value="100" step="5"/>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@
 
   --color-background-dark: #ccc;
   --color-background: #ddd;
-  --color-background-light: #eee;
+  --color-background-light: #fff;
 
   --header-height: 48px;
   --footer-height: 44px;
@@ -138,17 +138,38 @@ header .color {
   margin: 0;
 
   width: 900px;
-  height: calc(100vh - 5vh - 180px);
+  height: 100%;
   resize: horizontal;
   min-width: 400px;
 
   line-height: 1.25em;
 }
 
-.txt .dropzone {
-  opacity: 0.5;
-  width: 32px;
+.dropzone {
+  width: 0; /* only visible for desktop media */
   align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone button {
+  margin: 64px 32px;
+  border-radius: 8px;
+  font-weight: bolder;
+  font-size: 24px;
+  color: var(--color-background);
+  opacity: 0.25;
+  transition: opacity 0.25s;
+}
+
+.dropzone:hover button {
+  background: var(--color-primary);
+  color: white;
+}
+
+.dropzone button:hover {
+  opacity: 1;
 }
 
 /* https://material.io/design/components/buttons-floating-action-button.html#specs */
@@ -252,8 +273,7 @@ header .color {
   .minimize,
   .txt.collapsed .collapse,
   .txt.collapsed .color,
-  .txt:not(.collapsed) .uncollapse,
-  #github-ribbon {
+  .txt:not(.collapsed) .uncollapse {
     display: none;
   }
 }
@@ -265,11 +285,18 @@ header .color {
 
   .row {
     flex-flow: row nowrap;
-    align-items: center;
+    justify-content: flex-start;
   }
 
-  .txt {
+
+  .dropzone {
+    width: 64px;
+  }
+
+  .row .txt {
     flex-direction: row;
+    height: 100%;
+    padding: 64px 0; /*same as dropzone */
   }
 
   .txt.collapsed {
