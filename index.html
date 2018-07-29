@@ -60,12 +60,27 @@
             </button>
           </header>
 
-          <textarea onkeydown="keyEvents(event)" onfocus="this.closest('.txt').scrollIntoView({behavior: 'smooth'})"></textarea>
+          <main>
+            <details>
+              <summary>Checklist</summary>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" disabled/>
+                  <input type="text" placeholder="new item" onchange="var newItem = newThing('.checklist-item'); newItem.appendAfter(this.closest('.checklist-item')); this.closest('.checklist-item').getElementsByTagName('input')[0].disabled = false; newItem.getElementsByTagName('input')[1].focus();">
+                </li>
+              </ul>
+            </details>
 
-          <div class="controls">
+            <details open>
+              <summary>Txt</summary>
+              <textarea onkeydown="keyEvents(event)"></textarea>
+            </details>
+          </main>
+
+          <footer class="controls">
             <div class="colors"></div>
             <input title="font size" oninput="changeFontSize(this)" type="range" class="font-size" min="50" max="500" value="100" step="5"/>
-          </div>
+          </footer>
         </div>
       </div>
     </div>

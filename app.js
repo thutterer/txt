@@ -8,15 +8,11 @@ Element.prototype.appendAfter = function (element) {
   element.parentNode.insertBefore(this, element.nextSibling);
 },false;
 
-function newTxt() {
-  var a_txt = document.getElementsByClassName('txt')[0];
-  var new_txt = a_txt.cloneNode(true);
-  var new_id = 'txt_' + Date.now();
+function newThing(selector) {
+  var a_thing = document.querySelector(selector);
+  var new_txt = a_thing.cloneNode(true);
+  var new_id = 'thing_' + Date.now();
   new_txt.id = new_id;
-  new_txt.getElementsByTagName('input')[0].value = '';
-  new_txt.getElementsByTagName('textarea')[0].value = '';
-  new_txt.style.background = 'background: radial-gradient(circle at 30% 20%, hsl(0, 0%, 100%), hsl(0, 0%, 80%));';
-
   return new_txt;
 }
 
@@ -39,7 +35,7 @@ function removeTxt(txt, focus) {
 
 function appendTxtAfter(here) {
   var this_txt = here.closest('.txt');
-  var new_txt = newTxt();
+  var new_txt = newThing('.txt');
 
   new_txt.appendAfter(this_txt);
 
@@ -51,7 +47,7 @@ function appendTxtAfter(here) {
 
 function appendTxtBefore(here) {
   var this_txt = here.closest('.txt');
-  var new_txt = newTxt();
+  var new_txt = newThing('.txt');
 
   new_txt.appendBefore(this_txt);
 
@@ -63,7 +59,7 @@ function appendTxtBefore(here) {
 
 function appendTxtToRow() {
   var row = document.getElementsByClassName('row')[0];
-  var new_txt = newTxt();
+  var new_txt = newThing('.txt');
 
   row.appendChild(new_txt);
   // new_txt.scrollIntoView({behavior: 'smooth'});
@@ -153,4 +149,10 @@ function showFab(condition) {
   var fab = document.getElementById('fab');
   if(condition) fab.classList.remove('hidden');
   else fab.classList.add('hidden');
+}
+
+function createItemAfter(element) {
+  var newItem = newThing('.checklist-item');
+  newItem.appendAfter(element.closest('.checklist-item'));
+  newItem.getElementsByTagName('input')[1].focus();
 }
