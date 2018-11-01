@@ -153,25 +153,6 @@ header .color {
   justify-content: center;
 }
 
-.dropzone button {
-  margin: 64px 32px;
-  border-radius: 8px;
-  font-weight: bolder;
-  font-size: 24px;
-  color: var(--color-background);
-  opacity: 0.25;
-  transition: opacity 0.25s;
-}
-
-.dropzone:hover button {
-  background: var(--color-primary);
-  color: white;
-}
-
-.dropzone button:hover {
-  opacity: 1;
-}
-
 /* https://material.io/design/components/buttons-floating-action-button.html#specs */
 .fab {
   height: 56px;
@@ -297,6 +278,10 @@ header .color {
     flex-direction: row;
     height: 100%;
     padding: 64px 0; /*same as dropzone */
+  }
+
+  .txt:last-child {
+    padding-right: 64px;
   }
 
   .txt.collapsed {
