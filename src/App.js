@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Footer from './components/Footer.js'
 import Note from './components/Note.js'
 
 
@@ -66,16 +65,13 @@ class App extends React.Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-  
+
         <main>
           {notesComponents}
         </main>
-        
+
         <br/>
-        <button onClick={this.addNote}>Add note</button>
-        <button>Save all</button>
-  
-        <Footer />
+        <button className="addBtn" onClick={this.addNote}>+</button>
       </div>
     );
   }
