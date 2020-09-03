@@ -63,7 +63,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <a href="https://github.com/thutterer/txt/">
+            <img src={logo} className="App-logo" alt="logo" />
+          </a>
         </header>
 
         <main>
