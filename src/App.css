@@ -54,6 +54,13 @@ body {
   overflow-y: hidden;
 }
 
-textarea, button {
+button,
+input,
+textarea {
   font-size: 1rem;
+  letter-spacing: normal;
+}
+
+button {
+  cursor: pointer;
 }

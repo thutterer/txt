@@ -2,6 +2,16 @@
   flex-grow: 1;
   position: relative;
   min-width: 100vw;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  background-color: #eee;
+  transition: background-color 0.5s ease 0.1s;
+}
+
+.note:focus-within{
+  background-color: white;
 }
 
 @media (min-width: 800px) {
@@ -11,29 +21,31 @@
 }
 
 .note textarea {
+  flex-grow: 1;
   box-sizing: border-box;
+  border: none;
   width: 100%;
-  height: 100%;
   padding: 24px;
+  background-color: transparent;
   resize: none;
 }
 
 .note footer {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
+  text-align: right;
 }
 
 button.icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 36px;
+  height: 36px;
   border: none;
   padding: 0;
   background-color: transparent;
-  cursor: pointer;
 }
 
 button.icon svg {
-  height: 2rem;
-  width: 2rem;
+  fill: #333;
+}
+
+button.icon:hover svg {
+  fill: #000;
 }

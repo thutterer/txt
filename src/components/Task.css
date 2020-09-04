@@ -1,0 +1,23 @@
+.task {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.task label,
+.task input[type=text] {
+  flex-grow: 1;
+}
+
+input[type=text] {
+  border: none;
+}
+
+input[type=checkbox]:checked + label {
+  text-decoration: line-through;
+}
+
+input[type=checkbox],
+.task label {
+  cursor: pointer;
+}
