@@ -2,10 +2,6 @@ import React from "react"
 import './Note.css';
 
 class Note extends React.Component {
-  constructor() {
-    super()
-  }
-
   componentDidMount() {
     document.getElementById(`note-${this.props.id}`).focus()
   }
