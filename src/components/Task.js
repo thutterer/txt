@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Task.css';
 
 export default function Task(props) {
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(props.title.length === 0)
 
   function toggleEditMode() {
     setEditMode(!editMode)
@@ -32,6 +32,7 @@ export default function Task(props) {
         id={`task-title-${props.id}`}
         value={props.title}
         onChange={(e) => props.changeTask(e.target.value)}
+        onKeyUp={(e) => { if(e.keyCode === 13) setEditMode(false) }}
         onBlur={() => setEditMode(false)}
         placeholder='new task'
         style={{display: (editMode ? 'inline-block' : 'none')}}
