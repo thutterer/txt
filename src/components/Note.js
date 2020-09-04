@@ -3,10 +3,6 @@ import './Note.css';
 import Task from './Task.js'
 
 class Note extends React.Component {
-  componentDidMount() {
-    document.getElementById(`note-${this.props.id}`).focus()
-  }
-
   goFullscreen(element) {
     if (!document.fullscreenElement) {
       document.getElementById(`note-${this.props.id}`).parentElement.requestFullscreen();
