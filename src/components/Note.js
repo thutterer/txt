@@ -4,7 +4,6 @@ import './Note.css';
 class Note extends React.Component {
   constructor() {
     super()
-    this.state = {}
   }
 
   componentDidMount() {
