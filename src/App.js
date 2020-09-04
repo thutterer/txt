@@ -150,8 +150,6 @@ class App extends React.Component {
   }
 
   render() {
-    const notesComponents = this.state.notes.map(note => <Note key={note.id} id={note.id} value={note.value} tasks={note.tasks} handleChange={this.handleChange} deleteNote={this.deleteNote} addTask={this.addTask} toggleTask={this.toggleTask} changeTask={this.changeTask} deleteTask={this.deleteTask} />)
-
     return (
       <div className="App">
         <header className="App-header">
@@ -164,7 +162,20 @@ class App extends React.Component {
         </header>
 
         <main>
-          {notesComponents}
+          {this.state.notes.map(note =>
+            <Note
+              key={note.id}
+              id={note.id}
+              value={note.value}
+              tasks={note.tasks}
+              handleChange={this.handleChange}
+              deleteNote={this.deleteNote}
+              addTask={this.addTask}
+              toggleTask={this.toggleTask}
+              changeTask={this.changeTask}
+              deleteTask={this.deleteTask}
+            />
+          )}
         </main>
       </div>
     );
