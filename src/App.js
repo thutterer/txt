@@ -17,12 +17,13 @@ class App extends React.Component {
     this.toggleTask = this.toggleTask.bind(this)
     this.changeTask = this.changeTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
+    this.colorize = this.colorize.bind(this)
   }
 
   addNote() {
     this.setState(prevState => {
       return {
-        notes: prevState.notes.concat({id: Date.now(), value: '', tasks: []})
+        notes: prevState.notes.concat({id: Date.now(), value: '', color: 'transparent', tasks: []})
       }
     })
   }
@@ -140,6 +141,22 @@ class App extends React.Component {
     })
   }
 
+  colorize(id, color) {
+    console.log(id, color);
+    this.setState(prevState => {
+      const updatedNotes = prevState.notes.map(note => {
+        if (note.id === id) {
+          note.color = color // FIXME: does this change prevState??
+        }
+        return note
+      })
+      return {
+        notes: updatedNotes
+      }
+    })
+  }
+
+
   componentDidMount() {
     const restoredNotes = JSON.parse(localStorage.getItem('react-notes'))
     this.setState(restoredNotes ? restoredNotes : {notes: [{id: 1, value: ''}]})
@@ -165,15 +182,14 @@ class App extends React.Component {
           {this.state.notes.map(note =>
             <Note
               key={note.id}
-              id={note.id}
-              value={note.value}
-              tasks={note.tasks}
+              {...note}
               handleChange={this.handleChange}
               deleteNote={this.deleteNote}
               addTask={this.addTask}
               toggleTask={this.toggleTask}
               changeTask={this.changeTask}
               deleteTask={this.deleteTask}
+              colorize={this.colorize}
             />
           )}
         </main>
