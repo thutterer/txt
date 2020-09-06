@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Task.css';
 
 export default function Task(props) {
+  const titleElement = useRef();
   const [editMode, setEditMode] = useState(props.title.length === 0)
 
   function toggleEditMode() {
     setEditMode(!editMode)
     if(!editMode) {
-      window.setTimeout(() => document.getElementById(`task-title-${props.id}`).focus(), 100)
+      window.setTimeout(() => titleElement.current.focus(), 100)
     }
   }
 
@@ -29,7 +30,7 @@ export default function Task(props) {
 
       <input
         type='text'
-        id={`task-title-${props.id}`}
+        ref={titleElement}
         value={props.title}
         onChange={(e) => props.changeTask(e.target.value)}
         onKeyUp={(e) => { if(e.keyCode === 13) setEditMode(false) }}

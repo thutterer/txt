@@ -74,8 +74,6 @@ class App extends React.Component {
         notes: updatedNotes
       }
     })
-
-    window.setTimeout(() => document.getElementById(`task-title-${newTaskId}`).focus(), 100)
   }
 
   toggleTask (noteId, taskId) {

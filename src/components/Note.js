@@ -3,9 +3,15 @@ import './Note.css';
 import Task from './Task.js'
 
 class Note extends React.Component {
+  constructor(props) {
+    super(props);
+    this.textarea = React.createRef();
+    this.colorInput = React.createRef();
+  }
+
   goFullscreen(element) {
     if (!document.fullscreenElement) {
-      document.getElementById(`note-${this.props.id}`).parentElement.requestFullscreen();
+      this.textarea.parentElement.requestFullscreen();
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -13,23 +19,18 @@ class Note extends React.Component {
     }
   }
 
-  pickColor() {
-    document.getElementById(`color-${this.props.id}`).click()
-  }
-
-
   render() {
     return (
       <div className="note" style={{ borderBottom: `4px solid ${this.props.color || 'transparent'}` }}>
         <input
-          id={`color-${this.props.id}`}
+          ref={this.colorInput}
           type='color'
           onChange={(e) => this.props.colorize(this.props.id, e.target.value)}
           style={{ display: 'none' }}
         />
 
         <textarea
-          id={`note-${this.props.id}`}
+          ref={this.textarea}
           value={this.props.value}
           onChange={(event) => this.props.handleChange(this.props.id, event.target.value)}
         />
@@ -49,7 +50,7 @@ class Note extends React.Component {
           <button
             className="icon"
             title="Colorize"
-            onClick={() => this.pickColor()}>
+            onClick={() => this.colorInput.current.click()}>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20.71 5.63l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-3.12 3.12-1.93-1.91-1.41 1.41 1.42 1.42L3 16.25V21h4.75l8.92-8.92 1.42 1.42 1.41-1.41-1.92-1.92 3.12-3.12c.4-.4.4-1.03.01-1.42zM6.92 19L5 17.08l8.06-8.06 1.92 1.92L6.92 19z"/></svg>
           </button>
 
