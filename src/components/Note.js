@@ -35,16 +35,21 @@ class Note extends React.Component {
           onChange={(event) => this.props.handleChange(this.props.id, event.target.value)}
         />
 
-        {this.props.tasks && this.props.tasks.map(task =>
-          <Task
-            key={task.id}
-            id={task.id}
-            checked={task.checked}
-            title={task.title}
-            toggleTask={() => this.props.toggleTask(this.props.id, task.id)}
-            changeTask={newValue => this.props.changeTask(this.props.id, task.id, newValue)}
-            deleteTask={() => this.props.deleteTask(this.props.id, task.id)} />
-        )}
+        <ul>
+          {this.props.tasks && this.props.tasks.map(task =>
+            <li>
+              <Task
+                key={task.id}
+                id={task.id}
+                checked={task.checked}
+                title={task.title}
+                toggleTask={() => this.props.toggleTask(this.props.id, task.id)}
+                changeTask={newValue => this.props.changeTask(this.props.id, task.id, newValue)}
+                deleteTask={() => this.props.deleteTask(this.props.id, task.id)}
+              />
+            </li>
+          )}
+        </ul>
 
         <footer>
           <button

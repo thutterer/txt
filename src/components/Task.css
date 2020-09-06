@@ -22,3 +22,7 @@ input[type=checkbox],
 .task label {
   cursor: pointer;
 }
+
+label {
+  padding: 0 4px;
+}
