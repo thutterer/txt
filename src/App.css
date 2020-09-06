@@ -44,9 +44,6 @@ html {
   font-size: 112.5%;
 }
 
-body {
-}
-
 .App main {
   flex-grow: 1;
   display: flex;

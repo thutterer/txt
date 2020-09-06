@@ -6,19 +6,16 @@
   display: flex;
   flex-flow: column nowrap;
 
-  background-color: #eee;
-  transition: background-color 0.5s ease 0.1s;
+  background-color: white;
 }
 
 .note:focus-within{
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 801px) {
   .note {
-    min-width: 800px;
+    min-width: 50vw;
   }
 }
 
