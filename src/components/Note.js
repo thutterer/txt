@@ -25,14 +25,14 @@ class Note extends React.Component {
         <input
           ref={this.colorInput}
           type='color'
-          onChange={(e) => this.props.colorize(this.props.id, e.target.value)}
+          onChange={ (e) => this.props.dispatch({ type: 'colorize', payload: { id: this.props.id, color: e.target.value } }) }
           style={{ display: 'none' }}
         />
 
         <textarea
           ref={this.textarea}
           value={this.props.value}
-          onChange={(event) => this.props.handleChange(this.props.id, event.target.value)}
+          onChange={ (event) => this.props.dispatch({ type: 'changeNote', payload: { id: this.props.id, value: event.target.value } }) }
         />
 
         <ul>
@@ -43,9 +43,9 @@ class Note extends React.Component {
                 id={task.id}
                 checked={task.checked}
                 title={task.title}
-                toggleTask={() => this.props.toggleTask(this.props.id, task.id)}
-                changeTask={newValue => this.props.changeTask(this.props.id, task.id, newValue)}
-                deleteTask={() => this.props.deleteTask(this.props.id, task.id)}
+                toggleTask={ () => this.props.dispatch({ type: 'toggleTask', payload: { id: this.props.id, taskId: task.id } }) }
+                changeTask={ newValue => this.props.dispatch({ type: 'changeTask', payload: { id: this.props.id, taskId: task.id, value: newValue} }) }
+                deleteTask={ () => this.props.dispatch({ type: 'deleteTask', payload: { id: this.props.id, taskId: task.id } }) }
               />
             </li>
           )}
@@ -69,7 +69,7 @@ class Note extends React.Component {
           <button
             className="icon"
             title="Add a task"
-            onClick={(event) => this.props.addTask(this.props.id)}>
+            onClick={ (event) => this.props.dispatch({ type: 'addTaskToNote', payload: { id: this.props.id } }) }>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"/></svg>
           </button>
 
@@ -77,7 +77,7 @@ class Note extends React.Component {
             <button
               title='Delete permanently'
               className="icon"
-              onClick={() => this.props.deleteNote(this.props.id)}>
+              onClick={ () => this.props.dispatch({ type: 'deleteNote', payload: { id: this.props.id } }) }>
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/></svg>
             </button>}
         </footer>

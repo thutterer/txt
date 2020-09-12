@@ -15,7 +15,7 @@
 }
 
 @media (min-width: 801px) {
-  .note {
+  .note, .addBtn {
     min-width: 50vw;
   }
 }

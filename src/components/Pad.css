@@ -1,0 +1,12 @@
+.addBtn {
+  background-color: white;
+  min-width: 100vw;
+  font-size: 5rem;
+  color: lightgrey;
+  flex-grow: 1;
+}
+
+.addBtn:focus,
+.addBtn:hover {
+  color: grey;
+}
