@@ -1,6 +1,7 @@
 {
   "name": "txt",
-  "version": "0.2.0",
+  "description": "text scratchpad",
+  "version": "0.3.0",
   "private": true,
   "homepage": "https://thutterer.github.io/txt/",
   "dependencies": {
