@@ -4,7 +4,7 @@ import Note from './Note.js'
 
 
 function loadFromLocalStorage() {
-  return JSON.parse(localStorage.getItem('react-notes'))
+  return JSON.parse(localStorage.getItem('react-notes')) || { notes: [] }
 }
 
 function reducer(state, action) {
@@ -114,7 +114,7 @@ function reducer(state, action) {
 }
 
 export default function Pad() {
-  const [state, dispatch] = useReducer(reducer, {}, loadFromLocalStorage)
+  const [state, dispatch] = useReducer(reducer, { notes: [] }, loadFromLocalStorage)
 
   useEffect( () => {
     localStorage.setItem('react-notes', JSON.stringify(state))
