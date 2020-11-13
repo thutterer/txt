@@ -51,6 +51,7 @@ html {
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
+  scroll-snap-type: x mandatory;
 }
 
 button,

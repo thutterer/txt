@@ -8,6 +8,7 @@
 
   background-color: white;
   padding: 12px;
+  scroll-snap-align: start;
 }
 
 .note:not(:last-child) {
