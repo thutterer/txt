@@ -12,7 +12,7 @@
 }
 
 .note:not(:last-child) {
-  border-right: 2px solid #087d70;
+  border-right: 1px solid lightgrey;
 }
 
 @media (min-width: 801px) {

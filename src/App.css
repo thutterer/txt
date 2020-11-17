@@ -59,6 +59,8 @@ input,
 textarea {
   font-size: 1rem;
   letter-spacing: normal;
+  border: none;
+  outline: none;
 }
 
 button {
