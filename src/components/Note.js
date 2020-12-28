@@ -37,9 +37,8 @@ class Note extends React.Component {
 
         <ul>
           {this.props.tasks && this.props.tasks.map(task =>
-            <li>
+            <li key={task.id}>
               <Task
-                key={task.id}
                 id={task.id}
                 checked={task.checked}
                 title={task.title}
