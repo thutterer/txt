@@ -41,10 +41,10 @@
 
 
 button.icon {
-  width: 36px;
-  height: 36px;
-  border: none;
+  margin: 4px;
   padding: 0;
+  line-height: 0;
+  border: none;
   background-color: transparent;
 }
 
