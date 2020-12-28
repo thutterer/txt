@@ -23,7 +23,7 @@
   height: 48px;
 }
 
-.App-header > button {
+/* .App-header > button {
   border: none;
   background-color: transparent;
   color: white;
@@ -38,6 +38,12 @@
 .App-header > button:hover,
 .App-header > button:focus {
   background-color: rgba(255, 255, 255, 0.125);
+} */
+
+@media all and (display-mode: standalone) {
+  .App-header {
+    display: none;
+  }
 }
 
 html {
