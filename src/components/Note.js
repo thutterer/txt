@@ -11,7 +11,7 @@ class Note extends React.Component {
 
   goFullscreen(element) {
     if (!document.fullscreenElement) {
-      this.textarea.parentElement.requestFullscreen();
+      this.textarea.current.parentElement.requestFullscreen();
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();

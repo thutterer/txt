@@ -11,7 +11,12 @@ function reducer(state, action) {
   switch (action.type) {
     case 'addNote':
       return {
-        notes: [...state.notes, {id: Date.now(), value: '', color: 'transparent', tasks: []}]
+        notes: [...state.notes, {
+          id: Date.now(),
+          value: '',
+          color: 'transparent',
+          tasks: []
+        }]
       }
 
     case 'changeNote':

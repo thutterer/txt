@@ -22,7 +22,6 @@
 }
 
 .note textarea {
-  min-height: 8rem;
   flex-grow: 2;
   box-sizing: border-box;
   border: none;
