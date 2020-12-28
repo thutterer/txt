@@ -129,7 +129,7 @@ export default function Pad() {
           dispatch={dispatch}
         />
       )}
-      <button className="addBtn" onClick={() => dispatch({ type: 'addNote' })}>
+      <button autoFocus className="addBtn" onClick={() => dispatch({ type: 'addNote' })}>
         +
       </button>
     </>
