@@ -13,7 +13,7 @@ export default function Task(props) {
   }
 
   return (
-    <div className='task'>
+    <div className='task' id={`task-${props.id}`}>
       <input
         type='checkbox'
         id={`checkbox-${props.id}`}
@@ -33,8 +33,8 @@ export default function Task(props) {
         ref={titleElement}
         value={props.title}
         onChange={(e) => props.changeTask(e.target.value)}
-        onKeyUp={(e) => { if(e.keyCode === 13) setEditMode(false) }}
-        onBlur={() => setEditMode(false)}
+        onKeyUp={(e) => { if(e.keyCode === 13 && e.target.value) setEditMode(false) }}
+        onBlur={(e) => { if(e.target.value) setEditMode(false) }}
         placeholder='new task'
         style={{display: (editMode ? 'inline-block' : 'none')}}
       />

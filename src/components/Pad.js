@@ -36,18 +36,13 @@ function reducer(state, action) {
 
     case 'addTaskToNote':
       return {
-        notes: state.notes.map(prevNote => {
-          if (prevNote.id === action.payload.id) {
-            // Deep clone of existing notes... not sure about this:
-            // https://stackoverflow.com/a/122704/3449673
-            // TODO: make sure I update state correctly everywhere!
-            let updatedNote = JSON.parse(JSON.stringify(prevNote))
-            const newTask = { id: Date.now(), checked: false, title: '' }
-            !!updatedNote.tasks || (updatedNote.tasks = [])
-            updatedNote.tasks.push(newTask)
-            return updatedNote
+        notes: state.notes.map(note => {
+          if (note.id === action.payload.id) {
+            const newTaskId = Date.now()
+            const newTask = { id: newTaskId, checked: false, title: '' }
+            return { ...note, tasks: [...note.tasks, newTask]}
           }
-          else {return prevNote}
+          else {return note}
         })
       }
 
@@ -55,6 +50,9 @@ function reducer(state, action) {
       return {
         notes: state.notes.map(prevNote => {
           if (prevNote.id === action.payload.id) {
+            // Deep clone of existing notes... not sure about this:
+            // https://stackoverflow.com/a/122704/3449673
+            // TODO: make sure I update state correctly everywhere!
             let updatedNote = JSON.parse(JSON.stringify(prevNote))
 
             updatedNote.tasks = updatedNote.tasks.map(task => {

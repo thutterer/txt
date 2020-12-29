@@ -19,6 +19,14 @@ class Note extends React.Component {
     }
   }
 
+  createAndEditNewTask() {
+    this.props.dispatch({ type: 'addTaskToNote', payload: { id: this.props.id } })
+    window.setTimeout(() => { // TODO: properly wait for next render
+      const newTaskId = this.props.tasks[this.props.tasks.length - 1].id
+      document.querySelector(`#task-${newTaskId} input[type=text]`).focus()
+    }, 50)
+  }
+
   render() {
     return (
       <div className="note" style={{ borderBottom: `4px solid ${this.props.color || 'transparent'}` }}>
@@ -68,7 +76,7 @@ class Note extends React.Component {
           <button
             className="icon"
             title="Add a task"
-            onClick={ (event) => this.props.dispatch({ type: 'addTaskToNote', payload: { id: this.props.id } }) }>
+            onClick={ () => this.createAndEditNewTask() }>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"/></svg>
           </button>
 
