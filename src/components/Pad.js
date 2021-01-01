@@ -119,6 +119,13 @@ function reducer(state, action) {
 export default function Pad() {
   const [state, dispatch] = useReducer(reducer, { notes: [] }, loadFromLocalStorage)
 
+  function createAndEditNewNote() {
+    dispatch({ type: 'addNote' })
+    window.setTimeout(() => { // TODO: properly wait for next render
+      document.querySelector('.note:last-of-type textarea').focus()
+    }, 50)
+  }
+  
   useEffect( () => {
     localStorage.setItem('react-notes', JSON.stringify(state))
   })
@@ -132,7 +139,7 @@ export default function Pad() {
           dispatch={dispatch}
         />
       )}
-      <button autoFocus className="addBtn" onClick={() => dispatch({ type: 'addNote' })}>
+      <button autoFocus className="addBtn" onClick={() => createAndEditNewNote()}>
         +
       </button>
     </>
