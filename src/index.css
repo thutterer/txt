@@ -24,3 +24,23 @@ ul {
 li {
   list-style: none;
 }
+
+:root {
+  --primary-color: #097e70;
+}
+
+body {
+  --bg-color: #fff;
+  --fg-color: #111;
+  --bg-grey: #aaa;
+  --fg-grey: #444;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --bg-color: #111;
+    --fg-color: #fff;
+    --bg-grey: #444;
+    --fg-grey: #aaa;
+  }
+}

@@ -5,10 +5,6 @@
   border-radius: 2px;
 }
 
-.task:focus-within {
-  background-color: rgba(9, 126, 112, 0.125);
-}
-
 .task label,
 .task input[type=text] {
   flex-grow: 1;
@@ -16,11 +12,13 @@
 
 input[type=text] {
   border: none;
+  background-color: transparent;
+  color: var(--fg-color);
 }
 
 input[type=checkbox]:checked + label {
   text-decoration: line-through;
-  color: #666;
+  color: var(--fg-grey);
 }
 
 input[type=checkbox],

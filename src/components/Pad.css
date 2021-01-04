@@ -1,13 +1,13 @@
 .addBtn {
-  background-color: white;
+  background-color: var(--bg-color);
   min-width: 100vw;
   font-size: 5rem;
-  color: lightgrey;
+  color: var(--fg-grey);
   flex-grow: 1;
   scroll-snap-align: start;
 }
 
 .addBtn:focus,
 .addBtn:hover {
-  color: grey;
+  color: var(--fg-color);
 }

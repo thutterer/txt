@@ -74,5 +74,5 @@ button {
 }
 
 *:focus {
-  outline: 2px solid #097e70;
+  outline: 2px solid var(--primary-color);
 }
