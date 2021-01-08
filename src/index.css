@@ -1,4 +1,20 @@
+body.light {
+  --bg-color: #fff;
+  --fg-color: #111;
+  --bg-grey: #aaa;
+  --fg-grey: #444;
+}
+
+body.dark {
+  --bg-color: #111;
+  --fg-color: #fff;
+  --bg-grey: #444;
+  --fg-grey: #aaa;
+}
+
 body {
+  background-color: var(--bg-color);
+
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -8,8 +24,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 * {
@@ -27,20 +42,4 @@ li {
 
 :root {
   --primary-color: #097e70;
-}
-
-body {
-  --bg-color: #fff;
-  --fg-color: #111;
-  --bg-grey: #aaa;
-  --fg-grey: #444;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    --bg-color: #111;
-    --fg-color: #fff;
-    --bg-grey: #444;
-    --fg-grey: #aaa;
-  }
 }
