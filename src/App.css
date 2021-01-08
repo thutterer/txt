@@ -5,47 +5,6 @@
   overflow-y: hidden;
 }
 
-.App-header {
-  background-color: #282c34;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  z-index: 2;
-}
-
-.App-header > *,
-.App-logo {
-  height: 48px;
-}
-
-/* .App-header > button {
-  border: none;
-  background-color: transparent;
-  color: white;
-  fill: white;
-  cursor: pointer;
-  padding: 12px;
-  border-radius: 50%;
-  width: 48px;
-  font-size: 18px;
-  font-weight: bold;
-}
-.App-header > button:hover,
-.App-header > button:focus {
-  background-color: rgba(255, 255, 255, 0.125);
-} */
-
-@media all and (display-mode: standalone) {
-  .App-header {
-    display: none;
-  }
-}
-
 html {
   font-size: 112.5%;
 }
