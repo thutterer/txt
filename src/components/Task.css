@@ -10,20 +10,28 @@
   flex-grow: 1;
 }
 
+input[type=date],
 input[type=text] {
   border: none;
   background-color: transparent;
   color: var(--fg-color);
 }
 
-input[type=checkbox]:checked + label {
+input[type=checkbox]:checked + label,
+  input[type=checkbox]:checked + label + input + span {
   text-decoration: line-through;
   color: var(--fg-grey);
 }
 
 input[type=checkbox],
+input[type=date],
 .task label {
   cursor: pointer;
+}
+
+span,
+input[type=date] {
+  font-size: small;
 }
 
 label {

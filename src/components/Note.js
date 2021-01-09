@@ -50,9 +50,11 @@ class Note extends React.Component {
                 id={task.id}
                 checked={task.checked}
                 title={task.title}
+                date={task.date}
                 toggleTask={ () => this.props.dispatch({ type: 'toggleTask', payload: { id: this.props.id, taskId: task.id } }) }
                 changeTask={ newValue => this.props.dispatch({ type: 'changeTask', payload: { id: this.props.id, taskId: task.id, value: newValue} }) }
                 deleteTask={ () => this.props.dispatch({ type: 'deleteTask', payload: { id: this.props.id, taskId: task.id } }) }
+                changeDate={ newValue => this.props.dispatch({ type: 'changeDate', payload: { id: this.props.id, taskId: task.id, value: newValue} }) }
               />
             </li>
           )}

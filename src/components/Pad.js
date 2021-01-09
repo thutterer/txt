@@ -39,7 +39,12 @@ function reducer(state, action) {
         notes: state.notes.map(note => {
           if (note.id === action.payload.id) {
             const newTaskId = Date.now()
-            const newTask = { id: newTaskId, checked: false, title: '' }
+            const newTask = {
+              id: newTaskId,
+              checked: false,
+              title: '',
+              date: undefined
+            }
             return { ...note, tasks: [...note.tasks, newTask]}
           }
           else {return note}
@@ -100,7 +105,25 @@ function reducer(state, action) {
         })
       }
 
-    case 'colorize':
+      case 'changeDate':
+        return {
+          notes: state.notes.map(prevNote => {
+            if (prevNote.id === action.payload.id) {
+              let updatedNote = JSON.parse(JSON.stringify(prevNote))
+
+              updatedNote.tasks = updatedNote.tasks.map(task => {
+                if (task.id === action.payload.taskId) {
+                  task.date = action.payload.value
+                }
+                return task
+              })
+              return updatedNote
+            }
+            else {return prevNote}
+          })
+        }
+
+      case 'colorize':
       return {
         notes: state.notes.map(note => {
           if (note.id === action.payload.id) {
@@ -125,7 +148,7 @@ export default function Pad() {
       document.querySelector('.note:last-of-type textarea').focus()
     }, 50)
   }
-  
+
   useEffect( () => {
     localStorage.setItem('react-notes', JSON.stringify(state))
   })
