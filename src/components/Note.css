@@ -12,11 +12,11 @@
   scroll-snap-align: start;
 }
 
-.note:not(:last-child) {
-  border-right: 1px solid var(--bg-grey);
-}
-
 @media (min-width: 801px) {
+  .note:not(:last-child) {
+    border-right: 1px solid var(--bg-grey);
+  }
+
   .note, .addBtn {
     min-width: 50vw;
   }
