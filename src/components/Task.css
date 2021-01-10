@@ -8,6 +8,9 @@
 .task label,
 .task input[type=text] {
   flex-grow: 1;
+  font-size: 0.9rem;
+  font-family: monospace;
+  padding: 4px;
 }
 
 input[type=date],
