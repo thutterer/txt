@@ -37,3 +37,22 @@ input[type=date] {
 label {
   padding: 0 4px;
 }
+
+input[type="date"] {
+  text-align: right;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(70%); /* make icon visible on dark background (only Chrome) */
+  font-size: 18px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(100%);
+}
+
+span {
+  width: 10ch;
+  flex-shrink: 0;
+}
