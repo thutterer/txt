@@ -8,7 +8,7 @@
 .task label,
 .task input[type=text] {
   flex-grow: 1;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-family: monospace;
   padding: 4px;
 }
