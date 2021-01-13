@@ -8,6 +8,7 @@
 .task label,
 .task input[type=text] {
   flex-grow: 1;
+  flex-shrink: 1; min-width: 0; /* https://stackoverflow.com/a/42421490/3449673 */
   font-size: 1rem;
   font-family: monospace;
   padding: 4px;
@@ -35,6 +36,7 @@ input[type=date],
 span,
 input[type=date] {
   font-size: small;
+  flex-shrink: 0;
 }
 
 label {
@@ -57,5 +59,4 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 span {
   width: 10ch;
-  flex-shrink: 0;
 }
