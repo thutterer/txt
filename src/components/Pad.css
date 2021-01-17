@@ -5,6 +5,7 @@
   color: var(--fg-grey);
   flex-grow: 1;
   scroll-snap-align: start;
+  user-select: none;
 }
 
 .addBtn:focus,

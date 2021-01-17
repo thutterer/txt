@@ -41,6 +41,7 @@ input[type=date] {
 
 label {
   padding: 0 4px;
+  user-select: none;
 }
 
 input[type="date"] {
