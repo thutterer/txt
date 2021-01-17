@@ -1,14 +1,4 @@
 .note {
-  flex-grow: 1;
-  position: relative;
-  min-width: 100vw;
-
-  display: flex;
-  flex-flow: column nowrap;
-
-  background-color: var(--bg-color);
-  color: var(--fg-color);
-  padding: 12px;
   scroll-snap-align: start;
 }
 
@@ -20,16 +10,6 @@
   .note, .addBtn {
     min-width: 50vw;
   }
-}
-
-.note textarea {
-  flex-grow: 2;
-  box-sizing: border-box;
-  border: none;
-  width: 100%;
-  background-color: transparent;
-  color: var(--fg-color);
-  resize: none;
 }
 
 .note ul {

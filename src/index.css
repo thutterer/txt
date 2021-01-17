@@ -1,33 +1,5 @@
-body.light {
-  --bg-color: #fff;
-  --fg-color: #111;
-  --bg-grey: #aaa;
-  --fg-grey: #444;
-}
-
-body.dark {
-  --bg-color: #111;
-  --fg-color: #fff;
-  --bg-grey: #444;
-  --fg-grey: #aaa;
-}
-
-body {
-  background-color: var(--bg-color);
-
-  margin: 0;
-  font-family: monospace;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: monospace;
-}
-
-* {
-  box-sizing: border-box;
+button {
+  cursor: pointer;
 }
 
 ul {
@@ -37,8 +9,4 @@ ul {
 
 li {
   list-style: none;
-}
-
-:root {
-  --primary-color: #097e70;
 }

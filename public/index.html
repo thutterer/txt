@@ -24,10 +24,102 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <style>
+      body.light {
+        --bg-color: #fff;
+        --fg-color: #111;
+        --bg-grey: #aaa;
+        --fg-grey: #444;
+      }
+
+      body.dark {
+        --bg-color: #111;
+        --fg-color: #fff;
+        --bg-grey: #444;
+        --fg-grey: #aaa;
+      }
+
+      body {
+        background-color: var(--bg-color);
+
+        margin: 0;
+        font-family: monospace;
+
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #097e70;
+      }
+
+      .App {
+        display: flex;
+        flex-flow: column nowrap;
+        height: 100vh;
+        overflow-y: hidden;
+      }
+
+      .App main {
+        flex-grow: 1;
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
+        overflow-y: hidden;
+      }
+
+      button,
+      input,
+      textarea {
+        font-size: 1rem;
+        letter-spacing: normal;
+        border: none;
+        outline: none;
+      }
+
+      *:focus {
+        outline: 2px solid var(--primary-color);
+      }
+
+      .note {
+        flex-grow: 1;
+        position: relative;
+        min-width: 100vw;
+
+        display: flex;
+        flex-flow: column nowrap;
+
+        background-color: var(--bg-color);
+        color: var(--fg-color);
+        padding: 12px;
+      }
+
+      .note textarea {
+        flex-grow: 2;
+        box-sizing: border-box;
+        border: none;
+        width: 100%;
+        background-color: transparent;
+        color: var(--fg-color);
+        resize: none;
+      }
+    </style>
     <title>txt</title>
   </head>
   <body class="dark">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div class="App">
+        <main>
+          <div class="note">
+            <textarea autofocus placeholder="Enable JavaScript for a richer user experience."></textarea>
+          </div>
+        </main>
+      </div>
+    </noscript>
     <div id="root"></div>
     <!--
       This HTML file is a template.

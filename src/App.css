@@ -1,33 +1,4 @@
-.App {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100vh;
-  overflow-y: hidden;
-}
-
 .App main {
-  flex-grow: 1;
-  display: flex;
-  flex-flow: row nowrap;
-  width: 100%;
   overflow-x: scroll;
-  overflow-y: hidden;
   scroll-snap-type: x mandatory;
-}
-
-button,
-input,
-textarea {
-  font-size: 1rem;
-  letter-spacing: normal;
-  border: none;
-  outline: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-*:focus {
-  outline: 2px solid var(--primary-color);
 }
