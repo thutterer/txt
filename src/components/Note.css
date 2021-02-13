@@ -20,7 +20,10 @@
   text-align: right;
 }
 
-
+.dropzone {
+  background-color: transparent;
+  height: 4px;
+}
 
 button.icon {
   margin: 4px;

@@ -105,6 +105,18 @@ function reducer(state, action) {
         })
       }
 
+    case 'moveTask':
+      return {
+        notes: state.notes.map(note => {
+          if (note.id === action.payload.id) {
+            const tasks = note.tasks.filter(task => task.id !== action.payload.task.id)
+            tasks.splice(action.payload.before, 0, action.payload.task)
+            return { ...note, tasks: tasks}
+          }
+          else {return note}
+        })
+      }
+
       case 'changeDate':
         return {
           notes: state.notes.map(prevNote => {

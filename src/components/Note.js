@@ -35,6 +35,27 @@ export default function Note(props) {
     }
   }
 
+  function onTaskDragStart(event, task) {
+    event.dataTransfer.setData("task", task);
+    event.dataTransfer.effectAllowed = "move";
+  }
+
+  function onTaskDrop(event) {
+    event.preventDefault();
+    const taskData = JSON.parse(event.dataTransfer.getData('task'))
+    event.target.style.backgroundColor = 'transparent';
+    props.dispatch({ type: 'moveTask', payload: { id: props.id, task: taskData, before: event.target.dataset.index } })
+  }
+
+  function onTaskDragOver(event) {
+    event.preventDefault();
+    event.target.style.backgroundColor = 'var(--primary-color)';
+  }
+
+  function onTaskDragLeave(event) {
+    event.target.style.backgroundColor = 'transparent';
+  }
+
   return (
     <div className="note" style={{ borderBottom: `4px solid ${props.color || 'transparent'}` }}>
       <input
@@ -51,8 +72,9 @@ export default function Note(props) {
       />
 
       <ul>
-        {props.tasks && props.tasks.map(task =>
-          (!task.checked || showChecked) && <li key={task.id}>
+        {props.tasks && props.tasks.map((task, index) =>
+          (!task.checked || showChecked) && <li key={task.id} draggable onDragStart={(e) => onTaskDragStart(e, JSON.stringify(task))}>
+            <div className="dropzone" data-index={index} onDrop={onTaskDrop} onDragOver={onTaskDragOver} onDragLeave={onTaskDragLeave} />
             <Task
               id={task.id}
               checked={task.checked}
@@ -65,6 +87,7 @@ export default function Note(props) {
             />
           </li>
         )}
+        <li><div className="dropzone" data-index={props.tasks.length + 1} onDrop={onTaskDrop} onDragOver={onTaskDragOver} onDragLeave={onTaskDragLeave} /></li>
       </ul>
 
       <footer>
