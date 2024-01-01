@@ -7,6 +7,3 @@ It does save its state to localStorage, but you shouldn't rely on that.
 If you want to save and collect documents, use a proper editor and storage!
 
 ## Tech
-
-The code is written as a beginner-friendly React app.
-See [here](https://github.com/thutterer/txt/blob/master/REACT-README.md) for details.
