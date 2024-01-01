@@ -1,0 +1,157 @@
+:root {
+  --color-primary: #097e70;
+
+  --color-bg: #eee;
+  --color-bg-muted: #ddd;
+  --color-text: #111;
+  --color-text-muted: #888;
+
+  @media (prefers-color-scheme: dark) {
+    --color-bg: #111;
+    --color-bg-muted: #444;
+    --color-text: #eee;
+    --color-text-muted: #aaa;
+  }
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #pages {
+  height: 100vh;
+}
+
+body, ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+#pages {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background-color: var(--color-bg);
+
+  .page {
+    background-color: transparent;
+
+    scroll-snap-align: start;
+
+    width: 100vw;
+
+    @media(min-width: 801px) {
+      width: 50vw;
+
+      &:only-of-type {
+        width: 100vw;
+      }
+    }
+
+    flex-shrink: 0;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    textarea {
+      resize: none;
+      width: 100%;
+      padding: 4px;
+      flex-grow: 1;
+    }
+
+    &.new {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        height: 100%;
+        width: 100%;
+        font-size: 10rem;
+      }
+    }
+
+    &:not(:last-child) {
+      border-right: 1px solid var(--color-bg-muted);
+    }
+  }
+}
+
+textarea,
+input[type="text"],
+button {
+  background: transparent;
+  color: var(--color-text);
+  border: none;
+  border-radius: 1px;
+
+  &:focus {
+    outline: 2px solid var(--color-primary);
+  }
+}
+
+textarea,
+input[type="text"] {
+  font-size: 1rem;
+}
+
+label,
+span {
+  color: var(--color-text);
+}
+
+svg {
+  fill: var(--color-text);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: right;
+  gap: 0.25em;
+  padding-top: 0.25em;
+
+  button {
+    color: var(--color-text-muted);
+  }
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  font-family: sans-serif;
+}
+
+.task {
+  display: flex;
+  flex-direction: row;
+  gap: 0.125rem;
+  align-items: center;
+
+  min-height: 32px;
+
+  label,
+  input[type="text"] {
+    flex-grow: 1;
+  }
+}

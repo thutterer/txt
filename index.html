@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#097e70" />
+  <meta name="description" content="text scratchpad" />
+  <link rel="apple-touch-icon" href="logo192.png" />
+  <link rel="manifest" href="manifest.json" />
+
+  <title>txt</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <script>
+    window.addEventListener("load", () => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").then(
+        () => {
+          // console.log("Service worker registration successful")
+        },
+        err => {
+          console.error("Service worker registration failed", err)
+        }
+      )
+    } else {
+      // Not supported
+    }
+    })
+  </script>
+
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div x-data="{ pages: $persist([]) }">
+    <ul id="pages">
+      <template x-for="page in pages">
+        <li
+          class="page"
+          x-ref="page"
+        >
+          <textarea
+            x-model.debounce="page.text"
+            x-init="$el.focus()"
+          ></textarea>
+
+          <ul class="tasks">
+            <template x-for="task in page.tasks">
+              <li
+                x-data="{ editMode: false }"
+                class="task"
+                >
+                <input
+                  type="checkbox"
+                  :id="`task-${task.id}`"
+                  x-model="task.done"
+                >
+                <label
+                  :for="`task-${task.id}`"
+                  x-show="!editMode"
+                  x-text="task.text"
+                  @contextmenu.prevent="editMode = true; $nextTick(() => { $refs.editInput.focus() })"
+                ></label>
+                <input
+                  type="text"
+                  x-model.debounce="task.text"
+                  x-ref="editInput"
+                  x-show="editMode"
+                  @change="editMode = false"
+                >
+                <button
+                  title="Delete task"
+                  x-show="editMode || task.done"
+                  @click="page.tasks = page.tasks.filter(t => t.id !== task.id)"
+                >
+                  <svg height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                </button>
+              </li>
+            </template>
+            <li>
+              <input
+                type="text"
+                name=""
+                placeholder="new task..."
+                @change="
+                  page.tasks.push({ id: Date.now(), text: $el.value, done: false });
+                  $el.value = ''
+                "
+              >
+            </li>
+          </ul>
+
+          <div class="toolbar">
+            <button
+              x-show="page.text === '' && page.tasks.length === 0"
+              @click="pages = pages.filter(p => p.id !== page.id)"
+              title="Delete permanently"
+            >
+              <svg height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </button>
+          </div>
+        </li>
+      </template>
+      <li class="new page">
+        <button @click="
+          pages.push({ id: Date.now(), text: '', tasks: [] });
+        ">+</button>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
