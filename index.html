@@ -82,7 +82,6 @@
             <li>
               <input
                 type="text"
-                name=""
                 placeholder="new task..."
                 @change="
                   page.tasks.push({ id: Date.now(), text: $el.value, done: false });
@@ -95,6 +94,7 @@
           <div class="toolbar">
             <button
               x-show="page.text === '' && page.tasks.length === 0"
+              x-transition
               @click="pages = pages.filter(p => p.id !== page.id)"
               title="Delete permanently"
             >
