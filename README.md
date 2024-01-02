@@ -9,5 +9,5 @@ If you want to save and collect documents, use a proper editor and storage!
 
 ## Tech
 
-🏔️ [Alpine.js](https://alpinejs.dev/)
-📱 Installable PWA (works offline)
+- 🏔️ [Alpine.js](https://alpinejs.dev/)
+- 📱 Installable PWA (works offline)
