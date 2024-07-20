@@ -29,6 +29,14 @@
       // Not supported
     }
     })
+
+    function formattedDate(timestamp) {
+      const pageDate = new Date(timestamp);
+      const month = pageDate.getMonth();
+      const day = pageDate.getDate();
+
+      return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][month]} ${day}`;
+    }
   </script>
 
   <link rel="stylesheet" href="app.css">
@@ -39,11 +47,10 @@
       <template x-for="page in pages">
         <li
           class="page"
-          x-ref="page"
+          :id="`page-${page.id}`"
         >
           <textarea
             x-model.debounce="page.text"
-            x-init="$el.focus()"
           ></textarea>
 
           <ul class="tasks">
@@ -114,10 +121,24 @@
           </div>
         </li>
       </template>
-      <li class="new page">
+
+      <li class="new page" x-init="$el.scrollIntoView()">
         <button @click="
           pages.push({ id: Date.now(), text: '', tasks: [] });
         ">+</button>
+      </li>
+
+      <li class="index page">
+        <ul>
+          <template x-for="page in pages">
+            <li>
+              <a :href="`#page-${page.id}`">
+                <time x-text="formattedDate(page.id)"></time>
+                <p x-text="page.text"></p>
+            </a>
+            </li>
+          </template>
+        </ul>
       </li>
     </ul>
   </div>

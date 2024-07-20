@@ -90,6 +90,42 @@ button {
       }
     }
 
+    &.index {
+      ul {
+        overflow-y: scroll;
+      }
+
+      a {
+        text-decoration: none;
+
+        display: block;
+        padding: 1em 0.5rem;
+
+        &:hover {
+          background-color: var(--color-bg-muted);
+        }
+
+        border-radius: 3px;
+      }
+
+      p {
+        color: var(--color-text);
+        font-family: monospace;
+        font-size: 1rem;
+
+        margin: 0;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      time {
+        font-size: smaller;
+        color: var(--color-text-muted);
+      }
+    }
+
     &:not(:last-child) {
       border-right: 1px solid var(--color-bg-muted);
     }
@@ -115,7 +151,8 @@ input[type="text"] {
 }
 
 label,
-span {
+span,
+time {
   color: var(--color-text);
 }
 
