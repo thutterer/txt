@@ -134,7 +134,7 @@
             <li>
               <a :href="`#page-${page.id}`">
                 <time x-text="formattedDate(page.id)"></time>
-                <p x-text="page.text"></p>
+                <p x-text="page.text.split('\n', 1)[0]"></p>
             </a>
             </li>
           </template>
