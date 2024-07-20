@@ -32,6 +32,10 @@ li {
   list-style: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 button {
   cursor: pointer;
 }
@@ -93,19 +97,18 @@ button {
     &.index {
       ul {
         overflow-y: scroll;
-      }
+        flex-grow: 1;
 
-      a {
-        text-decoration: none;
+        a {
+          display: block;
+          padding: 1em 0.5rem;
 
-        display: block;
-        padding: 1em 0.5rem;
+          &:hover {
+            background-color: var(--color-bg-muted);
+          }
 
-        &:hover {
-          background-color: var(--color-bg-muted);
+          border-radius: 3px;
         }
-
-        border-radius: 3px;
       }
 
       p {
@@ -123,6 +126,16 @@ button {
       time {
         font-size: smaller;
         color: var(--color-text-muted);
+      }
+
+      footer {
+        font-size: smaller;
+        color: var(--color-text-muted);
+        text-align: center;
+
+        a {
+          color: var(--color-text);
+        }
       }
     }
 
