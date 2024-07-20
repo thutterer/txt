@@ -132,7 +132,10 @@
         <ul>
           <template x-for="page in pages">
             <li>
-              <a :href="`#page-${page.id}`">
+              <a
+                :href="`.#page-${page.id}`"
+                @click="document.querySelector(`#page-${page.id}`).scrollIntoView()"
+              >
                 <time x-text="formattedDate(page.id)"></time>
                 <p x-text="page.text.split('\n', 1)[0]"></p>
             </a>
