@@ -99,8 +99,8 @@ button {
         overflow-y: scroll;
         flex-grow: 1;
 
-        a {
-          display: block;
+        .preview {
+          cursor: pointer;
           padding: 1em 0.5rem;
 
           &:hover {
