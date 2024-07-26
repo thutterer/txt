@@ -130,6 +130,9 @@
         <button @click="
           const newId = Date.now();
           pages.push({ id: newId, text: '', tasks: [] });
+          $nextTick(() => {
+            document.querySelector(`#page-${newId}`).scrollIntoView({ behavior: 'instant'})
+          });
         ">+</button>
       </li>
 
@@ -139,7 +142,7 @@
             <li>
               <div
                 class="preview"
-                @click="document.querySelector(`#page-${page.id}`).scrollIntoView()"
+                @click="document.querySelector(`#page-${page.id}`).scrollIntoView({ behavior: 'instant'})"
               >
                 <time x-text="formattedDate(page.id)"></time>
                 <p x-text="page.text.split('\n', 1)[0]"></p>
@@ -149,7 +152,7 @@
         </ul>
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.0.2
+          v3.0.4
         </footer>
       </li>
     </ul>
