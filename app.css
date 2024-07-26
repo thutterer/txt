@@ -40,6 +40,19 @@ button {
   cursor: pointer;
 }
 
+progress {
+  height: 0.5rem;
+  border-radius: 0.25rem;
+
+  &::-webkit-progress-value {
+    background-color:  var(--color-primary);
+  }
+
+  &::-moz-progress-bar {
+    background-color:  var(--color-primary);
+  }
+}
+
 #pages {
   display: flex;
   flex-direction: row;
@@ -209,10 +222,13 @@ svg {
   gap: 0.125rem;
   align-items: center;
 
-  min-height: 32px;
+  label {
+    padding: 0.5rem 0;
+  }
 
   label,
   input[type="text"] {
+    cursor: pointer;
     flex-grow: 1;
   }
 }

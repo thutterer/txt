@@ -58,6 +58,12 @@
           ></textarea>
 
           <ul class="tasks">
+            <progress
+              x-show="page.tasks.length > 0"
+              value="0"
+              :value="page.tasks.filter(t => t.done).length"
+              :max="page.tasks.length"
+            ></progress>
             <template x-for="task in page.tasks">
               <li
                 x-data="{ editMode: false }"
@@ -126,8 +132,7 @@
         </li>
       </template>
 
-      <li
-        class="new page"
+      <li class="new page"
         tabindex="0"
         x-init="$el.scrollIntoView()"
         x-intersect.full="$el.focus()"
@@ -157,7 +162,7 @@
         </ul>
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.0.6
+          v3.1
         </footer>
       </li>
     </ul>
