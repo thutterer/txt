@@ -46,7 +46,7 @@ button {
   flex-wrap: nowrap;
 
   scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   overflow-x: auto;
   overflow-y: hidden;
 
