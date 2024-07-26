@@ -126,7 +126,12 @@
         </li>
       </template>
 
-      <li class="new page" x-init="$el.scrollIntoView()">
+      <li
+        class="new page"
+        tabindex="0"
+        x-init="$el.scrollIntoView()"
+        x-intersect.full="$el.focus()"
+      >
         <button @click="
           const newId = Date.now();
           pages.push({ id: newId, text: '', tasks: [] });
@@ -152,7 +157,7 @@
         </ul>
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.0.4
+          v3.0.5
         </footer>
       </li>
     </ul>
