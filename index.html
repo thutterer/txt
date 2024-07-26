@@ -130,9 +130,6 @@
         <button @click="
           const newId = Date.now();
           pages.push({ id: newId, text: '', tasks: [] });
-          $nextTick(() => {
-            document.querySelector(`#page-${newId}`).scrollIntoView()
-          });
         ">+</button>
       </li>
 
@@ -152,7 +149,7 @@
         </ul>
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.0.1
+          v3.0.2
         </footer>
       </li>
     </ul>
