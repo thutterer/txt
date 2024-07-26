@@ -148,6 +148,7 @@ button {
 textarea,
 input[type="text"],
 button {
+  font-family: monospace;
   background: transparent;
   color: var(--color-text);
   border: none;

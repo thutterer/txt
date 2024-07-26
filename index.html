@@ -50,6 +50,7 @@
           :id="`page-${page.id}`"
         >
           <textarea
+            placeholder="new txt..."
             x-model.debounce="page.text"
           ></textarea>
 
@@ -124,7 +125,11 @@
 
       <li class="new page" x-init="$el.scrollIntoView()">
         <button @click="
-          pages.push({ id: Date.now(), text: '', tasks: [] });
+          const newId = Date.now();
+          pages.push({ id: newId, text: '', tasks: [] });
+          $nextTick(() => {
+            document.querySelector(`#page-${newId}`).scrollIntoView()
+          });
         ">+</button>
       </li>
 
