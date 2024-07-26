@@ -11,6 +11,7 @@
 
   <title>txt</title>
 
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -48,6 +49,8 @@
         <li
           class="page"
           :id="`page-${page.id}`"
+          tabindex="0"
+          x-intersect.full="$el.focus()"
         >
           <textarea
             placeholder="new txt..."
@@ -139,7 +142,7 @@
             <li>
               <div
                 class="preview"
-                @click="document.querySelector(`#page-${page.id}`).scrollIntoView()"
+                @click="document.querySelector(`#page-${page.id}`).focus()"
               >
                 <time x-text="formattedDate(page.id)"></time>
                 <p x-text="page.text.split('\n', 1)[0]"></p>
