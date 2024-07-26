@@ -142,7 +142,7 @@
             <li>
               <div
                 class="preview"
-                @click="document.querySelector(`#page-${page.id}`).focus()"
+                @click="document.querySelector(`#page-${page.id}`).scrollIntoView()"
               >
                 <time x-text="formattedDate(page.id)"></time>
                 <p x-text="page.text.split('\n', 1)[0]"></p>
@@ -152,7 +152,7 @@
         </ul>
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.0
+          v3.0.1
         </footer>
       </li>
     </ul>
