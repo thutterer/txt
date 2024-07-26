@@ -14,16 +14,18 @@
   }
 }
 
-
 * {
   box-sizing: border-box;
 }
 
-html, body, #pages {
+html,
+body,
+#pages {
   height: 100vh;
 }
 
-body, ul {
+body,
+ul {
   margin: 0;
   padding: 0;
 }
@@ -42,14 +44,12 @@ button {
 
 progress {
   height: 0.5rem;
+  width: 100%;
   border-radius: 0.25rem;
 
-  &::-webkit-progress-value {
-    background-color:  var(--color-primary);
-  }
-
+  &::-webkit-progress-value,
   &::-moz-progress-bar {
-    background-color:  var(--color-primary);
+    background-color: var(--color-primary);
   }
 }
 
@@ -73,7 +73,7 @@ progress {
 
     width: 100vw;
 
-    @media(min-width: 801px) {
+    @media (min-width: 801px) {
       width: 50vw;
 
       &:only-of-type {
