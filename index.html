@@ -13,6 +13,7 @@
 
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/anchor@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <script>
@@ -43,7 +44,7 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-  <div x-data="{ pages: $persist([]) }">
+  <div x-data="{ pages: $persist([]), menuOpen: false }">
     <ul id="pages">
       <template x-for="page in pages">
         <li
@@ -145,27 +146,36 @@
           });
         ">+</button>
       </li>
-
-      <li class="index page" x-show="pages.length > 0">
-        <ul>
-          <template x-for="page in pages">
-            <li>
-              <div
-                class="preview"
-                @click="document.querySelector(`#page-${page.id}`).scrollIntoView({ behavior: 'instant'})"
-              >
-                <time x-text="formattedDate(page.id)"></time>
-                <p x-text="page.text.split('\n', 1)[0]"></p>
-              </div>
-            </li>
-          </template>
-        </ul>
-        <footer>
-          <a href="https://github.com/thutterer/txt">txt</a>
-          v3.1.3
-        </footer>
-      </li>
     </ul>
+
+    <div class="top-right">
+      <button x-ref="menuButton" @click="menuOpen = !menuOpen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="menu" x-show="menuOpen" x-anchor="$refs.menuButton" @click.outside="menuOpen = false">
+      <ul x-show="pages.length > 0">
+        <template x-for="page in pages">
+          <li>
+            <div
+              class="preview"
+              @click="menuOpen = false; document.querySelector(`#page-${page.id}`).scrollIntoView({ behavior: 'instant'})"
+            >
+              <p x-text="page.text.split('\n', 1)[0] || '(no title)'"></p>
+              <time x-text="formattedDate(page.id)"></time>
+            </div>
+          </li>
+        </template>
+      </ul>
+
+      <footer>
+        <a href="https://github.com/thutterer/txt">txt</a>
+        v3.2.0
+      </footer>
+  </div>
   </div>
 </body>
 </html>
