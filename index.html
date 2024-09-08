@@ -56,6 +56,21 @@
           <textarea
             placeholder="new txt..."
             x-model.debounce="page.text"
+            @keyup.enter="
+              const cursorPosition = $el.selectionStart;
+              const prevCursor = $el.value.substring(0, cursorPosition);
+              const afterCursor = $el.value.substring(cursorPosition, $el.value.length);
+              const prevLine = prevCursor.split('\n').at(-2)
+
+              if(prevLine.match(/^-.+\w/)) {
+                let updatedText = prevCursor
+                updatedText += '- '
+                updatedText += afterCursor
+                $el.value = updatedText
+                $el.selectionStart = cursorPosition + 2;
+                $el.selectionEnd = cursorPosition + 2;
+              }
+              "
           ></textarea>
 
           <ul class="tasks">
