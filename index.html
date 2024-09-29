@@ -62,13 +62,16 @@
               const afterCursor = $el.value.substring(cursorPosition, $el.value.length);
               const prevLine = prevCursor.split('\n').at(-2)
 
-              if(prevLine.match(/^-.+\w/)) {
+              const matches = prevLine.match(/^(\s*)-\s+\w/)
+              if(matches) {
+                const indentWhitespace = matches[1]
+                const textToInsert = indentWhitespace + '- '
                 let updatedText = prevCursor
-                updatedText += '- '
+                updatedText += textToInsert
                 updatedText += afterCursor
                 $el.value = updatedText
-                $el.selectionStart = cursorPosition + 2;
-                $el.selectionEnd = cursorPosition + 2;
+                $el.selectionStart = cursorPosition + textToInsert.length;
+                $el.selectionEnd = cursorPosition + textToInsert.length;
               }
               "
           ></textarea>
