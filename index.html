@@ -83,15 +83,34 @@
                 $el.selectionEnd = cursorPosition + textToInsert.length;
               }
               "
+            @keydown.backspace="
+              if($el.value.length === 0 && page.tasks.length === 0) {
+                $nextTick(() => {
+                  pages = pages.filter(p => p.id !== page.id)
+                });
+              }
+              "
           ></textarea>
 
           <ul class="tasks">
-            <progress
-              x-show="page.tasks.length > 0"
-              value="0"
-              :value="page.tasks.filter(t => t.done).length"
-              :max="page.tasks.length"
-            ></progress>
+            <li class="task-progress" x-show="page.tasks.length > 0">
+              <progress
+                value="0"
+                :value="page.tasks.filter(t => t.done).length"
+                :max="page.tasks.length"
+              ></progress>
+
+              <button
+                :disabled="page.tasks.filter(t => t.done).length === 0"
+                x-transition
+                @click="page.tasks = page.tasks.filter(t => !t.done)"
+                title="Delete done tasks"
+              >
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                </svg>
+              </button>
+            </li>
             <template x-for="task in page.tasks">
               <li
                 x-data="{ editMode: false }"
@@ -135,28 +154,6 @@
               >
             </li>
           </ul>
-
-          <div class="toolbar">
-            <button
-              x-show="page.tasks.filter(t => t.done).length > 0"
-              x-transition
-              @click="page.tasks = page.tasks.filter(t => !t.done)"
-              title="Delete done tasks"
-            >
-              <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
-              </svg>
-            </button>
-
-            <button
-              x-show="page.text === '' && page.tasks.length === 0"
-              x-transition
-              @click="pages = pages.filter(p => p.id !== page.id)"
-              title="Delete page permanently"
-            >
-              <svg height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-            </button>
-          </div>
         </li>
       </template>
 
@@ -177,16 +174,7 @@
     </ul>
 
     <div class="top-right">
-      <button
-        x-show="windowWidth > 800"
-        @click="windowSplitting = !windowSplitting"
-        :class="{ 'active': windowSplitting }"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
-        </svg>
-      </button>
-      <button x-ref="menuButton" @click="menuOpen = !menuOpen">
+      <button x-ref="menuButton" @click="menuOpen = !menuOpen" title="Split layout">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
@@ -210,9 +198,21 @@
 
       <footer>
         <a href="https://github.com/thutterer/txt">txt</a>
-        v3.2.0
+        v3.3.0
       </footer>
-  </div>
+    </div>
+
+    <div class="bottom-right">
+      <button
+        x-show="windowWidth > 800"
+        @click="windowSplitting = !windowSplitting"
+        :class="{ 'active': windowSplitting }"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </body>
 </html>

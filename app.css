@@ -6,8 +6,9 @@
   --color-bg-hover: rgba(0, 0, 0, 0.25);
   --color-text: #111;
   --color-text-hover: #000;
-    --color-shadow: #000;
-    --color-text-muted: #aaa;
+  --color-text-muted: #aaa;
+  --color-text-disabled: #444;
+  --color-shadow: #777;
 
   @media (prefers-color-scheme: dark) {
     --color-bg: #111;
@@ -16,6 +17,7 @@
     --color-text: #eee;
     --color-text-hover: #fff;
     --color-text-muted: #aaa;
+    --color-text-disabled: #666;
     --color-shadow: #000;
   }
 }
@@ -48,6 +50,14 @@ a {
 button {
   cursor: pointer;
 
+  &:disabled {
+    cursor: default;
+
+    svg {
+      fill: var(--color-text-disabled) !important;
+    }
+  }
+
   &:hover {
     color: var(--color-text-hover);
 
@@ -65,14 +75,23 @@ button {
   }
 }
 
-progress {
-  height: 0.5rem;
-  width: 100%;
-  border-radius: 0.25rem;
+.task-progress {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
 
-  &::-webkit-progress-value,
-  &::-moz-progress-bar {
-    background-color: var(--color-primary);
+  progress {
+    height: 0.5rem;
+    width: 100%;
+    border-radius: 0.25rem;
+
+    flex-grow: 1;
+
+    &::-webkit-progress-value,
+    &::-moz-progress-bar {
+      background-color: var(--color-primary);
+    }
   }
 }
 
@@ -96,10 +115,12 @@ progress {
 
     width: 100vw;
 
-    &.split {
-      @media (min-width: 801px) {
-        width: 50vw;
+    @media (min-width: 801px) {
+      padding-left: 44px;
+      padding-right: 44px;
 
+      &.split {
+        width: 50vw;
         &:only-of-type {
           width: 100vw;
         }
@@ -172,22 +193,6 @@ svg {
   fill: var(--color-text);
 }
 
-.toolbar {
-  position: absolute;
-  right: 0.25rem;
-  bottom: 0.375rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: right;
-  gap: 0.25em;
-  padding-top: 0.5em;
-
-  button {
-    color: var(--color-text-muted);
-  }
-}
-
 .tasks {
   display: flex;
   flex-direction: column;
@@ -223,10 +228,17 @@ svg {
   margin: 0.125rem;
 }
 
+.bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 0.125rem;
+}
+
 .menu {
   background-color: var(--color-bg-muted);
   box-shadow: 5px 5px 5px var(--color-shadow);
-  padding: 0.25rem;
+  padding: 0.25rem 0;
   border-radius: 0.25rem;
 
   ul {
@@ -235,7 +247,7 @@ svg {
 
     .preview {
       cursor: pointer;
-      padding: 0.5rem 0.125rem;
+      padding: 0.5rem 1rem;
 
       &:hover {
         background-color: var(--color-bg-hover);
