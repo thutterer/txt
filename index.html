@@ -90,6 +90,36 @@
                 });
               }
               "
+            @keydown="e => {
+              if (e.key === '(' || e.key === '[' || e.key === '{') {
+                const selectionStart = $el.selectionStart;
+                const selectionEnd = $el.selectionEnd;
+
+                if(selectionStart !== selectionEnd) {
+                  const pressedKey = e.key;
+                  const prevCursor = $el.value.substring(0, selectionStart);
+                  const selectedText = $el.value.substring($el.selectionStart, $el.selectionEnd);
+                  const afterCursor = $el.value.substring(selectionEnd, $el.value.length);
+                  // console.debug({selectionStart, selectionEnd, prevCursor, selectedText, afterCursor})
+
+                  const closingPair = {
+                    '(': ')',
+                    '[': ']',
+                    '{': '}',
+                  };
+
+                  let updatedText = prevCursor;
+                  updatedText += `${pressedKey}${selectedText}${closingPair[pressedKey]}`;
+                  updatedText += afterCursor;
+
+                  $el.value = updatedText;
+                  $el.selectionStart = selectionStart + 1;
+                  $el.selectionEnd = selectionEnd + 1;
+
+                  e.preventDefault();
+                }
+              }
+            }"
           ></textarea>
 
           <ul class="tasks">
@@ -198,7 +228,7 @@
 
       <footer>
         <a href="https://github.com/thutterer/txt">txt</a>
-        v3.3.0
+        v3.3.1
       </footer>
     </div>
 
