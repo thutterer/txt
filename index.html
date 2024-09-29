@@ -44,12 +44,21 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-  <div x-data="{ pages: $persist([]), menuOpen: false }">
+  <div
+    x-data="{
+      pages: $persist([]),
+      menuOpen: false,
+      windowWidth: window.innerWidth,
+      windowSplitting: $persist(true),
+    }"
+    x-on:resize.window.throttle="windowWidth = window.innerWidth"
+  >
     <ul id="pages">
       <template x-for="page in pages">
         <li
           class="page"
           :id="`page-${page.id}`"
+          :class="{ 'split': windowSplitting }"
           tabindex="0"
           x-intersect.full="$el.focus()"
         >
@@ -155,6 +164,7 @@
         tabindex="0"
         x-init="$el.scrollIntoView()"
         x-intersect.full="$el.focus()"
+        :class="{ 'split': windowSplitting }"
       >
         <button @click="
           const newId = Date.now();
@@ -167,6 +177,15 @@
     </ul>
 
     <div class="top-right">
+      <button
+        x-show="windowWidth > 800"
+        @click="windowSplitting = !windowSplitting"
+        :class="{ 'active': windowSplitting }"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
+        </svg>
+      </button>
       <button x-ref="menuButton" @click="menuOpen = !menuOpen">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>

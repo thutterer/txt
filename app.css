@@ -5,14 +5,18 @@
   --color-bg-muted: #ddd;
   --color-bg-hover: rgba(0, 0, 0, 0.25);
   --color-text: #111;
-  --color-text-muted: #888;
+  --color-text-hover: #000;
+    --color-shadow: #000;
+    --color-text-muted: #aaa;
 
   @media (prefers-color-scheme: dark) {
     --color-bg: #111;
     --color-bg-muted: #444;
     --color-bg-hover: rgba(255, 255, 255, 0.25);
     --color-text: #eee;
+    --color-text-hover: #fff;
     --color-text-muted: #aaa;
+    --color-shadow: #000;
   }
 }
 
@@ -43,6 +47,22 @@ a {
 
 button {
   cursor: pointer;
+
+  &:hover {
+    color: var(--color-text-hover);
+
+    svg {
+      fill: var(--color-text-hover);
+    }
+  }
+
+  &.active {
+    color: var(--color-primary) !important;
+
+    svg {
+      fill: var(--color-primary) !important;
+    }
+  }
 }
 
 progress {
@@ -76,11 +96,13 @@ progress {
 
     width: 100vw;
 
-    @media (min-width: 801px) {
-      width: 50vw;
+    &.split {
+      @media (min-width: 801px) {
+        width: 50vw;
 
-      &:only-of-type {
-        width: 100vw;
+        &:only-of-type {
+          width: 100vw;
+        }
       }
     }
 
@@ -203,7 +225,7 @@ svg {
 
 .menu {
   background-color: var(--color-bg-muted);
-  box-shadow: 5px 5px 5px black;
+  box-shadow: 5px 5px 5px var(--color-shadow);
   padding: 0.25rem;
   border-radius: 0.25rem;
 
