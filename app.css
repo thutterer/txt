@@ -242,8 +242,8 @@ svg {
   border-radius: 0.25rem;
 
   ul {
+    max-height: 70vh;
     overflow-y: auto;
-    flex-grow: 1;
 
     .preview {
       cursor: pointer;
