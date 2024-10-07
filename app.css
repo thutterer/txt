@@ -33,6 +33,7 @@ html,
 body,
 #pages {
   height: 100vh;
+  background-color: var(--color-bg);
 }
 
 body,
@@ -107,7 +108,9 @@ button {
   overflow-x: auto;
   overflow-y: hidden;
 
-  background-color: var(--color-bg);
+  @media (min-width: 800px) {
+    margin-right: 36px;
+  }
 
   .page {
     position: relative;
@@ -115,14 +118,11 @@ button {
 
     scroll-snap-align: start;
 
-    width: 100vw;
+    width: 100%;
 
-    @media (min-width: 801px) {
-      padding-left: 44px;
-      padding-right: 44px;
-
+    @media (min-width: 800px) {
       &.split {
-        width: 50vw;
+        width: 50%;
         &:only-of-type {
           width: 100vw;
         }
