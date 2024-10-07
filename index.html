@@ -106,7 +106,7 @@
               }
               "
             @keydown="e => {
-              if (e.key === '(' || e.key === '[' || e.key === '{') {
+              if (e.key === '(' || e.key === '[' || e.key === '{' || e.key === '*') {
                 const selectionStart = $el.selectionStart;
                 const selectionEnd = $el.selectionEnd;
 
@@ -121,6 +121,7 @@
                     '(': ')',
                     '[': ']',
                     '{': '}',
+                    '*': '*',
                   };
 
                   let updatedText = prevCursor;
