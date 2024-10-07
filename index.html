@@ -86,11 +86,15 @@
               const afterCursor = $el.value.substring(cursorPosition, $el.value.length);
               const prevLine = prevCursor.split('\n').at(-2)
 
+              const listLineMatches = prevLine.match(/^(\s*)-\s+\w/)
+              const emptyListLineMatches = prevLine.match(/^\s*-\s*$/)
+              const numberedListLineMatches = prevLine.match(/^(\d+)\.\s+\w/)
+              const emptyNumListLineMatches = prevLine.match(/^\d+.\s+$/)
+
               // Detect list lines like '- bla bla' and continue list with '- ' in next line
               // Also detects and continues indentation.
-              const matches = prevLine.match(/^(\s*)-\s+\w/)
-              if(matches) {
-                const indentWhitespace = matches[1]
+              if(listLineMatches) {
+                const indentWhitespace = listLineMatches[1]
                 const textToInsert = indentWhitespace + '- '
                 let updatedText = prevCursor
                 updatedText += textToInsert
@@ -101,9 +105,34 @@
               }
 
               // Detect list endings like ' -' or '  - ' and blank that line
-              const emptyListLineMatches = prevLine.match(/^(\s*)-(\s*)$/) // todo: do i even need capture groups ()
-              if(emptyListLineMatches) {
+              else if(emptyListLineMatches) {
                 const removedCharCount = emptyListLineMatches[0].length
+                let updatedText = prevCursor.split('\n').slice(0, -2)
+                updatedText.push('')
+                updatedText = updatedText.join('\n')
+                updatedText += afterCursor
+                $el.value = updatedText
+                $el.selectionStart = cursorPosition - removedCharCount;
+                $el.selectionEnd = cursorPosition - removedCharCount;
+              }
+
+              // Detect and continue numbered lists
+              else if(numberedListLineMatches) {
+                const prevNumber = Number(numberedListLineMatches[1])
+
+                const textToInsert = `${prevNumber + 1}. `
+                let updatedText = prevCursor
+                updatedText += textToInsert
+                updatedText += afterCursor
+                $el.value = updatedText
+                $el.selectionStart = cursorPosition + textToInsert.length;
+                $el.selectionEnd = cursorPosition + textToInsert.length;
+              }
+
+              // Detect endings of numbered lists and blank that line
+              // TODO: Refactor to reduce duplication with other list type
+              else if(emptyNumListLineMatches) {
+                const removedCharCount = emptyNumListLineMatches[0].length
                 let updatedText = prevCursor.split('\n').slice(0, -2)
                 updatedText.push('')
                 updatedText = updatedText.join('\n')
@@ -261,7 +290,7 @@
 
       <footer>
         <a href="https://github.com/thutterer/txt">txt</a>
-        v3.4.0
+        v3.5.0
       </footer>
     </div>
 
