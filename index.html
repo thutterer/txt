@@ -50,6 +50,21 @@
       menuOpen: false,
       windowWidth: window.innerWidth,
       windowSplitting: $persist(true),
+
+      isDesktop() {
+        return this.windowWidth >= 800;
+      },
+
+      createPage() {
+        const newId = Date.now();
+        const dateNow = new Date();
+        const isoDate = dateNow.toISOString().slice(0, 10)
+
+        this.pages.push({ id: newId, date: isoDate, text: '', tasks: [] });
+        this.$nextTick(() => {
+          document.querySelector(`#page-${newId}`).scrollIntoView({ behavior: 'instant'})
+        });
+      },
     }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -205,27 +220,29 @@
 
       <li class="new page"
         tabindex="0"
+        x-show="!isDesktop()"
+        x-cloak
         x-init="$el.scrollIntoView()"
         x-intersect.full="$el.focus()"
         :class="{ 'split': windowSplitting }"
       >
-        <button @click="
-          const newId = Date.now();
-          pages.push({ id: newId, text: '', tasks: [] });
-          $nextTick(() => {
-            document.querySelector(`#page-${newId}`).scrollIntoView({ behavior: 'instant'})
-          });
-        ">+</button>
+        <button @click="createPage()">+</button>
       </li>
     </ul>
 
-    <div class="top-right">
-      <button x-ref="menuButton" @click="menuOpen = !menuOpen" title="Split layout">
+    <nav class="top-right vertical">
+      <button x-ref="menuButton" @click="menuOpen = !menuOpen" title="Open menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
       </button>
-    </div>
+
+      <button @click="createPage()" x-show="isDesktop()" x-cloak title="Add new page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+        </svg>
+      </button>
+    </nav>
 
     <div class="menu" x-show="menuOpen" x-anchor="$refs.menuButton" @click.outside="menuOpen = false">
       <ul x-show="pages.length > 0">
@@ -244,13 +261,14 @@
 
       <footer>
         <a href="https://github.com/thutterer/txt">txt</a>
-        v3.3.3
+        v3.4.0
       </footer>
     </div>
 
     <div class="bottom-right">
       <button
-        x-show="windowWidth > 800"
+        x-show="isDesktop"
+        x-cloak
         @click="windowSplitting = !windowSplitting"
         :class="{ 'active': windowSplitting }"
       >

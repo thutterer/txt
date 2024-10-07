@@ -22,6 +22,8 @@
   }
 }
 
+[x-cloak] { display: none !important; }
+
 * {
   box-sizing: border-box;
   font-family: sans-serif;
@@ -281,4 +283,11 @@ svg {
       color: var(--color-text);
     }
   }
+}
+
+nav.vertical {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
 }
