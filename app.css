@@ -8,7 +8,7 @@
   --color-text-hover: #000;
   --color-text-muted: #aaa;
   --color-text-disabled: #444;
-  --color-shadow: #777;
+  --color-shadow: #aaa;
 
   @media (prefers-color-scheme: dark) {
     --color-bg: #111;
@@ -31,7 +31,7 @@
 
 html,
 body,
-#pages {
+#pages-container {
   height: 100vh;
   background-color: var(--color-bg);
 }
@@ -98,7 +98,7 @@ button {
   }
 }
 
-#pages {
+#pages-container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -109,7 +109,7 @@ button {
   overflow-y: hidden;
 
   @media (min-width: 800px) {
-    margin-right: 36px;
+    margin-right: 38px;
   }
 
   .page {

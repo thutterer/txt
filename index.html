@@ -14,8 +14,8 @@
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/anchor@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
   <script>
     window.addEventListener("load", () => {
     if ("serviceWorker" in navigator) {
@@ -68,7 +68,7 @@
     }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
-    <ul id="pages">
+    <ul id="pages-container">
       <template x-for="page in pages">
         <li
           class="page"
@@ -260,39 +260,63 @@
     </ul>
 
     <nav class="top-right vertical">
-      <button x-ref="menuButton" @click="menuOpen = !menuOpen" title="Open menu">
+      <button x-ref="menuButton" @click="menuOpen = !menuOpen" title="Menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
         </svg>
       </button>
 
-      <button @click="createPage()" x-show="isDesktop()" x-cloak title="Add new page">
+      <button @click="createPage()" x-show="isDesktop()" x-cloak title="New page">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
         </svg>
       </button>
     </nav>
 
-    <div class="menu" x-show="menuOpen" x-anchor="$refs.menuButton" @click.outside="menuOpen = false">
-      <ul x-show="pages.length > 0">
-        <template x-for="page in pages">
-          <li>
-            <div
-              class="preview"
-              @click="menuOpen = false; document.querySelector(`#page-${page.id}`).scrollIntoView({ behavior: 'instant'})"
-            >
-              <p x-text="page.text.split('\n', 1)[0] || '(no title)'"></p>
-              <time x-text="formattedDate(page.id)"></time>
-            </div>
-          </li>
-        </template>
-      </ul>
+    <template x-if="menuOpen">
+      <div
+        class="menu"
+        x-anchor="$refs.menuButton"
+      >
+        <ul
+          x-show="pages.length > 0"
+          x-sort="
+            const movedPage = pages.filter(p => p.id === $item)[0]
+            const indexOfMovedPage = pages.indexOf(movedPage)
 
-      <footer>
-        <a href="https://github.com/thutterer/txt">txt</a>
-        v3.5.0
-      </footer>
-    </div>
+            $nextTick(() => {
+              // Remove element from pages
+              pages.splice(indexOfMovedPage, 1)
+
+              // Add it to its new position
+              pages.splice($position, 0, movedPage)
+            })
+
+            // Closing the menu after each move hides the fact that the changing
+            // `pages` data messes up the result of the x-sort order.
+            // TODO: Untangle this later.
+            menuOpen = false;
+          "
+        >
+          <template x-for="page in pages" :key="page.id">
+            <li x-sort:item="page.id">
+              <div
+                class="preview"
+                @click="menuOpen = false; document.querySelector(`#page-${page.id}`).scrollIntoView({ behavior: 'instant'})"
+              >
+                <p x-text="page.text.split('\n', 1)[0] || '(no title)'"></p>
+                <time x-text="formattedDate(page.id)"></time>
+              </div>
+            </li>
+          </template>
+        </ul>
+
+        <footer>
+          <a href="https://github.com/thutterer/txt">txt</a>
+          v3.6.0
+        </footer>
+      </div>
+    </template>
 
     <div class="bottom-right">
       <button
