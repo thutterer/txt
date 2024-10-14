@@ -228,6 +228,8 @@ svg {
   top: 0;
   right: 0;
   margin: 0.125rem;
+
+  z-index: 2;
 }
 
 .bottom-right {
@@ -240,9 +242,9 @@ svg {
 .menu {
   background-color: var(--color-bg-muted);
   box-shadow: 5px 5px 5px var(--color-shadow);
-  padding: 0.25rem 0;
   border-radius: 0.25rem;
 
+  z-index: 3;
   ul {
     max-height: 70vh;
     overflow-y: auto;
@@ -250,9 +252,14 @@ svg {
     .preview {
       cursor: pointer;
       padding: 0.5rem 1rem;
+      border-left: 3px solid transparent;
 
       &:hover {
         background-color: var(--color-bg-hover);
+      }
+
+      &.active {
+        border-color: var(--color-primary);
       }
     }
   }

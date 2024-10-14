@@ -47,6 +47,7 @@
   <div
     x-data="{
       pages: $persist([]),
+      activePageId: null,
       menuOpen: false,
       windowWidth: window.innerWidth,
       windowSplitting: $persist(true),
@@ -66,6 +67,11 @@
           document.querySelector(`#page-${newId}`).scrollIntoView({ behavior: 'instant'})
         });
       },
+
+      setAsActivePage(pageId, pageElement) {
+        pageElement.focus()
+        this.activePageId = pageId
+      },
     }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -76,7 +82,7 @@
           :id="`page-${page.id}`"
           :class="{ 'split': windowSplitting }"
           tabindex="0"
-          x-intersect.full="$el.focus()"
+          x-intersect.full="setAsActivePage(page.id, $el)"
           @sorting-fuckup="
             // Force tasks to be redrawn from scratch after being sorted.
             // This is a really ugly work-around for the x-sort messing
@@ -328,6 +334,7 @@
             <li x-sort:item="page.id">
               <div
                 class="preview"
+                :class="{active: page.id === activePageId}"
                 @click="menuOpen = false; document.querySelector(`#page-${page.id}`).scrollIntoView({ behavior: 'instant'})"
               >
                 <p x-text="page.text.split('\n', 1)[0] || '(no title)'"></p>
@@ -339,7 +346,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.7.3
+          v3.7.4
         </footer>
       </div>
     </template>
