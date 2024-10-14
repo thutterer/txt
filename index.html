@@ -50,6 +50,7 @@
       menuOpen: false,
       windowWidth: window.innerWidth,
       windowSplitting: $persist(true),
+      showTasks: true, // Only used for an ugly workaround. See `sorting-fuckup`. Don't build any other features on this boolean!
 
       isDesktop() {
         return this.windowWidth >= 800;
@@ -76,6 +77,13 @@
           :class="{ 'split': windowSplitting }"
           tabindex="0"
           x-intersect.full="$el.focus()"
+          @sorting-fuckup="
+            // Force tasks to be redrawn from scratch after being sorted.
+            // This is a really ugly work-around for the x-sort messing
+            // with data reactivity updating correctly! FIXME!
+            showTasks = false;
+            $nextTick(() => showTasks = true)
+          "
         >
           <textarea
             placeholder="new txt..."
@@ -182,58 +190,67 @@
             }"
           ></textarea>
 
-          <ul class="tasks">
-            <li class="task-progress" x-show="page.tasks.length > 0">
-              <progress
-                value="0"
-                :value="page.tasks.filter(t => t.done).length"
-                :max="page.tasks.length"
-              ></progress>
+          <div class="task-progress" x-show="page.tasks.length > 0">
+            <progress
+              value="0"
+              :value="page.tasks.filter(t => t.done).length"
+              :max="page.tasks.length"
+            ></progress>
 
-              <button
-                :disabled="page.tasks.filter(t => t.done).length === 0"
-                x-transition
-                @click="page.tasks = page.tasks.filter(t => !t.done)"
-                title="Delete done tasks"
+            <button
+              :disabled="page.tasks.filter(t => t.done).length === 0"
+              x-transition
+              @click="page.tasks = page.tasks.filter(t => !t.done)"
+              title="Delete done tasks"
+            >
+              <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+              </svg>
+            </button>
+          </div>
+
+          <template x-if="showTasks">
+            <ul
+              class="tasks"
+              x-sort="
+                const movedItem = page.tasks.splice($item, 1)[0];
+                page.tasks.splice($position, 0, movedItem);
+                $dispatch('sorting-fuckup')
+              "
               >
-                <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
-                </svg>
-              </button>
-            </li>
-            <template x-for="task in page.tasks">
-              <li
-                x-data="{ editMode: false }"
-                class="task"
-                >
-                <input
-                  type="checkbox"
-                  :id="`task-${task.id}`"
-                  x-model="task.done"
-                >
-                <label
-                  :for="`task-${task.id}`"
-                  x-show="!editMode"
-                  x-text="task.text"
-                  @contextmenu.prevent="editMode = true; $nextTick(() => { $refs.editInput.focus() })"
-                ></label>
-                <input
-                  type="text"
-                  x-model.debounce="task.text"
-                  x-ref="editInput"
-                  x-show="editMode"
-                  @change="editMode = false"
-                >
-                <button
-                  title="Delete task"
-                  x-show="editMode"
-                  @click="page.tasks = page.tasks.filter(t => t.id !== task.id)"
-                >
-                  <svg height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                </button>
-              </li>
-            </template>
-            <li>
+              <template x-for="(task, index) in page.tasks">
+                <li
+                  x-sort:item="index"
+                  x-data="{ editMode: false }"
+                  class="task"
+                  >
+                  <input
+                    type="checkbox"
+                    :id="`task-${task.id}`"
+                    x-model="task.done"
+                  >
+                  <label
+                    :for="`task-${task.id}`"
+                    x-show="!editMode"
+                    x-text="task.text"
+                    @contextmenu.prevent="editMode = true; $nextTick(() => { $refs.editInput.focus() })"
+                  ></label>
+                  <input
+                    type="text"
+                    x-model.debounce="task.text"
+                    x-ref="editInput"
+                    x-show="editMode"
+                    @change="editMode = false"
+                  >
+                  <button
+                    title="Delete task"
+                    x-show="editMode"
+                    @click="page.tasks = page.tasks.filter(t => t.id !== task.id)"
+                  >
+                    <svg height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                  </button>
+                </li>
+              </template>
               <input
                 type="text"
                 placeholder="new task..."
@@ -242,8 +259,8 @@
                   $el.value = ''
                 "
               >
-            </li>
-          </ul>
+            </ul>
+          </template>
         </li>
       </template>
 
@@ -313,7 +330,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.6.0
+          v3.7.0
         </footer>
       </div>
     </template>
