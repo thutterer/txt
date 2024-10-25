@@ -72,6 +72,14 @@
         pageElement.focus()
         this.activePageId = pageId
       },
+
+      init() {
+        this.$nextTick(() => {
+          // Show the most recent page
+          const pages = this.$el.querySelectorAll('.page')
+          pages[pages.length- 1].focus()
+        })
+      }
     }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -346,7 +354,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.7.4
+          v3.7.5
         </footer>
       </div>
     </template>
