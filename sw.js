@@ -14,6 +14,9 @@ const addResourcesToCache = async (resources) => {
       "/logo192.png",
       "/logo512.png",
       "https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js",
+      "https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js",
+      "https://cdn.jsdelivr.net/npm/@alpinejs/anchor@3.x.x/dist/cdn.min.js",
+      "https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js",
       "https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js",
     ]),
   );
