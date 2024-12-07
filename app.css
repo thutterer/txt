@@ -261,6 +261,10 @@ svg {
       &.active {
         border-color: var(--color-primary);
       }
+
+      &.hidden span {
+        filter: blur(3px);
+      }
     }
   }
 
