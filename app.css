@@ -166,6 +166,11 @@ button {
   }
 }
 
+input[type="checkbox"] {
+  transform: scale(1.5);
+  margin: 0.5rem;
+}
+
 textarea,
 input[type="text"],
 button {
@@ -237,6 +242,17 @@ svg {
   bottom: 0;
   right: 0;
   margin: 0.125rem;
+}
+
+button.btn {
+  padding: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+
+  &:not(:disabled):hover {
+    background-color: var(--color-bg-hover);
+  }
 }
 
 .menu {

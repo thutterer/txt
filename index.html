@@ -227,6 +227,7 @@
             ></progress>
 
             <button
+              class="btn"
               :disabled="page.tasks.filter(t => t.done).length === 0"
               x-transition
               @click="page.tasks = page.tasks.filter(t => !t.done)"
@@ -311,6 +312,7 @@
 
     <nav class="top-right vertical">
       <button
+        class="btn"
         x-ref="menuButton"
         @click.stop="menuOpen = !menuOpen"
         title="Menu"
@@ -383,7 +385,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.8.2
+          v3.8.3
         </footer>
       </div>
     </template>
