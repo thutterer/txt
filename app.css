@@ -263,7 +263,11 @@ svg {
       }
 
       &.hidden span {
-        filter: blur(3px);
+        filter: blur(1px);
+      }
+
+      label {
+        cursor: pointer;
       }
     }
   }
@@ -302,3 +306,10 @@ nav.vertical {
   flex-wrap: nowrap;
   gap: 0.5rem;
 }
+
+
+/* Flex utilities */
+
+.flex { display: flex; }
+.gap { gap: 1rem; }
+.grow { flex-grow: 1; }
