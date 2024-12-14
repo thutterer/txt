@@ -168,7 +168,7 @@ button {
 
 input[type="checkbox"] {
   transform: scale(1.5);
-  margin: 0.5rem;
+  margin: 0.25rem;
 }
 
 textarea,
@@ -212,6 +212,7 @@ svg {
   gap: 0.125rem;
   align-items: center;
   border-radius: 2px;
+  padding: 0 0.5rem;
 
   &:hover {
     background-color: var(--color-bg-hover);
