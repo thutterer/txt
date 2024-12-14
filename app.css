@@ -142,10 +142,13 @@ button {
     textarea {
       resize: none;
       width: 100%;
-      max-height: calc(100% - env(keyboard-inset-height, 0));
       padding: 0.25rem;
       margin-bottom: 0.5rem;
       flex-grow: 1;
+
+      &:focus {
+        max-height: calc(100% - env(keyboard-inset-height, 0));
+      }
     }
 
     &.new {

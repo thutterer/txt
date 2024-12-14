@@ -319,6 +319,9 @@
               class="new"
               type="text"
               placeholder="new task..."
+              virtualkeyboardpolicy="manual"
+              inputmode="text"
+              @focus="navigator.virtualKeyboard.show();"
               @change="
                 page.tasks.push({ id: Date.now(), text: $el.value, done: false });
                 $el.value = '';
@@ -430,7 +433,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.5
+          v3.9.6
         </footer>
       </div>
     </template>
