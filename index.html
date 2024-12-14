@@ -120,6 +120,7 @@
         >
           <textarea
             placeholder="new txt..."
+            virtualkeyboardpolicy="manual"
             x-model.debounce="page.text"
             @keyup.enter="
               const cursorPosition = $el.selectionStart;
@@ -319,7 +320,6 @@
               $el.value = '';
               $el.focus();
             "
-            @focus.prevent.stop
           >
         </li>
       </template>
@@ -411,7 +411,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.8.14
+          v3.9.0
         </footer>
       </div>
     </template>
