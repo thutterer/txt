@@ -122,6 +122,7 @@
             placeholder="new txt..."
             virtualkeyboardpolicy="manual"
             x-model.debounce="page.text"
+            @dblclick="navigator.virtualKeyboard.show();"
             @keyup.enter="
               const cursorPosition = $el.selectionStart;
               const prevCursor = $el.value.substring(0, cursorPosition);
@@ -411,7 +412,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.0
+          v3.9.1
         </footer>
       </div>
     </template>
