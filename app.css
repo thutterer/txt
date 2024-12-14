@@ -229,7 +229,7 @@ svg {
 }
 
 .tasks input[type="text"] {
-  padding: 0.5rem;
+  &.large { padding: 0.75rem; }
 
   &:hover {
     background-color: var(--color-bg-hover);
