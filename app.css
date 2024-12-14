@@ -12,8 +12,8 @@
 
   @media (prefers-color-scheme: dark) {
     --color-bg: #111;
-    --color-bg-muted: #444;
-    --color-bg-hover: rgba(255, 255, 255, 0.25);
+    --color-bg-muted: #222;
+    --color-bg-hover: rgba(255, 255, 255, 0.125);
     --color-text: #eee;
     --color-text-hover: #fff;
     --color-text-muted: #aaa;
@@ -109,7 +109,7 @@ button {
   overflow-y: hidden;
 
   @media (min-width: 800px) {
-    margin-right: 38px;
+    margin-right: 42px;
   }
 
   .page {
@@ -211,6 +211,11 @@ svg {
   flex-direction: row;
   gap: 0.125rem;
   align-items: center;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: var(--color-bg-hover);
+  }
 
   label {
     padding: 0.5rem 0;
