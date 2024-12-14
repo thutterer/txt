@@ -80,6 +80,10 @@
       },
 
       init() {
+        if ('virtualKeyboard' in navigator) {
+          navigator.virtualKeyboard.overlaysContent = true;
+        }
+
         this.$nextTick(() => {
           // Show the most recent page
           const pages = this.$el.querySelectorAll('.page')
@@ -315,7 +319,7 @@
               $el.value = '';
               $el.focus();
             "
-            @focus.prevent
+            @focus.prevent.stop
           >
         </li>
       </template>
@@ -407,7 +411,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.8.13
+          v3.8.14
         </footer>
       </div>
     </template>
