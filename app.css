@@ -104,7 +104,6 @@ button {
   flex-wrap: nowrap;
 
   scroll-snap-type: x mandatory;
-  /* scroll-behavior: smooth; */
   overflow-x: auto;
   overflow-y: hidden;
 
@@ -119,11 +118,6 @@ button {
     scroll-snap-align: start;
 
     width: 100%;
-
-    transform: translateY(calc(-1 * env(keyboard-inset-height, 0)));
-    transition: transform;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
 
     @media (min-width: 800px) {
       &.split {
@@ -140,7 +134,7 @@ button {
     }
 
     flex-shrink: 0;
-    padding: 8px;
+    padding: 0.5rem;
 
     display: flex;
     flex-direction: column;
@@ -148,7 +142,8 @@ button {
     textarea {
       resize: none;
       width: 100%;
-      padding: 4px;
+      max-height: calc(100% - env(keyboard-inset-height, 0));
+      padding: 0.25rem;
       margin-bottom: 0.5rem;
       flex-grow: 1;
     }
@@ -203,6 +198,16 @@ time {
 
 svg {
   fill: var(--color-text);
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+
+  &:focus-within {
+    transform: translateY(calc(-1 * env(keyboard-inset-height, 0)));
+  }
 }
 
 .tasks {
