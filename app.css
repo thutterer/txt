@@ -120,6 +120,11 @@ button {
 
     width: 100%;
 
+    transform: translateY(calc(-1 * env(keyboard-inset-height, 0)));
+    transition: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+
     @media (min-width: 800px) {
       &.split {
         width: 50%;
@@ -374,6 +379,6 @@ nav.vertical {
     transition: width;
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
-    background-color: hotpink;
+    background-color: var(--color-primary);
   }
 }
