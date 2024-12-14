@@ -226,11 +226,12 @@
           ></textarea>
 
           <div class="task-progress" x-show="page.tasks.length > 0">
-            <progress
-              value="0"
-              :value="page.tasks.filter(t => t.done).length"
-              :max="page.tasks.length"
-            ></progress>
+            <div class="progressbar">
+              <div
+                class="progress"
+                :style="{width: `${100.0 * page.tasks.filter(t => t.done).length / page.tasks.length}%`}"></div>
+            </div>
+            <br>
 
             <button
               class="btn"
@@ -412,7 +413,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.1
+          v3.9.2
         </footer>
       </div>
     </template>
