@@ -258,7 +258,6 @@
                     type="checkbox"
                     :id="`task-${task.id}`"
                     x-model="task.done"
-                    x-sort:handle
                   >
                   <label
                     :for="`task-${task.id}`"
@@ -266,6 +265,15 @@
                     x-text="task.text"
                     @contextmenu.prevent="editMode = true; $nextTick(() => { $refs.editInput.focus() })"
                   ></label>
+                  <span
+                    x-show="!editMode"
+                    x-sort:handle
+                    class="muted grab"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16">
+                      <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                    </svg>
+                  </span>
                   <div
                     class="flex gap grow"
                     x-show="editMode"
@@ -394,7 +402,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.8.7
+          v3.8.8
         </footer>
       </div>
     </template>

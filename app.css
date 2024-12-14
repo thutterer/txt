@@ -341,3 +341,14 @@ nav.vertical {
 .flex { display: flex; }
 .gap { gap: 1rem; }
 .grow { flex-grow: 1; }
+
+/* Other utilities */
+
+.muted {
+  color: var(--color-text-muted);
+  svg { fill: var(--color-text-muted); }
+}
+
+.grab {
+  cursor: grab;
+}
