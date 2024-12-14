@@ -292,13 +292,14 @@
                 </li>
               </template>
               <input
+                tabindex="3"
                 class="large"
                 type="text"
                 placeholder="new task..."
                 @change="
                   page.tasks.push({ id: Date.now(), text: $el.value, done: false });
                   $el.value = '';
-                  $nextTick(() => {$el.focus()})
+                  $el.focus();
                 "
               >
             </ul>
@@ -393,7 +394,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.8.6
+          v3.8.7
         </footer>
       </div>
     </template>
