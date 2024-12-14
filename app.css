@@ -229,8 +229,15 @@ svg {
 }
 
 .tasks input[type="text"] {
-  padding: 0.25rem;
-  width: calc(100% - 50px);
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: var(--color-bg-hover);
+  }
+
+  &:focus {
+    background-color: var(--color-bg-muted);
+  }
 }
 
 .top-right {
