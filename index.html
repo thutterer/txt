@@ -302,20 +302,20 @@
                   </div>
                 </li>
               </template>
-              <input
-                tabindex="3"
-                class="large"
-                type="text"
-                placeholder="new task..."
-                @change="
-                  page.tasks.push({ id: Date.now(), text: $el.value, done: false });
-                  $el.value = '';
-                  $el.focus();
-                "
-              >
               <li x-sort:handle x-show="false"></li>
             </ul>
           </template>
+          <input
+            tabindex="3"
+            class="new"
+            type="text"
+            placeholder="new task..."
+            @change="
+              page.tasks.push({ id: Date.now(), text: $el.value, done: false });
+              $el.value = '';
+              $el.focus();
+            "
+          >
         </li>
       </template>
 
@@ -406,7 +406,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.8.10
+          v3.8.11
         </footer>
       </div>
     </template>
