@@ -121,7 +121,6 @@
           <textarea
             placeholder="new txt..."
             virtualkeyboardpolicy="manual"
-            inputmode="text"
             x-model.debounce="page.text"
             @dblclick="navigator.virtualKeyboard.show();"
             @keyup.enter="
@@ -278,7 +277,7 @@
                     <span
                       x-show="!editMode"
                       x-sort:handle
-                      class="muted grab"
+                      class="grab"
                       style="padding: 3px 0 3px 24px;"
                       tabindex="-1"
                     >
@@ -320,8 +319,7 @@
               type="text"
               placeholder="new task..."
               virtualkeyboardpolicy="manual"
-              inputmode="text"
-              @focus="navigator.virtualKeyboard.show();"
+              @click="navigator.virtualKeyboard.show();"
               @change="
                 page.tasks.push({ id: Date.now(), text: $el.value, done: false });
                 $el.value = '';
@@ -401,7 +399,7 @@
                   <span class="grow" x-text="page.text.split('\n', 1)[0] || '(no title)'"></span>
                   <span
                     x-sort:handle
-                    class="muted grab"
+                    class="grab"
                     style="padding: 3px 0 3px 12px;"
                   >
                     <svg width="16" height="16" viewBox="0 0 16 16">
@@ -433,7 +431,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.6
+          v3.9.7
         </footer>
       </div>
     </template>

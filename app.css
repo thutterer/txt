@@ -360,15 +360,11 @@ nav.vertical {
 .grow { flex-grow: 1; }
 
 
-/* Other utilities */
-
-.muted {
-  color: var(--color-text-muted);
-  svg { fill: var(--color-text-muted); }
-}
+/* Grab handle */
 
 .grab {
   cursor: grab;
+  svg { fill: rgba(255, 255, 255, 0.25); }
 }
 
 
