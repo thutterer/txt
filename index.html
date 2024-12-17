@@ -39,6 +39,11 @@
 
       return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][month]} ${day}`;
     }
+
+    function wrapUrlsInAnchorTags(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    }
   </script>
 
   <link rel="stylesheet" href="app.css">
@@ -270,7 +275,7 @@
                     <label
                       :for="`task-${task.id}`"
                       x-show="!editMode"
-                      x-text="task.text"
+                      x-html="wrapUrlsInAnchorTags(task.text)"
                       @contextmenu.prevent="editMode = true; $nextTick(() => { $refs.editInput.focus() })"
                       style="margin-left: 0.5rem;"
                     ></label>
@@ -431,7 +436,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.7
+          v3.9.8
         </footer>
       </div>
     </template>
