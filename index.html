@@ -325,7 +325,7 @@
               placeholder="new task..."
               virtualkeyboardpolicy="manual"
               @click="navigator.virtualKeyboard.show();"
-              @change="
+              @keydown.enter="
                 page.tasks.push({ id: Date.now(), text: $el.value, done: false });
                 $el.value = '';
                 $el.focus();
@@ -436,7 +436,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.8
+          v3.9.9
         </footer>
       </div>
     </template>
