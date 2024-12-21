@@ -104,6 +104,10 @@
         menuOpen = false;
         document.querySelector(`#page-${pageId}`).scrollIntoView({ behavior: 'instant'})
       },
+
+      // activePage() {
+      //   return this.pages.find(p => p.id === this.activePageId)
+      // },
     }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -264,8 +268,12 @@
                 <template x-for="(task, index) in page.tasks">
                   <li
                     x-sort:item="index"
-                    x-data="{ editMode: false }"
+                    x-data="{
+                      editMode: false,
+                      showMenu: false,
+                    }"
                     class="task flex"
+                    :data-taskid="task.id"
                     >
                     <input
                       type="checkbox"
@@ -276,7 +284,7 @@
                       :for="`task-${task.id}`"
                       x-show="!editMode"
                       x-html="wrapUrlsInAnchorTags(task.text)"
-                      @contextmenu.prevent="editMode = true; $nextTick(() => { $refs.editInput.focus() })"
+                      @contextmenu.prevent="showMenu = true"
                       style="margin-left: 0.5rem;"
                     ></label>
                     <span
@@ -313,11 +321,31 @@
                         </svg>
                       </button>
                     </div>
+
+                    <template x-if="showMenu">
+                      <div
+                        class="contextmenu flex col"
+                        x-anchor="$root"
+                        @click.outside="showMenu = false"
+                      >
+                        <button class="btn" @click="
+                          editMode = true;
+                          showMenu = false;
+                        ">Edit</button>
+                        <button class="btn" @click="
+                          $nextTick(() => {
+                            page.tasks = page.tasks.filter((t) => { return t.id != task.id });
+                            showMenu = false;
+                          })
+                        ">Delete</button>
+                      </div>
+                    </template>
                   </li>
                 </template>
                 <li x-sort:handle x-show="false"></li>
               </ul>
             </template>
+
             <input
               tabindex="3"
               class="new"
@@ -436,7 +464,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.9.9
+          v3.10.0
         </footer>
       </div>
     </template>
