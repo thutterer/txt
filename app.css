@@ -51,11 +51,7 @@ a {
 }
 
 button {
-  cursor: pointer;
-
   &:disabled {
-    cursor: default;
-
     svg {
       fill: var(--color-text-disabled) !important;
     }
@@ -140,7 +136,7 @@ button {
     flex-direction: column;
 
     textarea {
-      resize: vertical;
+      resize: none;
       background-color: var(--color-bg-muted);
       width: 100%;
       height: 60vh;
@@ -236,10 +232,6 @@ svg {
 
   label {
     padding: 0.5rem 0;
-  }
-
-  label,
-  input[type="text"] {
     cursor: pointer;
     flex-grow: 1;
   }
@@ -249,14 +241,6 @@ input[type="text"].new {
   padding: 0.75rem;
   margin: 0.5rem 3rem;
   background-color: var(--color-bg-muted);
-
-  &:hover {
-    background-color: var(--color-bg-hover);
-  }
-
-  &:focus {
-    background-color: var(--color-bg-muted);
-  }
 }
 
 .top-right {
@@ -275,11 +259,12 @@ input[type="text"].new {
   margin: 0.125rem;
 }
 
-button.btn {
+.btn {
   padding: 0.25rem;
   margin: 0.25rem;
   border-radius: 0.25rem;
   display: flex;
+  cursor: pointer;
 
   &:not(:disabled):hover {
     background-color: var(--color-bg-hover);
@@ -288,12 +273,12 @@ button.btn {
 
 .contextmenu, .menu {
   background-color: var(--color-bg-muted);
-  box-shadow: 5px 5px 5px var(--color-shadow);
   border-radius: 0.25rem;
 }
 
 .contextmenu {
   z-index: 2;
+  box-shadow: 0 0 5px var(--color-shadow);
 
   .btn {
     padding: 0.5rem 3rem;
@@ -304,6 +289,8 @@ button.btn {
 
 .menu {
   z-index: 3;
+  box-shadow: 0 0 10px var(--color-shadow);
+
   ul {
     max-height: 70vh;
     overflow-y: auto;

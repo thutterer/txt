@@ -326,18 +326,17 @@
                       <div
                         class="contextmenu flex col"
                         x-anchor="$root"
-                        @click.outside="showMenu = false"
                       >
-                        <button class="btn" @click="
+                        <div class="btn" @click="
                           editMode = true;
                           showMenu = false;
-                        ">Edit</button>
-                        <button class="btn" @click="
+                        ">Edit</div>
+                        <div class="btn" @click="
                           $nextTick(() => {
                             page.tasks = page.tasks.filter((t) => { return t.id != task.id });
                             showMenu = false;
                           })
-                        ">Delete</button>
+                        ">Delete</div>
                       </div>
                     </template>
                   </li>
@@ -464,7 +463,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.10.0
+          v3.10.1
         </footer>
       </div>
     </template>
