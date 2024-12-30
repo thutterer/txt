@@ -137,9 +137,8 @@ button {
 
     textarea {
       resize: none;
-      background-color: var(--color-bg-muted);
       width: 100%;
-      height: 60vh;
+      height: 50vh;
       padding: 0.5rem;
       margin-bottom: 0.5rem;
 
