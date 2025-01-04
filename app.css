@@ -172,7 +172,8 @@ input[type="checkbox"] {
 
 textarea,
 input[type="text"],
-button {
+button,
+.btn {
   background: transparent;
   color: var(--color-text);
   border: none;
@@ -280,7 +281,7 @@ input[type="text"].new {
   box-shadow: 0 0 5px var(--color-shadow);
 
   .btn {
-    padding: 0.5rem 3rem;
+    padding: 1rem 3rem;
     margin: 0;
     border-radius: 0;
   }
