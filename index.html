@@ -318,6 +318,7 @@
                       <input
                         class="grow"
                         type="text"
+                        enterkeyhint="done"
                         x-model.debounce="task.text"
                         x-ref="editInput"
                         @change="editMode = false"
@@ -362,6 +363,7 @@
               tabindex="3"
               class="new"
               type="text"
+              enterkeyhint="done"
               placeholder="new task..."
               @keydown.enter="
                 page.tasks.push({ id: Date.now(), text: $el.value, done: false });
@@ -474,7 +476,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.10.2
+          v3.10.3
         </footer>
       </div>
     </template>
