@@ -363,7 +363,7 @@
               tabindex="3"
               class="new"
               type="text"
-              enterkeyhint="done"
+              enterkeyhint="enter"
               placeholder="new task..."
               @keydown.enter="
                 page.tasks.push({ id: Date.now(), text: $el.value, done: false });
@@ -476,7 +476,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.10.4
+          v3.10.5
         </footer>
       </div>
     </template>
