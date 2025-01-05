@@ -109,17 +109,17 @@
       //   return this.pages.find(p => p.id === this.activePageId)
       // },
 
-      showKeyboard() {
-        if ('virtualKeyboard' in navigator) {
-          navigator.virtualKeyboard.show();
-        }
-      },
+      // showKeyboard() {
+      //   if ('virtualKeyboard' in navigator) {
+      //     navigator.virtualKeyboard.show();
+      //   }
+      // },
 
-      hideKeyboard() {
-        if ('virtualKeyboard' in navigator) {
-          navigator.virtualKeyboard.hide();
-        }
-      },
+      // hideKeyboard() {
+      //   if ('virtualKeyboard' in navigator) {
+      //     navigator.virtualKeyboard.hide();
+      //   }
+      // },
 
       isSeperator(task) {
         return task.text === '---'
@@ -145,10 +145,7 @@
         >
           <textarea
             placeholder="new txt..."
-            virtualkeyboardpolicy="manual"
             x-model.debounce="page.text"
-            @dblclick="showKeyboard"
-            @blur="hideKeyboard"
             @keyup.enter="
               const cursorPosition = $el.selectionStart;
               const prevCursor = $el.value.substring(0, cursorPosition);
@@ -495,7 +492,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.11.0
+          v3.11.1
         </footer>
       </div>
     </template>
