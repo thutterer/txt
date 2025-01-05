@@ -120,6 +120,10 @@
           navigator.virtualKeyboard.hide();
         }
       },
+
+      isSeperator(task) {
+        return task.text === '---'
+      },
 }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -252,7 +256,7 @@
               <div class="progressbar">
                 <div
                   class="progress"
-                  :style="{width: `${100.0 * page.tasks.filter(t => t.done).length / page.tasks.length}%`}"></div>
+                  :style="{width: `${100.0 * page.tasks.filter(t => t.done).length / page.tasks.filter(t => !isSeperator(t)).length}%`}"></div>
               </div>
               <br>
 
@@ -287,19 +291,33 @@
                     }"
                     class="task flex"
                     :data-taskid="task.id"
-                    >
-                    <input
-                      type="checkbox"
-                      :id="`task-${task.id}`"
-                      x-model="task.done"
-                    >
-                    <label
-                      :for="`task-${task.id}`"
-                      x-show="!editMode"
-                      x-html="wrapUrlsInAnchorTags(task.text)"
-                      @contextmenu.prevent="showMenu = true"
-                      style="margin-left: 0.5rem;"
-                    ></label>
+                  >
+                    <template x-if="isSeperator(task)">
+                      <hr
+                        x-show="!editMode"
+                        @contextmenu.prevent="showMenu = true"
+                      >
+                    </template>
+                    <template x-if="!isSeperator(task)">
+                      <div
+                        x-show="!editMode"
+                        class="grow flex"
+                      >
+                        <input
+                          type="checkbox"
+                          :id="`task-${task.id}`"
+                          x-model="task.done"
+                        >
+                        <label
+                          :for="`task-${task.id}`"
+                          x-html="wrapUrlsInAnchorTags(task.text)"
+                          @contextmenu.prevent="showMenu = true"
+                          style="margin-left: 0.5rem;"
+                          class="grow"
+                        ></label>
+                      </div>
+                    </template>
+
                     <span
                       x-show="!editMode"
                       x-sort:handle
@@ -311,6 +329,7 @@
                         <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                       </svg>
                     </span>
+
                     <div
                       class="flex gap grow"
                       x-show="editMode"
@@ -319,7 +338,7 @@
                         class="grow"
                         type="text"
                         enterkeyhint="done"
-                        x-model.debounce="task.text"
+                        x-model.lazy="task.text"
                         x-ref="editInput"
                         @change="editMode = false"
                         @click.outside="editMode = false"
@@ -476,7 +495,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.10.5
+          v3.11.0
         </footer>
       </div>
     </template>

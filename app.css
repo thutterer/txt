@@ -216,6 +216,11 @@ svg {
   flex-direction: column;
   gap: 0.25rem;
   flex-grow: 1;
+
+  hr {
+    flex-grow: 1;
+    height: 1px;
+  }
 }
 
 .task {
@@ -361,6 +366,7 @@ nav.vertical {
 .gap { gap: 1rem; }
 .grow { flex-grow: 1; }
 .col { flex-direction: column; }
+.centered { align-items: center; }
 
 
 /* Grab handle */
