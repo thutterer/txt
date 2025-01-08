@@ -316,7 +316,7 @@
                           :for="`task-${task.id}`"
                           x-html="wrapUrlsInAnchorTags(task.text)"
                           @contextmenu.prevent="showMenu = true"
-                          style="margin-left: 0.5rem;"
+                          style="margin-left: 0.5rem; user-select: none;"
                           class="grow"
                         ></label>
                       </div>
@@ -500,7 +500,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.11.3
+          v3.11.4
         </footer>
       </div>
     </template>
