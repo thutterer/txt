@@ -398,20 +398,9 @@
           </div>
         </li>
       </template>
-
-      <li class="new page"
-        tabindex="0"
-        x-show="!isDesktop()"
-        x-cloak
-        x-init="$el.scrollIntoView()"
-        x-intersect.full="$el.focus()"
-        :class="{ 'split': windowSplitting }"
-      >
-        <button @click="createPage()">+</button>
-      </li>
     </ul>
 
-    <nav class="top-right vertical">
+    <nav class="top-right">
       <button
         class="btn"
         x-ref="menuButton"
@@ -423,9 +412,21 @@
         </svg>
       </button>
 
-      <button class="btn" @click="createPage()" x-show="isDesktop()" x-cloak title="New page">
+      <button class="btn" @click="createPage()" x-cloak title="New page">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+        </svg>
+      </button>
+
+      <button
+        class="btn"
+        x-show="isDesktop"
+        x-cloak
+        @click="windowSplitting = !windowSplitting"
+        :class="{ 'active': windowSplitting }"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
         </svg>
       </button>
     </nav>
@@ -500,24 +501,10 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.11.4
+          v3.12.0
         </footer>
       </div>
     </template>
-
-    <div class="bottom-right">
-      <button
-        class="btn"
-        x-show="isDesktop"
-        x-cloak
-        @click="windowSplitting = !windowSplitting"
-        :class="{ 'active': windowSplitting }"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
-        </svg>
-      </button>
-    </div>
   </div>
 </body>
 </html>

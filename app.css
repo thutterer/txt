@@ -103,10 +103,6 @@ button {
   overflow-x: auto;
   overflow-y: hidden;
 
-  @media (min-width: 800px) {
-    margin-right: 42px;
-  }
-
   .page {
     position: relative;
     background-color: transparent;
@@ -144,18 +140,6 @@ button {
 
       &:focus {
         max-height: calc(100% - env(keyboard-inset-height, 0));
-      }
-    }
-
-    &.new {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      button {
-        height: 100%;
-        width: 100%;
-        font-size: 10rem;
       }
     }
 
@@ -259,6 +243,7 @@ input[type="text"].new {
   top: 0;
   right: 0;
   margin: 0.125rem;
+  border-bottom-left-radius: 0.25rem;
 
   z-index: 2;
 }
@@ -358,11 +343,13 @@ input[type="text"].new {
   }
 }
 
-nav.vertical {
+nav {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   flex-wrap: nowrap;
-  gap: 0.5rem;
+  gap: 0.25rem;
+  background-color: var(--color-bg-muted);
+  box-shadow: 0 0 5px var(--color-shadow);
 }
 
 
