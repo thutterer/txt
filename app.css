@@ -219,7 +219,12 @@ svg {
 
   hr {
     flex-grow: 1;
-    height: 1px;
+    height: 3px;
+    border-radius: 1px;
+    border: none;
+    margin: 0 1rem;
+    color: transparent;
+    background-color: var(--color-bg-muted);
   }
 }
 
@@ -230,6 +235,7 @@ svg {
   align-items: center;
   border-radius: 2px;
   padding: 0 0.5rem;
+  min-height: 2rem;
 
   &:hover {
     background-color: var(--color-bg-hover);
@@ -373,7 +379,7 @@ nav.vertical {
 
 .grab {
   cursor: grab;
-  svg { fill: rgba(255, 255, 255, 0.25); }
+  svg { fill: rgba(255, 255, 255, 0.25); } /* FIXME: Light mode */
 }
 
 
