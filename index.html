@@ -364,10 +364,14 @@
                       <div
                         class="contextmenu flex col"
                         x-anchor="$root"
+                        @click.outside="showMenu = false"
                       >
                         <div class="btn" @click="
                           editMode = true;
                           showMenu = false;
+
+                          const editInput = $refs.editInput;
+                          $nextTick(() => editInput.focus())
                         ">Edit</div>
                         <div class="btn" @click="
                           $nextTick(() => {
@@ -404,7 +408,7 @@
       <button
         class="btn"
         x-ref="menuButton"
-        @click.stop="menuOpen = !menuOpen"
+        @click="menuOpen = !menuOpen"
         title="Menu"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -506,7 +510,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.12.1
+          v3.12.2
         </footer>
       </div>
     </template>
