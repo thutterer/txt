@@ -112,6 +112,14 @@
         document.querySelector(`#page-${pageId}`).scrollIntoView({ behavior: 'instant'})
       },
 
+      deleteDoneTasks() {
+        this.page.tasks = this.page.tasks.filter(t => !t.done)
+
+        if ('vibrate' in navigator) {
+          navigator.vibrate([200, 100, 200]);
+        }
+      },
+
       // activePage() {
       //   return this.pages.find(p => p.id === this.activePageId)
       // },
@@ -268,7 +276,7 @@
                 class="btn"
                 :disabled="page.tasks.filter(t => t.done).length === 0"
                 x-transition
-                @click="page.tasks = page.tasks.filter(t => !t.done)"
+                @click="deleteDoneTasks"
                 title="Delete done tasks"
               >
                 <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -510,7 +518,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.12.2
+          v3.12.3
         </footer>
       </div>
     </template>
