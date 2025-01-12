@@ -290,9 +290,12 @@ input[type="text"].new {
     overflow-y: auto;
 
     .preview {
-      cursor: pointer;
       padding: 0.5rem 1rem;
       border-left: 3px solid transparent;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
 
       &:hover {
         background-color: var(--color-bg-hover);
@@ -306,8 +309,9 @@ input[type="text"].new {
         filter: blur(1px);
       }
 
-      label {
+      button, label {
         cursor: pointer;
+        font-size: large;
       }
     }
   }
