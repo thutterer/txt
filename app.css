@@ -312,6 +312,7 @@ input[type="text"].new {
       button, label {
         cursor: pointer;
         font-size: large;
+        text-align: left;
       }
     }
   }
