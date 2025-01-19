@@ -193,22 +193,29 @@ svg {
   &:focus-within {
     transform: translateY(calc(-1 * env(keyboard-inset-height, 0)));
   }
-}
 
-.tasks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  flex-grow: 1;
 
-  hr {
+  .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    hr {
+      flex-grow: 1;
+      height: 3px;
+      border-radius: 1px;
+      border: none;
+      margin: 0 1rem;
+      color: transparent;
+      background-color: var(--color-bg-muted);
+    }
+  }
+
+  .snoozed-toggle {
     flex-grow: 1;
-    height: 3px;
-    border-radius: 1px;
-    border: none;
-    margin: 0 1rem;
-    color: transparent;
-    background-color: var(--color-bg-muted);
+    display: flex;
+    justify-content: center;
+    align-items: start;
   }
 }
 
@@ -258,11 +265,16 @@ input[type="text"].new {
   margin: 0.25rem;
   border-radius: 0.25rem;
   display: flex;
+  justify-content: center;
   cursor: pointer;
+  transition: background-color 0.25s ease-in-out;
 
   &:not(:disabled):hover {
     background-color: var(--color-bg-hover);
   }
+
+  font-size: small;
+  font-weight: bold;
 }
 
 .contextmenu, .menu {
@@ -273,11 +285,21 @@ input[type="text"].new {
 .contextmenu {
   z-index: 2;
   box-shadow: 0 0 5px var(--color-shadow);
+  min-width: 10rem;
 
   .btn {
     padding: 1rem 3rem;
     margin: 0;
     border-radius: 0;
+  }
+
+  .snooze-time-select {
+    display: flex;
+
+    .btn {
+      padding: 1rem 0.5rem;
+      flex-grow: 1;
+    }
   }
 }
 

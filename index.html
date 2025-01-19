@@ -139,6 +139,20 @@
       isSeperator(task) {
         return task.text === '---'
       },
+
+      snoozedTasks(tasks) {
+        const now = new Date()
+        return tasks ? tasks.filter((t) => {
+          const snoozedUntil = new Date(t.snoozedUntil)
+
+          return snoozedUntil > now
+        }) : []
+      },
+
+      snoozeTaskForDays(task, days) {
+        const now = new Date()
+        task.snoozedUntil = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days, 8)
+      },
 }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -157,6 +171,7 @@
             showTasks = false;
             $nextTick(() => showTasks = true)
           "
+          x-data="{ showSnoozedTasks: false }"
         >
           <textarea
             placeholder="new txt..."
@@ -300,7 +315,15 @@
                     x-data="{
                       editMode: false,
                       showMenu: false,
+
+                      isSnoozed() {
+                        const snoozedUntil = new Date(task.snoozedUntil)
+                        const now = new Date()
+                        return snoozedUntil > now
+                      },
                     }"
+                    x-show="!isSnoozed() || showSnoozedTasks"
+                    x-cloak
                     class="task flex"
                     :data-taskid="task.id"
                   >
@@ -381,6 +404,24 @@
                           const editInput = $refs.editInput;
                           $nextTick(() => editInput.focus())
                         ">Edit</div>
+
+                        <div x-data="{ showSnoozeTimeSelect: false }">
+                          <div class="btn" x-show="!showSnoozeTimeSelect" @click="
+                            showSnoozeTimeSelect = true;
+                            task.snoozedUntil = 'bla'
+                          ">Snooze</div>
+
+                          <div
+                            class="snooze-time-select"
+                            x-show="showSnoozeTimeSelect"
+                            @click="showSnoozeTimeSelect = false; showMenu = false;"
+                          >
+                            <div class="btn" @click="snoozeTaskForDays(task, 1)">1d</div>
+                            <div class="btn" @click="snoozeTaskForDays(task, 3)">3d</div>
+                            <div class="btn" @click="snoozeTaskForDays(task, 7)">7d</div>
+                          </div>
+                        </div>
+
                         <div class="btn" @click="
                           $nextTick(() => {
                             page.tasks = page.tasks.filter((t) => { return t.id != task.id });
@@ -395,6 +436,16 @@
               </ul>
             </template>
 
+            <template x-if="snoozedTasks(page.tasks).length">
+              <div class="snoozed-toggle">
+                <button
+                  class="btn"
+                  @click="showSnoozedTasks = !showSnoozedTasks"
+                  x-text="`${showSnoozedTasks ? 'Hide' : 'Show'} ${snoozedTasks(page.tasks).length} snoozed ${snoozedTasks(page.tasks).length == 1 ? 'task' : 'tasks'}`"
+                >
+              </div>
+            </template>
+
             <input
               tabindex="3"
               class="new"
@@ -402,7 +453,7 @@
               enterkeyhint="enter"
               placeholder="new task..."
               @keydown.enter="
-                page.tasks.push({ id: Date.now(), text: $el.value, done: false });
+                page.tasks.push({ id: Date.now(), text: $el.value, done: false, snoozedUntil: null });
                 $el.value = '';
                 $el.focus();
               "
@@ -516,7 +567,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.12.4
+          v3.13.0
         </footer>
       </div>
     </template>
