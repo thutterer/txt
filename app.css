@@ -19,7 +19,7 @@
     --color-text-hover: #fff;
     --color-text-muted: #aaa;
     --color-text-disabled: #666;
-    --color-text-danger: #d11;
+    --color-text-danger: #d44;
     --color-shadow: #000;
   }
 }
@@ -67,11 +67,15 @@ button {
     }
   }
 
-  &.danger:hover {
+  &.danger {
+    opacity: 0.5;
     color: var(--color-text-danger);
-
     svg {
       fill: var(--color-text-danger);
+    }
+
+    &:hover {
+      opacity: 1;
     }
   }
 
@@ -251,6 +255,7 @@ svg {
 input[type="text"].new {
   padding: 0.75rem;
   margin: 0.5rem 0;
+  flex-grow: 3;
   background-color: var(--color-bg-muted);
 }
 
@@ -393,7 +398,8 @@ nav {
 .btn-spot {
   display: flex;
   justify-content: end;
-  width: 6rem;
+  width: 4rem;
+  flex-grow: 1;
   flex-shrink: 1;
 }
 
