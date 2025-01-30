@@ -11,6 +11,9 @@
 
   <title>txt</title>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/anchor@3.x.x/dist/cdn.min.js"></script>
@@ -173,103 +176,132 @@
           "
           x-data="{ showSnoozedTasks: false }"
         >
-          <textarea
-            placeholder="new txt..."
-            x-model.debounce="page.text"
-            @keyup.enter="
-              const cursorPosition = $el.selectionStart;
-              const prevCursor = $el.value.substring(0, cursorPosition);
-              const afterCursor = $el.value.substring(cursorPosition, $el.value.length);
-              const prevLine = prevCursor.split('\n').at(-2)
+          <div class="text-container">
+            <pre><code
+              class="language-markdown"
+              x-ref="high"
+              x-text="page.text"
+              x-init="
+                $nextTick(() => {
+                  hljs.highlightElement($el)
+                })
 
-              const listLineMatches = prevLine.match(/^(\s*)-\s+\w/)
-              const emptyListLineMatches = prevLine.match(/^\s*-\s*$/)
-              const numberedListLineMatches = prevLine.match(/^(\d+)\.\s+\w/)
-              const emptyNumListLineMatches = prevLine.match(/^\d+.\s+$/)
-
-              // Detect list lines like '- bla bla' and continue list with '- ' in next line
-              // Also detects and continues indentation.
-              if(listLineMatches) {
-                const indentWhitespace = listLineMatches[1]
-                const textToInsert = indentWhitespace + '- '
-                let updatedText = prevCursor
-                updatedText += textToInsert
-                updatedText += afterCursor
-                $el.value = updatedText
-                $el.selectionStart = cursorPosition + textToInsert.length;
-                $el.selectionEnd = cursorPosition + textToInsert.length;
-              }
-
-              // Detect list endings like ' -' or '  - ' and blank that line
-              else if(emptyListLineMatches) {
-                const removedCharCount = emptyListLineMatches[0].length
-                let updatedText = prevCursor.split('\n').slice(0, -2)
-                updatedText.push('')
-                updatedText = updatedText.join('\n')
-                updatedText += afterCursor
-                $el.value = updatedText
-                $el.selectionStart = cursorPosition - removedCharCount;
-                $el.selectionEnd = cursorPosition - removedCharCount;
-              }
-
-              // Detect and continue numbered lists
-              else if(numberedListLineMatches) {
-                const prevNumber = Number(numberedListLineMatches[1])
-
-                const textToInsert = `${prevNumber + 1}. `
-                let updatedText = prevCursor
-                updatedText += textToInsert
-                updatedText += afterCursor
-                $el.value = updatedText
-                $el.selectionStart = cursorPosition + textToInsert.length;
-                $el.selectionEnd = cursorPosition + textToInsert.length;
-              }
-
-              // Detect endings of numbered lists and blank that line
-              // TODO: Refactor to reduce duplication with other list type
-              else if(emptyNumListLineMatches) {
-                const removedCharCount = emptyNumListLineMatches[0].length
-                let updatedText = prevCursor.split('\n').slice(0, -2)
-                updatedText.push('')
-                updatedText = updatedText.join('\n')
-                updatedText += afterCursor
-                $el.value = updatedText
-                $el.selectionStart = cursorPosition - removedCharCount;
-                $el.selectionEnd = cursorPosition - removedCharCount;
-              }
+                $watch('page.text', value => {
+                  delete $el.dataset.highlighted
+                  hljs.highlightElement($el)
+                })
               "
-            @keydown="e => {
-              if (e.key === '(' || e.key === '[' || e.key === '{' || e.key === '*') {
-                const selectionStart = $el.selectionStart;
-                const selectionEnd = $el.selectionEnd;
+            ></code></pre>
 
-                if(selectionStart !== selectionEnd) {
-                  const pressedKey = e.key;
-                  const prevCursor = $el.value.substring(0, selectionStart);
-                  const selectedText = $el.value.substring($el.selectionStart, $el.selectionEnd);
-                  const afterCursor = $el.value.substring(selectionEnd, $el.value.length);
-                  // console.debug({selectionStart, selectionEnd, prevCursor, selectedText, afterCursor})
+            <textarea
+              placeholder="new txt..."
+              x-model="page.text"
+              @scroll="$refs.high.scrollTop = $el.scrollTop"
+              @keyup.enter="
+                const cursorPosition = $el.selectionStart;
+                const prevCursor = $el.value.substring(0, cursorPosition);
+                const afterCursor = $el.value.substring(cursorPosition, $el.value.length);
+                const prevLine = prevCursor.split('\n').at(-2)
 
-                  const closingPair = {
-                    '(': ')',
-                    '[': ']',
-                    '{': '}',
-                    '*': '*',
-                  };
+                const listLineMatches = prevLine.match(/^(\s*)-\s+\w/)
+                const emptyListLineMatches = prevLine.match(/^\s*-\s*$/)
+                const numberedListLineMatches = prevLine.match(/^(\d+)\.\s+\w/)
+                const emptyNumListLineMatches = prevLine.match(/^\d+.\s+$/)
 
-                  let updatedText = prevCursor;
-                  updatedText += `${pressedKey}${selectedText}${closingPair[pressedKey]}`;
-                  updatedText += afterCursor;
-
-                  $el.value = updatedText;
-                  $el.selectionStart = selectionStart + 1;
-                  $el.selectionEnd = selectionEnd + 1;
-
-                  e.preventDefault();
+                // Detect list lines like '- bla bla' and continue list with '- ' in next line
+                // Also detects and continues indentation.
+                if(listLineMatches) {
+                  const indentWhitespace = listLineMatches[1]
+                  const textToInsert = indentWhitespace + '- '
+                  let updatedText = prevCursor
+                  updatedText += textToInsert
+                  updatedText += afterCursor
+                  page.text = updatedText
+                  $nextTick(() => {
+                    $el.selectionStart = cursorPosition + textToInsert.length;
+                    $el.selectionEnd = cursorPosition + textToInsert.length;
+                  })
                 }
-              }
-            }"
-          ></textarea>
+
+                // Detect list endings like ' -' or '  - ' and blank that line
+                else if(emptyListLineMatches) {
+                  const removedCharCount = emptyListLineMatches[0].length
+                  let updatedText = prevCursor.split('\n').slice(0, -2)
+                  updatedText.push('')
+                  updatedText = updatedText.join('\n')
+                  updatedText += afterCursor
+                  page.text = updatedText
+                  $nextTick(() => {
+                    $el.selectionStart = cursorPosition - removedCharCount;
+                    $el.selectionEnd = cursorPosition - removedCharCount;
+                  })
+                }
+
+                // Detect and continue numbered lists
+                else if(numberedListLineMatches) {
+                  const prevNumber = Number(numberedListLineMatches[1])
+
+                  const textToInsert = `${prevNumber + 1}. `
+                  let updatedText = prevCursor
+                  updatedText += textToInsert
+                  updatedText += afterCursor
+                  page.text = updatedText
+                  $nextTick(() => {
+                    $el.selectionStart = cursorPosition + textToInsert.length;
+                    $el.selectionEnd = cursorPosition + textToInsert.length;
+                  })
+                }
+
+                // Detect endings of numbered lists and blank that line
+                // TODO: Refactor to reduce duplication with other list type
+                else if(emptyNumListLineMatches) {
+                  const removedCharCount = emptyNumListLineMatches[0].length
+                  let updatedText = prevCursor.split('\n').slice(0, -2)
+                  updatedText.push('')
+                  updatedText = updatedText.join('\n')
+                  updatedText += afterCursor
+                  page.text = updatedText
+                  $nextTick(() => {
+                    $el.selectionStart = cursorPosition - removedCharCount;
+                    $el.selectionEnd = cursorPosition - removedCharCount;
+                  })
+                }
+                "
+              @keydown="e => {
+                if (e.key === '(' || e.key === '[' || e.key === '{' || e.key === '*') {
+                  const selectionStart = $el.selectionStart;
+                  const selectionEnd = $el.selectionEnd;
+
+                  if(selectionStart !== selectionEnd) {
+                    const pressedKey = e.key;
+                    const prevCursor = $el.value.substring(0, selectionStart);
+                    const selectedText = $el.value.substring($el.selectionStart, $el.selectionEnd);
+                    const afterCursor = $el.value.substring(selectionEnd, $el.value.length);
+                    // console.debug({selectionStart, selectionEnd, prevCursor, selectedText, afterCursor})
+
+                    const closingPair = {
+                      '(': ')',
+                      '[': ']',
+                      '{': '}',
+                      '*': '*',
+                    };
+
+                    let updatedText = prevCursor;
+                    updatedText += `${pressedKey}${selectedText}${closingPair[pressedKey]}`;
+                    updatedText += afterCursor;
+
+                    page.text = updatedText;
+                    $nextTick(() => {
+                      $el.selectionStart = selectionStart + 1;
+                      $el.selectionEnd = selectionEnd + 1;
+                    })
+
+                    e.preventDefault();
+                  }
+                }
+              }"
+            ></textarea>
+          </div>
 
           <div class="tasks-container">
             <div class="task-progress" x-show="page.tasks.length > 0">
@@ -583,7 +615,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v3.13.3
+          v4.0-alpha1
         </footer>
       </div>
     </template>

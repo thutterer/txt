@@ -108,6 +108,28 @@ button {
   }
 }
 
+textarea, pre {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+pre code.hljs {
+  padding: 0;
+  background: transparent;
+}
+
+pre code.hljs, pre code.hljs * {
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+textarea {
+  color: transparent !important;
+  caret-color: red;
+  position: relative;
+  z-index: 2;
+}
+
 #pages-container {
   display: flex;
   flex-direction: row;
@@ -145,12 +167,29 @@ button {
     display: flex;
     flex-direction: column;
 
+    .text-container {
+      position: relative;
+      flex-grow: 1;
+
+      textarea, pre {
+        height: 100%;
+      }
+
+      pre {
+        position: absolute;
+        top: 0;
+
+        > code {
+          height: 100%;
+          overflow: hidden
+        }
+      };
+    }
+
     textarea {
       resize: none;
       width: 100%;
-      flex-grow: 1;
       padding: 0.5rem;
-      margin-bottom: 0.5rem;
 
       &:focus {
         max-height: calc(100% - env(keyboard-inset-height, 0));
