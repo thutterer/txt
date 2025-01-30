@@ -11,7 +11,7 @@
 
   <title>txt</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
@@ -178,7 +178,6 @@
         >
           <div class="text-container">
             <pre><code
-              class="language-markdown"
               x-ref="high"
               x-text="page.text"
               x-init="
@@ -188,6 +187,7 @@
 
                 $watch('page.text', value => {
                   delete $el.dataset.highlighted
+                  $el.classList = [] // to reset detected language
                   hljs.highlightElement($el)
                 })
               "
@@ -615,7 +615,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v4.0-alpha1
+          v4.0-alpha2
         </footer>
       </div>
     </template>

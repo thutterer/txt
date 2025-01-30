@@ -116,6 +116,7 @@ textarea, pre {
 pre code.hljs {
   padding: 0;
   background: transparent;
+  text-wrap: auto;
 }
 
 pre code.hljs, pre code.hljs * {
@@ -285,9 +286,10 @@ svg {
   }
 
   label {
-    padding: 0.5rem 0;
     cursor: pointer;
     flex-grow: 1;
+    font-family: monospace;
+    font-size: 1rem;
   }
 }
 
