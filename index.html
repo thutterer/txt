@@ -432,7 +432,7 @@
                         ">Edit</div>
 
                         <div x-data="{ showSnoozeTimeSelect: false }">
-                          <div class="btn" x-show="!showSnoozeTimeSelect" @click="
+                          <div class="btn" x-show="task.text !== '---' && !showSnoozeTimeSelect" @click="
                             showSnoozeTimeSelect = true;
                             task.snoozedUntil = 'bla'
                           ">Snooze</div>
