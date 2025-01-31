@@ -583,7 +583,7 @@
               >
                 <button
                   class="grow"
-                  x-text="page.text.split('\n', 1)[0] || '(no title)'"
+                  x-text="page.text.split('\n', 1)[0].replace(/^(#+)\s+/, '').slice(0, 40) || '(no title)'"
                   @click="page.visible && gotoPage(page.id)"
                 ></button>
 
