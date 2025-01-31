@@ -126,7 +126,7 @@ pre code.hljs, pre code.hljs * {
 
 textarea {
   color: transparent !important;
-  caret-color: red;
+  caret-color: var(--color-text);
   position: relative;
   z-index: 2;
 }
