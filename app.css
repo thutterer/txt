@@ -1,3 +1,6 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-dark.min.css') (prefers-color-scheme: dark);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-light.min.css') (prefers-color-scheme: light);
+
 :root {
   --color-primary: #097e70;
 
