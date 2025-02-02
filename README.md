@@ -11,4 +11,5 @@ If you want to save and collect documents, use a proper editor and storage!
 
 - 🏔️ [Alpine.js](https://alpinejs.dev/)
 - ➕️ [Bootstrap Icons](https://icons.getbootstrap.com/)
+- 🎨 [Highlight.js](https://highlightjs.org/)
 - 📱 Installable PWA (works offline)
