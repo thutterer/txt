@@ -81,10 +81,12 @@ button {
       opacity: 1;
     }
   }
+}
 
+.btn {
   &.active {
     color: var(--color-primary) !important;
-
+  
     svg {
       fill: var(--color-primary) !important;
     }
@@ -114,6 +116,22 @@ button {
 textarea, pre {
   margin: 0;
   padding: 0.5rem;
+}
+
+.markdown-toggle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  svg {
+    fill: var(--color-text-muted);
+  }
 }
 
 pre code.hljs {

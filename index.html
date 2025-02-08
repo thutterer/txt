@@ -46,6 +46,13 @@
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     }
+
+    function hightlightElement(element, forceMarkdown) {
+      delete element.dataset.highlighted
+      if(forceMarkdown) element.classList = ['language-markdown']
+      else element.classList = []
+      hljs.highlightElement(element)
+    }
   </script>
 
   <link rel="stylesheet" href="app.css">
@@ -173,7 +180,7 @@
             showTasks = false;
             $nextTick(() => showTasks = true)
           "
-          x-data="{ showSnoozedTasks: false }"
+          x-data="{ showSnoozedTasks: false, forceMarkdown: $persist(true).as(`page-${page.id}-markdown`) }"
         >
           <div class="text-container">
             <pre><code
@@ -181,13 +188,15 @@
               x-text="page.text"
               x-init="
                 $nextTick(() => {
-                  hljs.highlightElement($el)
+                  hightlightElement($el, forceMarkdown)
                 })
 
                 $watch('page.text', value => {
-                  delete $el.dataset.highlighted
-                  $el.classList = [] // to reset detected language
-                  hljs.highlightElement($el)
+                  hightlightElement($el, forceMarkdown)
+                })
+
+                $watch('forceMarkdown', value => {
+                  hightlightElement($el, forceMarkdown)
                 })
               "
             ></code></pre>
@@ -301,6 +310,19 @@
                 }
               }"
             ></textarea>
+
+            <label class="markdown-toggle btn">
+              <input type="checkbox" x-model="forceMarkdown">
+              <svg width="16" height="16" viewBox="0 0 16 16" x-show="!forceMarkdown">
+                <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+                <path fill-rule="evenodd" d="M9.146 8.146a.5.5 0 0 1 .708 0L11.5 9.793l1.646-1.647a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708"/>
+                <path fill-rule="evenodd" d="M11.5 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5"/>
+                <path d="M3.56 11V7.01h.056l1.428 3.239h.774l1.42-3.24h.056V11h1.073V5.001h-1.2l-1.71 3.894h-.039l-1.71-3.894H2.5V11z"/>
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" x-show="forceMarkdown">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 1a.5.5 0 0 0-.5.5v3.793L9.854 8.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L12 9.293V5.5a.5.5 0 0 0-.5-.5M3.56 7.01h.056l1.428 3.239h.774l1.42-3.24h.056V11h1.073V5.001h-1.2l-1.71 3.894h-.039l-1.71-3.894H2.5V11h1.06z"/>
+              </svg>
+            </label>
           </div>
 
           <div class="tasks-container">
@@ -615,7 +637,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v4.0-alpha3
+          v4.0-alpha4
         </footer>
       </div>
     </template>
