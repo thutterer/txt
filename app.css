@@ -411,6 +411,7 @@ input[type="text"].new {
         cursor: pointer;
         font-size: large;
         text-align: left;
+        font-family: monospace;
       }
     }
   }
@@ -451,10 +452,6 @@ nav {
   gap: 0.25rem;
   background-color: var(--color-bg-muted);
   box-shadow: 0 0 5px var(--color-shadow);
-
-  &.primary {
-    background-color: var(--color-primary);
-  }
 }
 
 .btn-spot {
