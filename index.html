@@ -11,8 +11,8 @@
 
   <title>txt</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/pocketbase@0.25.1/dist/pocketbase.umd.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/anchor@3.x.x/dist/cdn.min.js"></script>
@@ -53,6 +53,23 @@
       else element.classList = []
       hljs.highlightElement(element)
     }
+
+    function debounce(callback, delay) {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => callback(...args), delay);
+      };
+    }
+
+    const debouncedSyncUp = debounce(async (page) => {
+      try {
+        response = await window.pb.collection('pages').update(
+          page.globalId, 
+          {data: JSON.stringify(page)}
+        )
+      } catch (error) { console.log(error); }
+    }, 500);
   </script>
 
   <link rel="stylesheet" href="app.css">
@@ -67,6 +84,8 @@
       windowWidth: window.innerWidth,
       windowSplitting: $persist(true),
       showTasks: true, // Only used for an ugly workaround. See `sorting-fuckup`. Don't build any other features on this boolean!
+      token: $persist(null),
+      newSyncId: '',
 
       isDesktop() {
         return this.windowWidth >= 800;
@@ -104,6 +123,9 @@
             this.isVirtualKeyboardOpen = !!height
           });
         }
+
+        // Connect to sync server
+        window.pb = new PocketBase('http://127.0.0.1:8090');
 
         this.$nextTick(() => {
           // Show the most recent page
@@ -162,6 +184,47 @@
         const now = new Date()
         task.snoozedUntil = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days, 8)
       },
+
+      async createSync(page) {
+        try {
+          const response = await window.pb.collection('pages').create({data: JSON.stringify(page)})
+          page.globalId = response.id
+        }
+        catch(error) {
+          console.debug(error)
+        }
+      },
+
+      async syncNew(globalId) {
+        try {
+          response = await window.pb.collection('pages').getOne(globalId)
+          const { data } = response
+          this.pages.push(data)
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      async syncDown(page) {
+        try {
+          response = await window.pb.collection('pages').getOne(page.globalId)
+          const { data } = response
+          const updatedPage = {...page, ...data}
+          const indexOfUpdatedPage = this.pages.indexOf(page)
+          this.pages[indexOfUpdatedPage] = updatedPage
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      async syncUp(page) {
+        try {
+          response = await window.pb.collection('pages').update(
+            page.globalId, 
+            {data: JSON.stringify(page)}
+          )
+        } catch (error) { console.log(error); }
+      },
 }"
     x-on:resize.window.throttle="windowWidth = window.innerWidth"
   >
@@ -181,7 +244,40 @@
             $nextTick(() => showTasks = true)
           "
           x-data="{ showSnoozedTasks: false, forceMarkdown: $persist(true).as(`page-${page.id}-markdown`) }"
+          x-init="
+            $watch('page', page => { debouncedSyncUp(page) })
+          "
         >
+          <div class="centered flex sync-container">
+            <button 
+              class="btn"
+              x-show="!page.globalId"
+              @click="createSync(page)"
+            >
+              Sync
+            </button>
+
+            <button 
+              class="btn"
+              x-show="page.globalId"
+              @click="syncUp(page)" 
+              title="Sync up"
+            >
+            ↑
+            </button>
+
+            <button 
+              class="btn"
+              x-show="page.globalId"
+              @click="syncDown(page)"
+              title="Sync down"
+            >
+            ↓
+            </button>
+
+            <code class="id" x-text="page.globalId"></code>
+          </div>
+
           <div class="text-container">
             <pre><code
               x-ref="high"
@@ -521,7 +617,7 @@
                     });
                   "
                 >
-                  <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                   </svg>
@@ -633,11 +729,18 @@
             </li>
           </template>
           <li x-show="false" x-sort:handle></li>
+          <li x-show="token">
+            <span>🟢 Online</span>
+          </li>
+          <li x-show="!token"><a href="signin.html">Sign in</a></li>
         </ul>
+        
+        <input type="text" x-model="newSyncId">
+        <button @click="syncNew(newSyncId)">add</button>
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v4.0.0
+          v5.0.0-alpha1
         </footer>
       </div>
     </template>

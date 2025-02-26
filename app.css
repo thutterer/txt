@@ -134,6 +134,13 @@ textarea, pre {
   }
 }
 
+code.id {
+  font-family: monospace;
+  font-size: small;
+  color: var(--color-text);
+  background-color: var(--color-bg-muted);
+}
+
 pre code.hljs {
   padding: 0;
   background: transparent;
@@ -249,6 +256,7 @@ input[type="text"] {
   font-size: 1rem;
 }
 
+h1,
 label,
 span,
 time {

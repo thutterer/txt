@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#097e70" />
+  <meta name="description" content="text scratchpad" />
+  <link rel="apple-touch-icon" href="logo192.png" />
+  <link rel="manifest" href="manifest.json" />
+
+  <title>txt</title>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <script src="pocketbase.umd.js"></script>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <h1>Sign in</h1>
+
+  <div x-data="{ 
+    email: '', 
+    password: '',
+    token: $persist(null),
+
+    async signin() {
+      const pb = new PocketBase('http://127.0.0.1:8090');
+
+      // authenticate as auth collection record
+      const userData = await pb.collection('users').authWithPassword('tom@ho.me', 'tomtomtom');
+      this.token = userData.token
+
+      const pages = await pb.collection('pages').getList(1, 20)
+      console.log(pages)
+    }
+  }">
+    <label for="email">Email</label>
+    <input type="email" name="" id="email" x-model="email">
+    <label for="password">Password</label>
+    <input type="password" name="" id="password" x-model="password">
+    <button @click="signin">Sign in</button>
+  </div>  
+</body>
+</html>
