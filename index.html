@@ -790,7 +790,7 @@
         </ul>
         
         <ul class="flex col" x-data="{ is404: false }">
-          <li x-show="showAlpha && !pbURL && !isOnline" class="col flex">
+          <li x-show="showAlpha && (!pbURL || !isOnline)" class="col flex">
             <label for="pbURL">Connect to sync server</label>
             <div class="gap flex">
               <input type="url" id="pbURL" class="grow" x-model.lazy="pbURL" placeholder="https://example.com">
@@ -818,7 +818,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha1</span>
+          <span @click="showAlpha = true">v5.0.0-alpha2</span>
         </footer>
       </div>
     </template>
