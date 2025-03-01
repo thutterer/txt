@@ -69,7 +69,7 @@
           {data: JSON.stringify(page)}
         )
       } catch (error) { console.log(error); }
-    }, 500);
+    }, 1000);
   </script>
 
   <link rel="stylesheet" href="app.css">
@@ -84,11 +84,26 @@
       windowWidth: window.innerWidth,
       windowSplitting: $persist(true),
       showTasks: true, // Only used for an ugly workaround. See `sorting-fuckup`. Don't build any other features on this boolean!
+      
+      // sync stuff (this is alpha!)
+      showAlpha: false,
+      pbURL: $persist(null),
       token: $persist(null),
       newSyncId: '',
+      isOnline: false,
 
       isDesktop() {
         return this.windowWidth >= 800;
+      },
+
+      async tryNetwork() {
+        try {
+          response = await fetch(`${this.pbURL}/api/health`) // FIXME: no cache!
+          if(response.status === 404) return false;
+          return true
+        } catch {
+          return false
+        }
       },
 
       createPage() {
@@ -125,7 +140,16 @@
         }
 
         // Connect to sync server
-        window.pb = new PocketBase('http://127.0.0.1:8090');
+        window.pb = new PocketBase(this.pbURL);
+
+        // Watch network connection
+        setInterval(async () => { 
+          if(!this.pbURL) {
+            this.isOnline = false
+            return false
+          }
+          this.isOnline = await this.tryNetwork()
+        }, 10000)
 
         this.$nextTick(() => {
           // Show the most recent page
@@ -189,9 +213,11 @@
         try {
           const response = await window.pb.collection('pages').create({data: JSON.stringify(page)})
           page.globalId = response.id
+          return true
         }
         catch(error) {
-          console.debug(error)
+          console.debug(error.status)
+          return false
         }
       },
 
@@ -200,8 +226,12 @@
           response = await window.pb.collection('pages').getOne(globalId)
           const { data } = response
           this.pages.push(data)
+          return true
         } catch (error) {
-          console.log(error);
+          if(error.status !== 404) {
+            console.log(error)
+          }
+          return false
         }
       },
 
@@ -249,7 +279,12 @@
             confirmedSyncDialog: false,
           }"
           x-init="
-            $watch('page', page => { debouncedSyncUp(page) })
+            $watch('page', page => { 
+              if(!isOnline) return;
+              if(!page.globalId) return;
+              
+              debouncedSyncUp(page) 
+            })
           "
         >
           <div x-show="page.globalId && !confirmedSyncDialog" class="centered justified flex overlay col sync-container">
@@ -623,7 +658,7 @@
                 <button
                   class="btn"
                   title="Sync this page"
-                  x-show="!page.globalId && (page.text.length || page.tasks.length)"
+                  x-show="isOnline && !page.globalId && (page.text.length || page.tasks.length)"
                   @click="createSync(page)"
                 >
                   <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -701,11 +736,10 @@
           "
         >
           <template x-for="page in pages" :key="page.id">
-            <li x-sort:item="page.id">
+            <li x-sort:item="page.id" :class="{active: page.id === activePageId, hidden: !page.visible}">
               <div
                 class="preview"
                 tabindex="0"
-                :class="{active: page.id === activePageId, hidden: !page.visible}"
               >
                 <button
                   class="grow"
@@ -738,18 +772,53 @@
             </li>
           </template>
           <li x-show="false" x-sort:handle></li>
-          <li x-show="token">
-            <span>🟢 Online</span>
+
+          <li x-show="isOnline" class="centered flex gap between">
+            <span title="Online">🟢</span>
+            <button 
+              class="btn" 
+              @click="token = null" 
+              x-show="token" 
+              x-transition
+            >
+              Sign out
+            </button>
           </li>
-          <li x-show="!token"><a href="signin.html">Sign in</a></li>
+          <li class="centered justified flex gap" x-show="pbURL && !isOnline">
+            <span class="small">No network.</span><button @click="tryNetwork" class="small btn">Try again</button>
+          </li>
         </ul>
         
-        <input type="text" x-model="newSyncId">
-        <button @click="syncNew(newSyncId)">add</button>
+        <ul class="flex col" x-data="{ is404: false }">
+          <li x-show="showAlpha && !pbURL && !isOnline" class="col flex">
+            <label for="pbURL">Connect to sync server</label>
+            <div class="gap flex">
+              <input type="url" id="pbURL" class="grow" x-model.lazy="pbURL" placeholder="https://example.com">
+              <button class="btn">connect</button>
+            </div>
+          </li>
+          <li x-show="isOnline" class="flex gap">
+            <input 
+              class="grow" 
+              type="text" 
+              placeholder="page id" 
+              x-model="newSyncId"
+            >
+            <button 
+              class="btn" 
+              @click="
+                is404 = !await syncNew(newSyncId); 
+                if(!is404) {newSyncId = ''}
+              " 
+              :disabled="!newSyncId.length"
+            >add</button>
+          </li>
+          <p class="error" x-show="is404">Page not found</p>
+        </ul>
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          v5.0.0-alpha1
+          <span @click="showAlpha = true">v5.0.0-alpha1</span>
         </footer>
       </div>
     </template>

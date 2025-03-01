@@ -2,7 +2,9 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/panda-syntax-light.min.css') (prefers-color-scheme: light);
 
 :root {
-  --color-primary: #097e70;
+  --primary-hue: 200;
+
+  --color-primary: hsl(var(--primary-hue), 90%, 50%);
 
   --bg-lightness: 95%;
 
@@ -51,22 +53,31 @@ ul {
   padding: 0;
 }
 
+h1 {
+  font-size: x-large;
+  cursor: default;
+}
+
 li {
   list-style: none;
 }
 
 a {
   text-decoration: none;
+  color: var(--color-primary);
 }
 
 button {
   &:disabled {
+    color: var(--color-text-disabled);
+    cursor: default;
+
     svg {
       fill: var(--color-text-disabled) !important;
     }
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: var(--color-text-hover);
 
     svg {
@@ -318,11 +329,14 @@ svg {
     background-color: var(--color-bg-hover);
   }
 
+  a, label {
+    font-family: monospace;
+    font-size: 1rem;
+  }
+
   label {
     cursor: pointer;
     flex-grow: 1;
-    font-family: monospace;
-    font-size: 1rem;
   }
 }
 
@@ -399,13 +413,9 @@ input[type="text"].new {
     max-height: 70vh;
     overflow-y: auto;
 
-    .preview {
-      padding: 0.75rem 1rem;
+    li {
       border-left: 3px solid transparent;
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      justify-content: space-between;
+      padding: 0.75rem 1rem;
 
       &:hover {
         background-color: var(--color-bg-hover);
@@ -414,6 +424,13 @@ input[type="text"].new {
       &.active {
         border-color: var(--color-primary);
       }
+    }
+
+    .preview {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
 
       &.hidden span.grow {
         filter: blur(1px);
@@ -426,6 +443,10 @@ input[type="text"].new {
         font-family: monospace;
       }
     }
+  }
+
+  label {
+    font-size: x-small;
   }
 
   p {
@@ -482,7 +503,13 @@ nav {
 .col { flex-direction: column; }
 .centered { align-items: center; }
 .justified { justify-content: center; }
+.between { justify-content: space-between; }
 
+/* Tag-based utilities */
+
+span.small {
+  font-size: small;
+}
 
 /* Grab handle */
 
@@ -513,7 +540,6 @@ nav {
 }
 
 
-
 .overlay {
   position: absolute;
   width: 100%;
@@ -522,4 +548,22 @@ nav {
 
   background-color: hsl(0, 0%, var(--bg-lightness), 80%);
   color: var(--color-text);
+}
+
+
+.input {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+
+  label {
+    font-size: small;
+    color: var(--color-text-muted);
+  }
+}
+
+
+p.error {
+  color: var(--color-text-danger);
+  font-size: small;
 }
