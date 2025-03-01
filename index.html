@@ -98,7 +98,7 @@
 
       async tryNetwork() {
         try {
-          response = await fetch(`${this.pbURL}/api/health`) // FIXME: no cache!
+          response = await fetch(`${this.pbURL}/api/health`, { cache: 'no-store'})
           if(response.status === 404) return false;
           return true
         } catch {
@@ -818,7 +818,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha2</span>
+          <span @click="showAlpha = true">v5.0.0-alpha3</span>
         </footer>
       </div>
     </template>
