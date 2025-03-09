@@ -140,7 +140,7 @@
         }
 
         // Connect to sync server
-        window.pb = new PocketBase(this.pbURL);
+        if(this.pbURL) this.connectSync()
 
         // Watch network connection
         setInterval(async () => { 
@@ -207,6 +207,12 @@
       snoozeTaskForDays(task, days) {
         const now = new Date()
         task.snoozedUntil = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days, 8)
+      },
+
+      async connectSync() {
+        window.pb = new PocketBase(this.pbURL)
+        this.isOnline = await this.tryNetwork()
+        return this.isOnline
       },
 
       async createSync(page) {
@@ -673,7 +679,7 @@
       </template>
     </ul>
 
-    <nav class="top-right">
+    <nav class="top-nav">
       <button
         class="btn"
         x-ref="menuButton"
@@ -685,28 +691,45 @@
         </svg>
       </button>
 
-      <button
-        class="btn"
-        title="New page"
-        @click="createPage()"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-        </svg>
-      </button>
+      <div class="flex row">
+        <button x-show="pbURL" class="btn">
+          <span x-show="isOnline" title="Online">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+              <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+            </svg>
+          </span>
+          <span x-show="!isOnline" title="Offline" @click="tryNetwork">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+              <path d="M5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5z"/>
+            </svg>
+          </span>
+        </button>
 
-      <button
-        class="btn"
-        title="Split mode"
-        x-show="isDesktop"
-        x-cloak
-        @click="windowSplitting = !windowSplitting"
-        :class="{ 'active': windowSplitting }"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
-        </svg>
-      </button>
+        <button
+          class="btn"
+          title="Split mode"
+          x-show="isDesktop"
+          x-cloak
+          @click="windowSplitting = !windowSplitting"
+          :class="{ 'active': windowSplitting }"
+        >
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z"/>
+          </svg>
+        </button>
+
+        <button
+          class="btn"
+          title="New page"
+          @click="createPage()"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+          </svg>
+        </button>
+      </div>
     </nav>
 
     <template x-if="menuOpen">
@@ -772,21 +795,6 @@
             </li>
           </template>
           <li x-show="false" x-sort:handle></li>
-
-          <li x-show="isOnline" class="centered flex gap between">
-            <span title="Online">🟢</span>
-            <button 
-              class="btn" 
-              @click="token = null" 
-              x-show="token" 
-              x-transition
-            >
-              Sign out
-            </button>
-          </li>
-          <li class="centered justified flex gap" x-show="pbURL && !isOnline">
-            <span class="small">No network.</span><button @click="tryNetwork" class="small btn">Try again</button>
-          </li>
         </ul>
         
         <ul class="flex col" x-data="{ is404: false }">
@@ -794,7 +802,7 @@
             <label for="pbURL">Connect to sync server</label>
             <div class="gap flex">
               <input type="url" id="pbURL" class="grow" x-model.lazy="pbURL" placeholder="https://example.com">
-              <button class="btn">connect</button>
+              <button @click="connectSync" class="btn">connect</button>
             </div>
           </li>
           <li x-show="isOnline" class="flex gap">
@@ -818,7 +826,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha3</span>
+          <span @click="showAlpha = true">v5.0.0-alpha4</span>
         </footer>
       </div>
     </template>

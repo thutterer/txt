@@ -175,6 +175,7 @@ textarea {
 }
 
 #pages-container {
+  padding-top: 40px; /* for topbar. TODO: flex or grid */
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -347,11 +348,11 @@ input[type="text"].new {
   background-color: var(--color-bg-muted);
 }
 
-.top-right {
+nav.top-nav {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  border-bottom-left-radius: 0.25rem;
   z-index: 10;
 }
 
@@ -480,10 +481,10 @@ input[type="text"].new {
 
 nav {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  justify-content: space-between;
   flex-wrap: nowrap;
   gap: 0.25rem;
-  background-color: var(--color-bg-muted);
   box-shadow: 0 0 5px var(--color-shadow);
 }
 
