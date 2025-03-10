@@ -68,6 +68,7 @@
           page.globalId, 
           {data: JSON.stringify(page)}
         )
+        page.lastSyncedAt = page.lastChangedAt
       } catch (error) { console.log(error); }
     }, 1000);
   </script>
@@ -283,14 +284,20 @@
             showSnoozedTasks: false, 
             forceMarkdown: $persist(true).as(`page-${page.id}-markdown`),
             confirmedSyncDialog: false,
-          }"
-          x-init="
-            $watch('page', page => { 
+            handleChange: () => {
               if(!isOnline) return;
               if(!page.globalId) return;
-              
+
+              const now = new Date()
+              page.lastChangedAt = now
               debouncedSyncUp(page) 
-            })
+            }
+          }"
+          x-init="
+            // Watching not the whole page because watcher updates timestamp within
+            // Prevents infinite loop!
+            $watch('page.text', handleChange)
+            $watch('page.tasks', handleChange)
           "
         >
           <div x-show="page.globalId && !confirmedSyncDialog" class="centered justified flex overlay col sync-container">
@@ -726,7 +733,7 @@
           @click="createPage()"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
           </svg>
         </button>
       </div>
@@ -826,7 +833,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha4</span>
+          <span @click="showAlpha = true">v5.0.0-alpha5</span>
         </footer>
       </div>
     </template>

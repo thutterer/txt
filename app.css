@@ -485,7 +485,6 @@ nav {
   justify-content: space-between;
   flex-wrap: nowrap;
   gap: 0.25rem;
-  box-shadow: 0 0 5px var(--color-shadow);
 }
 
 .btn-spot {
