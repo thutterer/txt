@@ -242,16 +242,20 @@
         }
       },
 
-      async syncDown(page) {
-        try {
-          response = await window.pb.collection('pages').getOne(page.globalId)
-          const { data } = response
-          const updatedPage = {...page, ...data}
-          const indexOfUpdatedPage = this.pages.indexOf(page)
-          this.pages[indexOfUpdatedPage] = updatedPage
-        } catch (error) {
-          console.log(error);
+      async syncDown(page, data = null) {
+        if(!data) {
+          try {
+            const response = await window.pb.collection('pages').getOne(page.globalId)
+            data = response.data
+          } catch (error) {
+            console.log(error);
+            data = {}
+          }
         }
+
+        const updatedPage = {...page, ...data}
+        const indexOfUpdatedPage = this.pages.indexOf(page)
+        this.pages[indexOfUpdatedPage] = updatedPage
       },
 
       async syncUp(page) {
@@ -291,9 +295,37 @@
               const now = new Date()
               page.lastChangedAt = now
               debouncedSyncUp(page) 
-            }
+            },
+            async establishSync() {
+              if(!isOnline) return;
+              if(!page.globalId) return;
+
+              // get page state from server to compare
+              response = await window.pb.collection('pages').getOne(page.globalId)
+              const { data } = response
+
+              // if latest local version got synced (aka no changes while offline)
+              if(page.lastChangedAt === page.lastSyncedAt) {
+                // is local sync time same as server change time? Nothing to do.
+                if(page.lastSyncedAt === data.lastChangedAt) {
+                  this.confirmedSyncDialog = true
+                  return
+                };
+
+                // is server change time newer than local sync time?
+                if(data.lastChangedAt > page.lastSyncedAt) {
+                  // then update form server data
+                  syncDown(page, data)
+                  this.confirmedSyncDialog = true
+                }
+              }
+            },
           }"
           x-init="
+            $watch('isOnline', (isOnline) => {
+              if(isOnline) establishSync()
+            })
+
             // Watching not the whole page because watcher updates timestamp within
             // Prevents infinite loop!
             $watch('page.text', handleChange)
@@ -699,7 +731,7 @@
       </button>
 
       <div class="flex row">
-        <button x-show="pbURL" class="btn">
+        <button x-show="pbURL" class="btn" :class="{'active': isOnline}">
           <span x-show="isOnline" title="Online">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -833,7 +865,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha5</span>
+          <span @click="showAlpha = true">v5.0.0-alpha6</span>
         </footer>
       </div>
     </template>
