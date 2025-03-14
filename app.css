@@ -439,7 +439,6 @@ nav.top-nav {
 
       button, label {
         cursor: pointer;
-        font-size: large;
         text-align: left;
         font-family: monospace;
       }
@@ -509,6 +508,10 @@ nav {
 
 span.small {
   font-size: small;
+}
+
+span.mono {
+  font-family: monospace;
 }
 
 /* Grab handle */

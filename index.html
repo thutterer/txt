@@ -42,6 +42,13 @@
       return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][month]} ${day}`;
     }
 
+    function pagePreview(page, limit = 40) {
+      return page.text
+        .split('\n', 1)[0]
+        .replace(/^(#+)\s+/, '')
+        .slice(0, limit) || '(no title)'
+    }
+
     function wrapUrlsInAnchorTags(text) {
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
@@ -66,7 +73,7 @@
       try {
         response = await window.pb.collection('pages').update(
           page.globalId, 
-          {data: JSON.stringify(page)}
+          {data: JSON.stringify(page)} // TODO: maybe, push with lastSyncedAt as it's bad data. is only updated *after* sync locally, so remote always has the *prev* value there!
         )
         page.lastSyncedAt = page.lastChangedAt
       } catch (error) { console.log(error); }
@@ -110,11 +117,9 @@
       createPage() {
         const newId = Date.now();
         const dateNow = new Date();
-        const isoDate = dateNow.toISOString().slice(0, 10)
 
         this.pages.push({
           id: newId,
-          date: isoDate,
           text: '',
           tasks: [],
           visible: true,
@@ -155,7 +160,8 @@
         this.$nextTick(() => {
           // Show the most recent page
           const pages = this.$el.querySelectorAll('.page')
-          pages[pages.length- 1].focus()
+          
+          if(pages.length) pages[pages.length - 1].focus()
         })
       },
 
@@ -208,6 +214,17 @@
       snoozeTaskForDays(task, days) {
         const now = new Date()
         task.snoozedUntil = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days, 8)
+      },
+
+      async getAllSyncablePages() {
+        const alreadySyncedPagesIds = this.pages.filter(p => p.globalId).map(p => p.globalId)
+        const idFilter = alreadySyncedPagesIds.map(id => `id != \'${id}\'`).join(' && ')
+        
+        const response = await window.pb.collection('pages').getFullList({
+          filter: idFilter
+        })
+        const syncablePages = response.map(r => r.data)
+        return syncablePages
       },
 
       async connectSync() {
@@ -288,6 +305,7 @@
             showSnoozedTasks: false, 
             forceMarkdown: $persist(true).as(`page-${page.id}-markdown`),
             confirmedSyncDialog: false,
+
             handleChange: () => {
               if(!isOnline) return;
               if(!page.globalId) return;
@@ -296,6 +314,7 @@
               page.lastChangedAt = now
               debouncedSyncUp(page) 
             },
+
             async establishSync() {
               if(!isOnline) return;
               if(!page.globalId) return;
@@ -803,9 +822,11 @@
                 class="preview"
                 tabindex="0"
               >
+                <span x-show="page.globalId">☁️</span>
+
                 <button
                   class="grow"
-                  x-text="page.text.split('\n', 1)[0].replace(/^(#+)\s+/, '').slice(0, 40) || '(no title)'"
+                  x-text="pagePreview(page)"
                   @click="page.visible && gotoPage(page.id)"
                 ></button>
 
@@ -836,7 +857,7 @@
           <li x-show="false" x-sort:handle></li>
         </ul>
         
-        <ul class="flex col" x-data="{ is404: false }">
+        <ul class="flex col">
           <li x-show="showAlpha && (!pbURL || !isOnline)" class="col flex">
             <label for="pbURL">Connect to sync server</label>
             <div class="gap flex">
@@ -844,28 +865,33 @@
               <button @click="connectSync" class="btn">connect</button>
             </div>
           </li>
-          <li x-show="isOnline" class="flex gap">
-            <input 
-              class="grow" 
-              type="text" 
-              placeholder="page id" 
-              x-model="newSyncId"
-            >
-            <button 
-              class="btn" 
-              @click="
-                is404 = !await syncNew(newSyncId); 
-                if(!is404) {newSyncId = ''}
-              " 
-              :disabled="!newSyncId.length"
-            >add</button>
-          </li>
-          <p class="error" x-show="is404">Page not found</p>
         </ul>
+
+        <template x-if="isOnline">
+          <div 
+            x-data="{ syncablePages: []}"
+            x-init="syncablePages = getAllSyncablePages()"
+          >
+            <hr>
+            <ul>
+              <template x-for="sp in syncablePages">
+                <li class="flex gap row centered">
+                  <span x-text="pagePreview(sp)" class="grow mono"></span>
+                  <button class="btn" title="Add" @click="
+                    syncNew(sp.globalId)
+                    menuOpen = false
+                  ">
+                    +
+                  </button>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </template>
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha6</span>
+          <span @click="showAlpha = true">v5.0.0-alpha7</span>
         </footer>
       </div>
     </template>
