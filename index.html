@@ -237,6 +237,8 @@
         try {
           const response = await window.pb.collection('pages').create({data: JSON.stringify(page)})
           page.globalId = response.id
+          page.lastSyncedAt = page.lastChangedAt
+
           return true
         }
         catch(error) {
@@ -249,12 +251,15 @@
         try {
           response = await window.pb.collection('pages').getOne(globalId)
           const { data } = response
-          this.pages.push(data)
+
+          this.pages.push({
+            ...data,
+            lastSyncedAt: data.lastChangedAt
+          })
+
           return true
         } catch (error) {
-          if(error.status !== 404) {
-            console.log(error)
-          }
+          console.log(error)
           return false
         }
       },
@@ -270,7 +275,13 @@
           }
         }
 
-        const updatedPage = {...page, ...data}
+        const updatedPage = {
+          ...page, 
+          ...data, 
+          lastChangedAt: data.lastChangedAt,
+          lastSyncedAt: data.lastChangedAt,
+        }
+
         const indexOfUpdatedPage = this.pages.indexOf(page)
         this.pages[indexOfUpdatedPage] = updatedPage
       },
@@ -281,6 +292,7 @@
             page.globalId, 
             {data: JSON.stringify(page)}
           )
+          page.lastSyncedAt = page.lastChangedAt
         } catch (error) { console.log(error); }
       },
 }"
@@ -304,14 +316,17 @@
           x-data="{ 
             showSnoozedTasks: false, 
             forceMarkdown: $persist(true).as(`page-${page.id}-markdown`),
-            confirmedSyncDialog: false,
+            confirmedSyncDialog: true, // TODO: Rename to what it is...
+            shouldSyncUp: true, // gets disabled while fetching from server. otherwise would repush that fetched change, messing with timestamps.
 
-            handleChange: () => {
-              if(!isOnline) return;
-              if(!page.globalId) return;
-
+            handleChange() {
               const now = new Date()
               page.lastChangedAt = now
+
+              if(!isOnline) return;
+              if(!page.globalId) return;
+              if(!this.shouldSyncUp) return;
+
               debouncedSyncUp(page) 
             },
 
@@ -334,9 +349,22 @@
                 // is server change time newer than local sync time?
                 if(data.lastChangedAt > page.lastSyncedAt) {
                   // then update form server data
-                  syncDown(page, data)
+                  this.shouldSyncUp = false
+                  await syncDown(page, data)
+                  $nextTick(() => {
+                    this.shouldSyncUp = true
+                  })
+
                   this.confirmedSyncDialog = true
                 }
+              }
+              else if(page.lastSyncedAt === data.lastChangedAt) {
+                // if local lastSyncedAt is the same as the last change on the server, we know no other clients have pushed changes while we were offline. 
+                // so it is save to push our offline changes.
+                syncUp(page)
+                this.confirmedSyncDialog = true
+              } else {
+                this.confirmedSyncDialog = false // Conflict!
               }
             },
           }"
@@ -347,11 +375,11 @@
 
             // Watching not the whole page because watcher updates timestamp within
             // Prevents infinite loop!
-            $watch('page.text', handleChange)
-            $watch('page.tasks', handleChange)
+            $watch('page.text', () => handleChange())
+            $watch('page.tasks', () => handleChange())
           "
         >
-          <div x-show="page.globalId && !confirmedSyncDialog" class="centered justified flex overlay col sync-container">
+          <div x-transition x-show="page.globalId && !confirmedSyncDialog" class="centered justified flex overlay col sync-container">
             <code class="id" x-text="page.globalId"></code>
 
             <div class="flex gap">
@@ -367,7 +395,13 @@
               <button 
                 class="btn"
                 x-show="page.globalId"
-                @click="syncDown(page); confirmedSyncDialog = true"
+                @click="
+                  shouldSyncUp = false
+                  await syncDown(page)
+                  $nextTick(() => {
+                    shouldSyncUp = true
+                  })
+                  confirmedSyncDialog = true"
                 title="Sync down"
               >
               ↓
@@ -749,9 +783,9 @@
         </svg>
       </button>
 
-      <div class="flex row">
+      <div x-cloak class="flex row">
         <button x-show="pbURL" class="btn" :class="{'active': isOnline}">
-          <span x-show="isOnline" title="Online">
+          <span x-cloak x-show="isOnline" title="Online">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
               <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
@@ -891,7 +925,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha7</span>
+          <span @click="showAlpha = true">v5.0.0-alpha8</span>
         </footer>
       </div>
     </template>
