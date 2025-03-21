@@ -739,6 +739,7 @@
                 enterkeyhint="enter"
                 placeholder="new task..."
                 @keydown.enter="
+                  if(!$el.value.length) return;
                   page.tasks.push({ id: Date.now(), text: $el.value, done: false, snoozedUntil: null });
                   $el.value = '';
                   $el.focus();
