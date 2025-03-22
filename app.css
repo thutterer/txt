@@ -168,6 +168,8 @@ pre code.hljs, pre code.hljs * {
 }
 
 textarea {
+  scrollbar-color: auto;
+  scrollbar-width: thin;
   color: transparent !important;
   caret-color: var(--color-text);
   position: relative;
@@ -180,6 +182,7 @@ textarea {
   flex-direction: row;
   flex-wrap: nowrap;
 
+  scrollbar-color: var(--color-primary) transparent;
   scroll-snap-type: x mandatory;
   overflow-x: auto;
   overflow-y: hidden;
