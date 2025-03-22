@@ -94,6 +94,7 @@
     x-data="{
       pages: $persist([]),
       activePageId: null,
+      currentFolder: '',
       isVirtualKeyboardOpen: false,
       menuOpen: false,
       windowWidth: window.innerWidth,
@@ -129,7 +130,7 @@
           id: newId,
           text: '',
           tasks: [],
-          folder: null,
+          folder: this.currentFolder,
         });
         this.$nextTick(() => {
           document.querySelector(`#page-${newId}`).scrollIntoView({ behavior: 'instant'})
@@ -173,9 +174,13 @@
       },
 
       visiblePages() {
-        // return this.pages.filter(p => {return p.folder !== false })
-        return this.pages // TODO
+        return this.pages.filter(page => {
+          return page.folder === this.currentFolder || (!page.folder && !this.currentFolder)
+        })
+      },
 
+      allFolders() {
+        return [...new Set(this.pages.map(page => page.folder))]
       },
 
       gotoPage(pageId) {
@@ -732,8 +737,25 @@
             </template>
 
             <div class="flex centered">
-              <div class="btn-spot"></div>
-
+              <div class="btn-spot centered btn">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z"/>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Home"
+                  title="Folder"
+                  list="foldersList"
+                  x-model.lazy="page.folder"
+                  style="max-width: 85%; padding-left: 0.5rem; font-size: small;"
+                >
+                <datalist id="foldersList">
+                  <template x-for="folder in allFolders" :key="folder">
+                    <option :value="folder"></option>
+                  </template>
+                </datalist>
+              </div>
+        
               <input
                 tabindex="3"
                 class="new grow"
@@ -842,6 +864,14 @@
         x-anchor="$refs.menuButton"
         x-on:click.outside.capture.stop="menuOpen && (menuOpen = false)"
       >
+        <select x-model="currentFolder">
+          <option value="">Home</option>
+          <hr>
+          <template x-for="folder in allFolders().filter(f => f !== '')" :key="folder">
+            <option :value="folder" x-text="folder"></option>
+          </template>
+        </select>
+
         <ul
           x-show="pages.length > 0"
           x-sort="
@@ -862,7 +892,7 @@
             menuOpen = false;
           "
         >
-          <template x-for="page in pages" :key="page.id">
+          <template x-for="page in visiblePages" :key="page.id">
             <li x-sort:item="page.id" :class="{active: page.id === activePageId}">
               <div
                 class="preview"
@@ -925,7 +955,7 @@
 
         <footer>
           <a href="https://github.com/thutterer/txt">txt</a>
-          <span @click="showAlpha = true">v5.0.0-alpha9</span>
+          <span @click="showAlpha = true">v5.0.0-alpha10</span>
         </footer>
       </div>
     </template>

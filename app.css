@@ -410,6 +410,13 @@ nav.top-nav {
   z-index: 11;
   box-shadow: 0 0 10px var(--color-shadow);
 
+  select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: var(--color-text);
+  }
+
   ul {
     max-height: 70vh;
     overflow-y: auto;
