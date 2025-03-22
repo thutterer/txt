@@ -386,10 +386,11 @@
               if(isOnline) establishSync()
             })
 
-            // Watching not the whole page because watcher updates timestamp within
+            // Watching not the whole page because watcher updates timestamp within page.
             // Prevents infinite loop!
             $watch('page.text', () => handleChange())
             $watch('page.tasks', () => handleChange())
+            $watch('page.folder', () => handleChange())
 
             // // Subscribe to remote page changes and keep in sync
             subscribeToRealtimeChanges()
